@@ -1,5 +1,6 @@
-package com.chat.client;
+package view.control;
 
+import view.view.MainView;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +13,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
+        MainView root = new MainView();
         
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
