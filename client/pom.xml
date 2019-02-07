@@ -11,7 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mainClass>com.chat.client.MainApp</mainClass>
+        <mainClass>view.control.MainApp</mainClass>
     </properties>
 
     <organization>
