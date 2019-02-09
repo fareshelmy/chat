@@ -6,17 +6,24 @@
 package model.control.interfaces;
 
 import java.util.List;
-import model.entities.User;
 
 /**
  *
- * @author FARES-LAP
+ * @author M
  */
-public interface IUserDAO {
+public interface IUserDAO extends model.control.interfaces.IUserDAO {
 
     boolean addContact(User adder, User added);
 
     void delete(User user);
+
+    Map<String, Integer> getCountryStatistics();
+
+    Map<String, Integer> getGenderStatistics();
+
+    Integer getOfflineUsers();
+
+    Integer getOnlineUsers();
 
     void persist(User user);
 

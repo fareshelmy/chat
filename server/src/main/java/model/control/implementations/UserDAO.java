@@ -18,7 +18,7 @@ import model.enums.GenderEnum;
 import model.enums.RegisteredByEnum;
 import model.enums.StatusEnum;
 
-public class UserDAO implements IUserDAO {
+public class UserDAO implements IUserDAO, IUserDAO {
 
     Statement statement;
 
@@ -178,4 +178,81 @@ public class UserDAO implements IUserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    @Override
+    public Integer getOnlineUsers() {
+        Integer result = null;
+        try {
+            ResultSet resultSet = statement.executeQuery("select Count(*) from users where status='Online'");
+            if (resultSet.next()) {
+                result = resultSet.getInt(1);
+            }
+            else{
+                
+                System.err.println("Error happend!System failed to count online users.");
+                
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+        return result;
+    }
+    
+    @Override
+    public Integer getOfflineUsers() {
+        Integer result = null;
+        try {
+            ResultSet resultSet = statement.executeQuery("select Count(*) from users where status='Offline'");
+            if (resultSet.next()) {
+                result = resultSet.getInt(1);
+            }
+            else{
+                
+                System.err.println("Error happend!System failed to count offline users.");
+                
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    public Map<String, Integer> getGenderStatistics() {
+        Map<String, Integer> genderStatistics = new HashMap<>();
+        try {
+            ResultSet resultSet = statement.executeQuery("select Count(phone),gender from users group by gender");
+            while (resultSet.next()) {
+                genderStatistics.put(resultSet.getString(2), resultSet.getInt(1));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+        return genderStatistics;
+    }
+
+    @Override
+    public Map<String, Integer> getCountryStatistics() {
+        
+        Map<String, Integer> countryStatistics = new HashMap<>();
+        try {
+            ResultSet resultSet = statement.executeQuery("select Count(phone),country from users group by country");
+            while(resultSet.next())
+            {
+                countryStatistics.put(resultSet.getString(2), resultSet.getInt(1));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return countryStatistics;
+
+    }    
+    
 }
