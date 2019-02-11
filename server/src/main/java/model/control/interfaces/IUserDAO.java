@@ -6,12 +6,14 @@
 package model.control.interfaces;
 
 import java.util.List;
+import java.util.Map;
+import model.entities.User;
 
 /**
  *
  * @author M
  */
-public interface IUserDAO extends model.control.interfaces.IUserDAO {
+public interface IUserDAO {
 
     boolean addContact(User adder, User added);
 

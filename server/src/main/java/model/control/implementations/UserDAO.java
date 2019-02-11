@@ -9,7 +9,9 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.entities.User;
@@ -18,7 +20,7 @@ import model.enums.GenderEnum;
 import model.enums.RegisteredByEnum;
 import model.enums.StatusEnum;
 
-public class UserDAO implements IUserDAO, IUserDAO {
+public class UserDAO implements IUserDAO {
 
     Statement statement;
 
@@ -43,7 +45,7 @@ public class UserDAO implements IUserDAO, IUserDAO {
                 + "', '" + user.getStatus()
                 + "', '" + user.getRegisteredBy() + "')";
         try {
-            statement.executeQuery(sql);
+            statement.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -194,7 +196,7 @@ public class UserDAO implements IUserDAO, IUserDAO {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
         return result;
@@ -215,7 +217,7 @@ public class UserDAO implements IUserDAO, IUserDAO {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
         return result;
@@ -231,7 +233,7 @@ public class UserDAO implements IUserDAO, IUserDAO {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
         return genderStatistics;
@@ -248,7 +250,7 @@ public class UserDAO implements IUserDAO, IUserDAO {
                 countryStatistics.put(resultSet.getString(2), resultSet.getInt(1));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return countryStatistics;

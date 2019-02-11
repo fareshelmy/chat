@@ -19,22 +19,25 @@ import java.util.logging.Logger;
 public class DatabaseConnector {
 
     private static DatabaseConnector databaseConnector;
+    private static Statement statement;
 
     private DatabaseConnector() {
         try {
-            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-            Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521/xe", "fares", "1234");
-            Statement statement = connection.createStatement();
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chat", "root", "root");
+            statement = connection.createStatement();
             new UserDAO(statement);
         } catch (SQLException ex) {
+            Logger.getLogger(DatabaseConnector.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(DatabaseConnector.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public static DatabaseConnector getInstance() {
+    public static Statement getStatement() {
         if (databaseConnector == null) {
             databaseConnector = new DatabaseConnector();
         }
-        return databaseConnector;
+        return statement;
     }
 }
