@@ -110,5 +110,10 @@
             <artifactId>ojdbc8</artifactId>
             <version>18.3.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.chat</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 </project>

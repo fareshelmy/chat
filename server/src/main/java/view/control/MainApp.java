@@ -1,22 +1,31 @@
 package view.control;
 
+import java.rmi.RemoteException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.control.implementations.DatabaseConnector;
-import model.control.implementations.UserDAO;
+import model.control.implementations.ServerService;
+import model.control.implementations.UserDAOImpl;
 import view.view.MainView;
 
 public class MainApp extends Application {
 
     Statement statement;
-    private final UserDAO userDAO;
+    private UserDAOImpl userDAO = null;
 
     public MainApp() {
-        statement = DatabaseConnector.getStatement();
-        userDAO = new UserDAO(statement);
+        try {
+            statement = DatabaseConnector.getStatement();
+            userDAO = new UserDAOImpl(statement);
+            new ServerService(statement);
+        } catch (RemoteException ex) {
+            Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

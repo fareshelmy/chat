@@ -1,6 +1,7 @@
 package model.control.implementations;
 
-import model.control.interfaces.IUserDAO;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -14,22 +15,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.entities.User;
-import model.enums.FriendshipStatusEnum;
-import model.enums.GenderEnum;
-import model.enums.RegisteredByEnum;
-import model.enums.StatusEnum;
+import com.chat.common.User;
+import com.chat.common.FriendshipStatusEnum;
+import com.chat.common.GenderEnum;
+import com.chat.common.RegisteredByEnum;
+import com.chat.common.StatusEnum;
+import com.chat.common.UserDAO;
 
-public class UserDAO implements IUserDAO {
+public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
 
     Statement statement;
 
-    public UserDAO(Statement statement) {
+    public UserDAOImpl(Statement statement) throws RemoteException {
         this.statement = statement;
     }
 
     @Override
-    public void persist(User user) {
+    public void persist(User user) throws RemoteException {
 
         String sql = "INSERT INTO USERS (PHONE, FIRST_NAME, LAST_NAME, PASSWORD, EMAIL, PIC, GENDER, COUNTRY, DATE_OF_BIRTH, BIO, STATUS, REGISTERED_BY) VALUES ('"
                 + user.getPhone()
@@ -52,7 +54,7 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public void update(User user) {
+    public void update(User user) throws RemoteException {
         String sql = "UPDATE USERS SET FIRST_NAME = '" + user.getFirstName()
                 + "', LAST_NAME = '" + user.getLastName()
                 + "', PASSWORD = '" + user.getPassword()
@@ -66,14 +68,14 @@ public class UserDAO implements IUserDAO {
                 + "', REGISTERED_BY = '" + user.getRegisteredBy()
                 + "' WHERE PHONE = '" + user.getPhone() + "'";
         try {
-            statement.executeQuery(sql);
+            statement.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
-    public boolean validate(String phone, String password) {
+    public boolean validate(String phone, String password) throws RemoteException {
         boolean validated = false;
         String sql = "SELECT PHONE FROM USERS WHERE PHONE = '" + phone
                 + "' AND PASSWORD = '" + password + "'";
@@ -88,7 +90,7 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public boolean addContact(User adder, User added) {
+    public boolean addContact(User adder, User added) throws RemoteException {
         boolean userExists = true;
         //checks if the added user exists in the database
         String checkUserSql = "SELECT PHONE FROM USERS WHERE PHONE = '" + added.getPhone() + "'";
@@ -131,7 +133,7 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public List<User> retrieveContacts(User user) {
+    public List<User> retrieveContacts(User user) throws RemoteException {
         List<User> friendList = new ArrayList<>();
         String sql = "SELECT * FROM USERS WHERE PHONE IN (SELECT PHONE_B FROM USERS_HAVE_USERS WHERE PHONE_A = '"
                 + user.getPhone() + "')";
@@ -158,7 +160,7 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public void delete(User user) {
+    public void delete(User user) throws RemoteException {
         String sql = "DELETE FROM USERS WHERE PHONE = '" + user.getPhone() + "'";
         try {
             statement.executeQuery(sql);
@@ -168,7 +170,7 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public void removeContact(User remover, User removed) {
+    public void removeContact(User remover, User removed) throws RemoteException {
         String sql = "DELETE FROM USERS_HAVE_USERS WHERE (PHONE_A = '" + remover.getPhone()
                 + "' AND PHONE_B = '" + removed.getPhone()
                 + "') OR (PHONE_A = '" + removed.getPhone()
@@ -180,19 +182,18 @@ public class UserDAO implements IUserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
-    public Integer getOnlineUsers() {
+    public Integer getOnlineUsers() throws RemoteException {
         Integer result = null;
         try {
             ResultSet resultSet = statement.executeQuery("select Count(*) from users where status='Online'");
             if (resultSet.next()) {
                 result = resultSet.getInt(1);
-            }
-            else{
-                
+            } else {
+
                 System.err.println("Error happend!System failed to count online users.");
-                
+
             }
 
         } catch (SQLException ex) {
@@ -201,19 +202,18 @@ public class UserDAO implements IUserDAO {
         }
         return result;
     }
-    
+
     @Override
-    public Integer getOfflineUsers() {
+    public Integer getOfflineUsers() throws RemoteException {
         Integer result = null;
         try {
             ResultSet resultSet = statement.executeQuery("select Count(*) from users where status='Offline'");
             if (resultSet.next()) {
                 result = resultSet.getInt(1);
-            }
-            else{
-                
+            } else {
+
                 System.err.println("Error happend!System failed to count offline users.");
-                
+
             }
 
         } catch (SQLException ex) {
@@ -224,7 +224,7 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public Map<String, Integer> getGenderStatistics() {
+    public Map<String, Integer> getGenderStatistics() throws RemoteException {
         Map<String, Integer> genderStatistics = new HashMap<>();
         try {
             ResultSet resultSet = statement.executeQuery("select Count(phone),gender from users group by gender");
@@ -240,21 +240,20 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public Map<String, Integer> getCountryStatistics() {
-        
+    public Map<String, Integer> getCountryStatistics() throws RemoteException {
+
         Map<String, Integer> countryStatistics = new HashMap<>();
         try {
             ResultSet resultSet = statement.executeQuery("select Count(phone),country from users group by country");
-            while(resultSet.next())
-            {
+            while (resultSet.next()) {
                 countryStatistics.put(resultSet.getString(2), resultSet.getInt(1));
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return countryStatistics;
 
-    }    
-    
+    }
+
 }
