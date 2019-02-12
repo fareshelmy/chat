@@ -19,9 +19,9 @@ public class ChatWindow extends AnchorPane implements ChatWindowInterface {
     protected final TextArea textArea;
     protected final TextField textField;
     protected final Button button;
-    private Controler controler;
+    private Controller controler;
 
-    public ChatWindow(Controler controler) {
+    public ChatWindow(Controller controler) {
         this.controler = controler;
 
         pane = new Pane();
@@ -48,9 +48,9 @@ public class ChatWindow extends AnchorPane implements ChatWindowInterface {
         
         textField.setOnKeyPressed((event)
                 -> {
-            if (event.getCode().equals(KeyCode.ENTER)) {
-                controler.sendMessageToServer(textField.getText());
-            }
+//            if (event.getCode().equals(KeyCode.ENTER)) {
+//                controler.sendMessageToServer(textField.getText());
+//            }
 
         });
 
@@ -68,8 +68,8 @@ public class ChatWindow extends AnchorPane implements ChatWindowInterface {
 
         button.setOnAction((event) -> {
 
-            controler.sendMessageToServer(textField.getText());
-            this.textField.clear();
+//            controler.sendMessageToServer(textField.getText());
+//            this.textField.clear();
 
         });
 

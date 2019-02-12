@@ -1,5 +1,10 @@
 package view.view;
 
+import com.chat.common.GenderEnum;
+import com.chat.common.RegisteredByEnum;
+import com.chat.common.StatusEnum;
+import com.chat.common.User;
+import controller.implementations.Controller;
 import java.lang.*;
 import java.util.*;
 import javafx.scene.*;
@@ -11,7 +16,7 @@ public class MainView extends AnchorPane {
     protected final Button button;
     protected final Label label;
 
-    public MainView() {
+    public MainView(Controller controller) {
 
         button = new Button();
         label = new Label();
@@ -31,6 +36,10 @@ public class MainView extends AnchorPane {
 
         getChildren().add(button);
         getChildren().add(label);
+        
+        button.setOnAction((event) -> {
+            controller.signInUser(new User("2194984", "hamada", "medhat", "wiuuh", "wiudeh@UWddh", null, GenderEnum.MALE, "egyp", "1993-03-11", "qwiuhiquwhqwd", StatusEnum.AVAILABLE, RegisteredByEnum.USER));
+        });
 
     }
 }
