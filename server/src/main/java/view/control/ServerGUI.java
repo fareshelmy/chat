@@ -31,10 +31,10 @@ public class ServerGUI extends Application {
     public void start(Stage stage) throws Exception {
         
         FXMLLoader loader = new FXMLLoader();
-        ServerGUIController serverGUIController = new ServerGUIController();
-        loader.setController(serverGUIController);
-        Parent serverGUI = loader.load(getClass().getResource("../view/ServerGUI.fxml").openStream());
-        Scene  serverScene = new Scene(serverGUI);
+        Parent serverGUI = loader.load(getClass().getResource("fxml/ServerGUI.fxml").openStream());
+        ServerGUIController controller = loader.getController();
+        //controller.setData();
+        Scene serverScene = new Scene(serverGUI);
         stage.setScene(serverScene);
         stage.show();
         
