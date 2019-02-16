@@ -23,35 +23,17 @@ XML, HTTP headers, Cookies, and CDL. This is a reference implementation..  WAW!
  */
 public class MagicParameters {
 
-    /**
-     * Version.
-     */
     private String version = "1.1.0";
-
-    /**
-     * The User Key assigned by Pandorabots.
-     */
     private String userKey = "a7a28cfcdef9bb9402b4b25841860873";
-
-    /**
-     * The Application ID assigned by Pandorabots.
-     */
     private String appId = "una17f03ca";
-
-    /**
-     * server name of pandorabots API
-     */
-    private String hostName = "mrhappy.pandorabots.com";
-
-    /**
-     * flag to indicate verbosity of output.
-     */
+    private String hostName = "api.pandorabots.com";
     private boolean debug = false;
-
-    /**
-     * header for requests
-     */
     private String referrer = null;
+    private String botname;
+
+    public String getBotName() {
+        return botname;
+    }
 
     public String getVersion() {
         return version;
@@ -77,17 +59,10 @@ public class MagicParameters {
         return referrer;
     }
 
-    /**
-     * Constructor.
-     *
-     * <p>
-     * Read config.txt in user.dir directory.
-     * </p>
-     *
-     */
     public MagicParameters() {
-        //String cwd = System.getProperty("user.dir");
-        //readParameters(cwd + "/config.txt");
+        this.botname = "mrhappy";
+        String cwd = System.getProperty("user.dir");
+        readParameters(cwd + "/config.txt");
     }
 
     /**

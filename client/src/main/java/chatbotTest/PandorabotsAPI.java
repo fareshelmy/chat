@@ -41,10 +41,6 @@ public class PandorabotsAPI {
     private int sessionId = -1;
     private String set_client_name = null;
     private String referrer = null;
-
-    /**
-     * flag to indicate verbosity of output.
-     */
     private boolean debug = false;
 
     /**

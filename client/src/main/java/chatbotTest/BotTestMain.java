@@ -6,23 +6,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.JSONException;
 
-/**
- *
- * @author yasmin
- */
 public class BotTestMain {
 
     public static void main(String[] args) {
 
-        String botname = "MNg8eRRCT05PCWJcAgW1DAmuYhFfAUv88qe3WucpyHhiYPQ";
         MagicParameters magicParameters = new MagicParameters();
-        PandorabotsAPI papi = new PandorabotsAPI(
-                "aiaas.pandorabots.com",
-                "una17f03ca", "a7a28cfcdef9bb9402b4b25841860873");
+        PandorabotsAPI papi = new PandorabotsAPI(magicParameters.getHostName(), magicParameters.getAppId(),
+                magicParameters.getUserKey(), magicParameters.isDebug());
 
         try {
-            String request = "Hello";
-            String response = papi.talk(botname, request);
+            String request = "hey";
+            String response = papi.talk(magicParameters.getBotName(), "yasmin", request);
             System.out.println("User: " + request);
             System.out.println("Mr Happy: " + response);
         } catch (IOException ex) {
