@@ -51,4 +51,13 @@ public class UserDAOHandler {
         }
     }
 
+    public User validatePhone(String phone) {
+        try {
+            return userDao.validate(phone);
+        } catch (RemoteException ex) {
+            Logger.getLogger(UserDAOHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }

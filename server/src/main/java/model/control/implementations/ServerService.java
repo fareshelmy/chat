@@ -1,5 +1,6 @@
 package model.control.implementations;
 
+import com.chat.common.UserDAO;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -19,7 +20,7 @@ import javax.sql.rowset.CachedRowSet;
  */
 public class ServerService {
 
-    public ServerService(UserDAOImpl userDAOImpl) {
+    public ServerService(UserDAO userDAOImpl) {
         Registry registry;
         try {
             registry = LocateRegistry.getRegistry();

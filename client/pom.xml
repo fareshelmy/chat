@@ -11,7 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mainClass>chatbotTest.BotTestMain</mainClass> <!-- view.control.MainApp   chatbotTest.BotTestMain-->
+        <mainClass>view.control.Main</mainClass> <!-- view.control.MainApp   chatbotTest.BotTestMain-->
     </properties>
 
     <organization>

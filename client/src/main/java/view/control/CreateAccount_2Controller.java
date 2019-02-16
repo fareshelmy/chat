@@ -1,4 +1,4 @@
-package application;
+package view.control;
 
 import java.io.IOException;
 import java.net.URL;

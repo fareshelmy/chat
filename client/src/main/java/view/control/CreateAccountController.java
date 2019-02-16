@@ -1,4 +1,5 @@
-package application;
+package view.control;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -59,14 +60,14 @@ public class CreateAccountController implements Initializable {
 			loader.setController(createPasswordController);
 			Parent root = null;
 			try {
-				root = loader.load(getClass().getResource("CreatePassword.fxml").openStream());
+				root = loader.load(getClass().getResource("/fxml/CreatePassword.fxml").openStream());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			Scene scene = new Scene(root, 600, 600);
 
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
 			stage.setScene(scene);
 			stage.show();
 		});
