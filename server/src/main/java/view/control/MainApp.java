@@ -8,6 +8,7 @@ import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javax.sql.rowset.CachedRowSet;
 import model.control.implementations.DatabaseConnector;
 import model.control.implementations.ServerService;
 import model.control.implementations.UserDAOImpl;
@@ -15,17 +16,11 @@ import view.view.MainView;
 
 public class MainApp extends Application {
 
-    Statement statement;
-    private UserDAOImpl userDAO = null;
+    private final UserDAOImpl userDaoImpl;
 
     public MainApp() {
-        try {
-            statement = DatabaseConnector.getStatement();
-            userDAO = new UserDAOImpl(statement);
-            new ServerService(statement);
-        } catch (RemoteException ex) {
-            Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        userDaoImpl = new DatabaseConnector().getUserDaoImpl();
+        new ServerService(userDaoImpl);
     }
 
     @Override
@@ -38,6 +33,8 @@ public class MainApp extends Application {
         stage.setTitle("JavaFX and Maven");
         stage.setScene(scene);
         stage.show();
+        
+        System.out.println(userDaoImpl);
 
     }
 

@@ -19,26 +19,7 @@ import java.util.logging.Logger;
  */
 public class DatabaseConnector {
 
-    private static DatabaseConnector databaseConnector;
-    private static Statement statement;
-
-    private DatabaseConnector() {
-        try {
-            //DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chat", "root", "root");
-            statement = connection.createStatement();
-            new UserDAOImpl(statement);
-        } catch (SQLException ex) {
-            Logger.getLogger(DatabaseConnector.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RemoteException ex) {
-            Logger.getLogger(DatabaseConnector.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public static Statement getStatement() {
-        if (databaseConnector == null) {
-            databaseConnector = new DatabaseConnector();
-        }
-        return statement;
+    public UserDAOImpl getUserDaoImpl() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

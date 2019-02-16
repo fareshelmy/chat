@@ -6,6 +6,7 @@ import java.rmi.registry.Registry;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sql.rowset.CachedRowSet;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,11 +19,11 @@ import java.util.logging.Logger;
  */
 public class ServerService {
 
-    public ServerService(Statement statement) {
+    public ServerService(UserDAOImpl userDAOImpl) {
         Registry registry;
         try {
             registry = LocateRegistry.getRegistry();
-            registry.rebind("ChatService", new UserDAOImpl(statement));
+            registry.rebind("ChatService", userDAOImpl);
         } catch (RemoteException ex) {
             ex.printStackTrace();
         }
