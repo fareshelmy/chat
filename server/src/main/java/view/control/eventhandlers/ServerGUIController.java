@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package view.control.eventhandlers;
 
 import com.chat.common.UserDAO;
@@ -11,10 +10,12 @@ import com.chat.common.GenderEnum;
 import com.chat.common.StatusEnum;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,9 +24,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Callback;
 
 /**
  * FXML Controller class
@@ -89,72 +92,93 @@ public class ServerGUIController implements Initializable {
     @FXML
     private Button GetStatisticsButton;
     @FXML
-    private ListView<?> GetNumberOfUsersByCountryListView;
+    private ListView GetNumberOfUsersByCountryListView;
     @FXML
     private DatePicker DateOfBirthDatePicker;
     @FXML
-    private ComboBox<?> GenderComboBox;
+    private ComboBox GenderComboBox;
     @FXML
-    private ComboBox<?> CountryComboBox;
+    private ComboBox CountryComboBox;
 
     private boolean serviceStarted = false;
     private UserDAO userDAO;
-    
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        StartStopButton.setOnAction((event)->{
-            
-            if(!serviceStarted){
+        StartStopButton.setOnAction((event) -> {
+
+            if (!serviceStarted) {
                 //Start Service code.
                 serviceStarted = true;
                 StartStopButton.setText("Stop");
-            }
-            else{
+            } else {
                 //Stop Service code.
                 serviceStarted = false;
                 StartStopButton.setText("Start");
             }
             System.out.println("Service Started/Stoped.");
-        
+
         });
-        
-        UserRegistrationButton.setOnAction((event)->{
-            
+
+        UserRegistrationButton.setOnAction((event) -> {
+
             System.out.println("User Registered.");
-        
+
         });
-        
-        AnnouncementButton.setOnAction((event)->{
-            
+
+        AnnouncementButton.setOnAction((event) -> {
+
             System.out.println("Announcement sent.");
-            
+
         });
-        
-        GetStatisticsButton.setOnAction((event)->{
-            
+
+        GetStatisticsButton.setOnAction((event) -> {
+
             try {
-                
+
                 System.out.println("Get Statistics.");
-                Map<String ,Integer> countryStatistics = userDAO.getCountryStatistics();
-                Map<String ,Integer> genderStatistics = userDAO.getGenderStatistics();
+                Map<String, Integer> countryStatistics = userDAO.getCountryStatistics();
+                Map<String, Integer> genderStatistics = userDAO.getGenderStatistics();
                 Integer onlineUsers = userDAO.getOnlineUsers();
                 Integer offlineUsers = userDAO.getOfflineUsers();
                 OnlineUsersCounterLabel.setText(onlineUsers.toString());
                 OffileUsersCounterLabel.setText(offlineUsers.toString());
                 MaleUsersCounterLabel.setText(genderStatistics.get(GenderEnum.MALE).toString());
                 FemaleUsersCounterLabel.setText(genderStatistics.get(GenderEnum.FEMALE).toString());
-                
-                
+                ArrayList<String> countryStat = new ArrayList<>();
+                for (String key : countryStatistics.keySet()) {
+                    countryStat.add(key + " : " + countryStatistics.get(key).toString());
+                }
+
+                ObservableList<String> countryObservableList = FXCollections.observableArrayList(countryStat);
+                Platform.runLater(() -> {
+                    GetNumberOfUsersByCountryListView.setItems(countryObservableList);
+                    GetNumberOfUsersByCountryListView.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+                        @Override
+                        public ListCell<String> call(ListView<String> param) {
+                            return new ListCell<String>() {
+                                @Override
+                                protected void updateItem(String country, boolean empty) {
+                                    super.updateItem(country, empty);
+                                    if(!empty){
+                                        setGraphic(new Label(country));
+                                    }
+                                }
+                            };
+                        }
+                    });
+                });
+
             } catch (RemoteException ex) {
                 ex.printStackTrace();
             }
-            
+
         });
-        
-    }    
-    
+
+    }
+
 }

@@ -114,6 +114,7 @@
             <groupId>com.pandorabots</groupId>
             <artifactId>pb-java</artifactId>
             <version>1.1.0</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 </project>
