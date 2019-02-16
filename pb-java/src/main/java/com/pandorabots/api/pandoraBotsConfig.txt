@@ -1,0 +1,5 @@
+user_key:a7a28cfcdef9bb9402b4b25841860873
+app_id:una17f03ca
+hostname:api.pandorabots.com
+debug:true
+botname:mrhappy
