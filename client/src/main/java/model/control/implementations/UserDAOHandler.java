@@ -45,7 +45,7 @@ public class UserDAOHandler {
 
     public void signInUser(User user) {
         try {
-            System.out.println(userDao.validate(user.getPhone(), user.getPassword()));
+            System.out.println(userDao.validate(user.getPhone()));
         } catch (RemoteException ex) {
             Logger.getLogger(UserDAOHandler.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -24,7 +24,7 @@ public class DatabaseConnector {
 
     private DatabaseConnector() {
         try {
-            DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+            //DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chat", "root", "root");
             statement = connection.createStatement();
             new UserDAOImpl(statement);

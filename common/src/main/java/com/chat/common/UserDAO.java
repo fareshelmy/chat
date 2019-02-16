@@ -36,6 +36,6 @@ public interface UserDAO extends Remote {
 
     void update(User user) throws RemoteException;
 
-    boolean validate(String phone, String password) throws RemoteException;
+    User validate(String phone) throws RemoteException;
 
 }
