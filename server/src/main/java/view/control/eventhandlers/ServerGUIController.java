@@ -29,6 +29,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
+import model.control.implementations.DatabaseConnector;
+import model.control.implementations.ServerService;
+import model.control.implementations.UserDAOImpl;
 
 /**
  * FXML Controller class
@@ -101,7 +104,12 @@ public class ServerGUIController implements Initializable {
     private ComboBox CountryComboBox;
 
     private boolean serviceStarted = false;
-    private UserDAO userDAO;
+    private UserDAOImpl userDaoImpl;
+
+    public ServerGUIController() {
+        userDaoImpl = new DatabaseConnector().getUserDaoImpl();
+        new ServerService(userDaoImpl);
+    }
 
     /**
      * Initializes the controller class.
@@ -141,18 +149,22 @@ public class ServerGUIController implements Initializable {
             try {
 
                 System.out.println("Get Statistics.");
-                Map<String, Integer> countryStatistics = userDAO.getCountryStatistics();
-                Map<String, Integer> genderStatistics = userDAO.getGenderStatistics();
-                Integer onlineUsers = userDAO.getOnlineUsers();
-                Integer offlineUsers = userDAO.getOfflineUsers();
+                Map<String, Integer> countryStatistics = userDaoImpl.getCountryStatistics();
+                Map<String, Integer> genderStatistics = userDaoImpl.getGenderStatistics();
+                Integer onlineUsers = userDaoImpl.getOnlineUsers();
+                Integer offlineUsers = userDaoImpl.getOfflineUsers();
                 OnlineUsersCounterLabel.setText(onlineUsers.toString());
                 OffileUsersCounterLabel.setText(offlineUsers.toString());
                 MaleUsersCounterLabel.setText(genderStatistics.get(GenderEnum.MALE).toString());
                 FemaleUsersCounterLabel.setText(genderStatistics.get(GenderEnum.FEMALE).toString());
+
                 ArrayList<String> countryStat = new ArrayList<>();
-                for (String key : countryStatistics.keySet()) {
-                    countryStat.add(key + " : " + countryStatistics.get(key).toString());
-                }
+
+                new Thread(() -> {
+                    for (String key : countryStatistics.keySet()) {
+                        countryStat.add(key + " : " + countryStatistics.get(key).toString());
+                    }
+                }).start();
 
                 ObservableList<String> countryObservableList = FXCollections.observableArrayList(countryStat);
                 Platform.runLater(() -> {
@@ -164,7 +176,7 @@ public class ServerGUIController implements Initializable {
                                 @Override
                                 protected void updateItem(String country, boolean empty) {
                                     super.updateItem(country, empty);
-                                    if(!empty){
+                                    if (!empty) {
                                         setGraphic(new Label(country));
                                     }
                                 }
