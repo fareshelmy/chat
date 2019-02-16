@@ -5,6 +5,7 @@
  */
 package model.control.implementations;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
 import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,6 +13,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.RowSetFactory;
+import javax.sql.rowset.RowSetProvider;
 
 /**
  *
@@ -20,6 +24,25 @@ import java.util.logging.Logger;
 public class DatabaseConnector {
 
     public UserDAOImpl getUserDaoImpl() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        UserDAOImpl userDAOImpl = null;
+        try {
+            MysqlDataSource mysqlDataSource = new MysqlDataSource();
+            mysqlDataSource.setURL("jdbc:mysql://localhost:3306/chat");
+            mysqlDataSource.setUser("root");
+            mysqlDataSource.setPassword("root");
+            Connection connection = mysqlDataSource.getConnection();
+            connection.setAutoCommit(false);
+            RowSetFactory factory = RowSetProvider.newFactory();
+            CachedRowSet cachedRowSet = factory.createCachedRowSet();
+            cachedRowSet.setUrl("jdbc:mysql://localhost:3306/chat");
+            cachedRowSet.setUsername("root");
+            cachedRowSet.setPassword("root");
+            userDAOImpl = new UserDAOImpl(cachedRowSet, connection);
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseConnector.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
+            Logger.getLogger(DatabaseConnector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return userDAOImpl;
     }
 }

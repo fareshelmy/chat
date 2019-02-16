@@ -27,7 +27,7 @@ public class UserDAOHandler {
         try {
 
             Registry registry = LocateRegistry.getRegistry("127.0.0.1");
-            userDao = (UserDAO) registry.lookup("ChatService");
+            userDao = (UserDAO) registry.lookup("DatabaseService");
         } catch (RemoteException ex) {
             ex.printStackTrace();
         } catch (NotBoundException ex) {

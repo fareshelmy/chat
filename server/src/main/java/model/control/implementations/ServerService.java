@@ -23,7 +23,7 @@ public class ServerService {
         Registry registry;
         try {
             registry = LocateRegistry.getRegistry();
-            registry.rebind("ChatService", userDAOImpl);
+            registry.rebind("DatabaseService", userDAOImpl);
         } catch (RemoteException ex) {
             ex.printStackTrace();
         }
