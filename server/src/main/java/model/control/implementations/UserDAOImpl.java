@@ -73,20 +73,33 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+//should return User
 
+    // method validatePhone should be added
     @Override
-    public boolean validate(String phone, String password) throws RemoteException {
-        boolean validated = false;
-        String sql = "SELECT PHONE FROM USERS WHERE PHONE = '" + phone
-                + "' AND PASSWORD = '" + password + "'";
+    public User validate(String phone) throws RemoteException {
+        String sql = "SELECT * FROM USERS WHERE PHONE = '" + phone + "'";
+        User user = null;
         try {
-            if (statement.executeQuery(sql).next()) {
-                validated = true;
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (resultSet.next()) {
+                user = new User(resultSet.getString("PHONE"),
+                        resultSet.getString("FIRST_NAME"),
+                        resultSet.getString("LAST_NAME"),
+                        resultSet.getString("PASSWORD"),
+                        resultSet.getString("EMAIL"),
+                        resultSet.getBlob("PIC"),
+                        GenderEnum.valueOf(resultSet.getString("GENDER").toUpperCase()),
+                        resultSet.getString("COUNTRY"),
+                        resultSet.getString("DATE_OF_BIRTH"),
+                        resultSet.getString("BIO"),
+                        StatusEnum.valueOf(resultSet.getString("STATUS").toUpperCase()),
+                        RegisteredByEnum.valueOf(resultSet.getString("REGISTERED_BY").toUpperCase()));
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return validated;
+        return user;
     }
 
     @Override
@@ -187,7 +200,7 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
     public Integer getOnlineUsers() throws RemoteException {
         Integer result = null;
         try {
-            ResultSet resultSet = statement.executeQuery("select Count(*) from users where status='Online'");
+            ResultSet resultSet = statement.executeQuery("select Count(*) from users where status='ONLINE'");
             if (resultSet.next()) {
                 result = resultSet.getInt(1);
             } else {
@@ -207,7 +220,7 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
     public Integer getOfflineUsers() throws RemoteException {
         Integer result = null;
         try {
-            ResultSet resultSet = statement.executeQuery("select Count(*) from users where status='Offline'");
+            ResultSet resultSet = statement.executeQuery("select Count(*) from users where status='OFFLINE'");
             if (resultSet.next()) {
                 result = resultSet.getInt(1);
             } else {
@@ -251,9 +264,6 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return countryStatistics;
-
     }
-
 }
