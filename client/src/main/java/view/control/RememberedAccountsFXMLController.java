@@ -1,6 +1,7 @@
 package view.control;
 
 import controller.implementations.Controller;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -57,12 +58,8 @@ public class RememberedAccountsFXMLController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            personImageView.setImage(new Image(new FileInputStream("C:\\Users\\Laptop Shop\\Desktop\\person.jpg")));
-            plusImageView.setImage(new Image(new FileInputStream("C:\\Users\\Laptop Shop\\Desktop\\plus.png")));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(RememberedAccountsFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        personImageView.setImage(new Image(getClass().getResource("/images/person.jpg").toString()));
+        plusImageView.setImage(new Image(getClass().getResource("/images/plus.png").toString()));
 
         savedContactHBox.addEventHandler(MouseEvent.MOUSE_CLICKED, (event) -> {
             try {

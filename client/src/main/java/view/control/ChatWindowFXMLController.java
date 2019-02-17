@@ -54,7 +54,7 @@ public class ChatWindowFXMLController implements Initializable {
         ImageView imageView = null;
         Image image = null;
         try {
-            image = new Image(new FileInputStream("C:\\Users\\Laptop Shop\\Desktop\\default.png"));
+            image = new Image(new FileInputStream("/images/default.png"));
             imageView = new ImageView(image);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ChatWindowFXMLController.class.getName()).log(Level.SEVERE, null, ex);
