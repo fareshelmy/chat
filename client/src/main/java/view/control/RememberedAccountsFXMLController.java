@@ -1,5 +1,9 @@
 package view.control;
 
+import com.chat.common.GenderEnum;
+import com.chat.common.RegisteredByEnum;
+import com.chat.common.StatusEnum;
+import com.chat.common.User;
 import controller.implementations.Controller;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,7 +13,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -61,7 +64,7 @@ public class RememberedAccountsFXMLController implements Initializable {
         personImageView.setImage(new Image(getClass().getResource("/images/person.jpg").toString()));
         plusImageView.setImage(new Image(getClass().getResource("/images/plus.png").toString()));
 
-        savedContactHBox.addEventHandler(MouseEvent.MOUSE_CLICKED, (event) -> {
+        newContactHBox.addEventHandler(MouseEvent.MOUSE_CLICKED, (event) -> {
             try {
                 SignInPhoneController signInPhoneController = new SignInPhoneController(stage, controller);
                 FXMLLoader loader = new FXMLLoader();
@@ -75,6 +78,22 @@ public class RememberedAccountsFXMLController implements Initializable {
                 Logger.getLogger(RememberedAccountsFXMLController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+
+        savedContactHBox.addEventHandler(MouseEvent.MOUSE_CLICKED, (event) -> {
+            try {
+                User user = controller.validatePhone("1234");
+                SignInPasswordFXMLController signInPasswordFXMLController = new SignInPasswordFXMLController(stage, controller,user);             FXMLLoader loader = new FXMLLoader();
+                loader.setController(signInPasswordFXMLController);
+                Parent root = loader.load(getClass().getResource("/fxml/SignInPasswordFXML.fxml").openStream());
+                Scene scene = new Scene(root, 400, 600);
+                scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(RememberedAccountsFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        );
     }
 
 }

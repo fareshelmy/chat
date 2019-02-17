@@ -7,6 +7,7 @@ package view.control;
 
 import com.chat.common.User;
 import controller.implementations.Controller;
+import view.view.MyHBox;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
@@ -34,11 +35,8 @@ import javafx.stage.Stage;
 public class ChatWindowFXMLController implements Initializable {
 
     @FXML
-    private HBox hBox;
+    private VBox vBox;
 
-    @FXML
-    private Circle imageCircle;
-    
     private final Stage stage;
     private final Controller controller;
     private final User user;
@@ -51,18 +49,10 @@ public class ChatWindowFXMLController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ImageView imageView = null;
-        Image image = null;
-        try {
-            image = new Image(new FileInputStream("/images/default.png"));
-            imageView = new ImageView(image);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ChatWindowFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        imageView.setPreserveRatio(true);
-        imageView.setFitHeight(30);
-        imageView.setFitWidth(30);
-        imageCircle.setFill(new ImagePattern(image));
+        stage.setMinWidth(1000);
+        stage.setMinHeight(600);
+
+        vBox.getChildren().add(new MyHBox());
     }
 
 }

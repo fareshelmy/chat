@@ -29,7 +29,10 @@ public class SignInPhoneController implements Initializable {
     private Label invalidLabel;
     @FXML
     private Button nextButton;
-    
+
+    @FXML
+    private Button backButton;
+
     Stage stage;
     Controller controller;
 
@@ -64,9 +67,13 @@ public class SignInPhoneController implements Initializable {
                 moveToPasswordValidation();
             }
         });
-        
+
         nextButton.setOnAction((event) -> {
             moveToPasswordValidation();
+        });
+
+        backButton.setOnAction((event) -> {
+            goBack();
         });
     }
 
@@ -87,6 +94,22 @@ public class SignInPhoneController implements Initializable {
             }
         } else {
             invalidLabel.setVisible(true);
+        }
+    }
+
+    private void goBack() {
+        try {
+            RememberedAccountsFXMLController rememberedAccountsFXMLController = new RememberedAccountsFXMLController(stage, controller);
+            FXMLLoader loader = new FXMLLoader();
+            loader.setController(rememberedAccountsFXMLController);
+            Parent root = loader.load(getClass().getResource("/fxml/RememberedAccountsFXML.fxml").openStream());
+            Scene scene = new Scene(root, 400, 600);
+            scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -33,12 +33,12 @@
                         </FlowPane>
                         <FlowPane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <Label text="Fares Helmy">
+                              <Label prefHeight="21.0" prefWidth="151.0" text="Ahmed Medhat">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>
                               </Label>
-                              <Label text="+201064046540">
+                              <Label text="1234">
                                  <font>
                                     <Font size="13.0" />
                                  </font>
