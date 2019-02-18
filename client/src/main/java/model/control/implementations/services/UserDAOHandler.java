@@ -13,6 +13,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.control.implementations.ServiceLocator;
 
 /**
  *
@@ -24,14 +25,7 @@ public class UserDAOHandler {
     UserDAO userDao;
 
     public UserDAOHandler() {
-//        try {
-//
-//            userDao = (UserDAO) ServiceLoca("DatabaseService");
-//        } catch (RemoteException ex) {
-//            ex.printStackTrace();
-//        } catch (NotBoundException ex) {
-//            ex.printStackTrace();
-//        }
+            userDao = (UserDAO) ServiceLocator.getService("DatabaseService");
     }
 
     public void persistUser(User user) {

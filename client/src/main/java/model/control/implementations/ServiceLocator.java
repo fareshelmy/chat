@@ -1,9 +1,11 @@
+package model.control.implementations;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -29,8 +31,12 @@ public class ServiceLocator {
                 Registry registry = LocateRegistry.getRegistry("localhost");
                 service = registry.lookup(serviceName);
                 services.put(serviceName, service);
-            } catch (RemoteException | NotBoundException ex) {
+            } catch (AccessException ex) {
+                Logger.getLogger(ServiceLocator.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (RemoteException ex) {
                 ex.printStackTrace();
+            } catch (NotBoundException ex) {
+                Logger.getLogger(ServiceLocator.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return service;
