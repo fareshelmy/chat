@@ -1,5 +1,6 @@
 package view.control;
 
+import com.chat.common.User;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -45,15 +46,28 @@ public class CreateAccount_2Controller implements Initializable {
 	@FXML
 	private Button nextBTN;
 	Stage stage;
+        private String firstName;
+        private String lastName;
+        private User user;
 
 	public CreateAccount_2Controller(Stage stage) {
 		this.stage = stage;
 	}
 
+    CreateAccount_2Controller(Stage stage, User user) {
+        this.user = user;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		nextBTN.setOnAction(event -> {
-			AddDetailsController addDetailsController = new AddDetailsController(stage);
+                    firstName = firstNameTXF.getText();
+                    lastName = lastNameTXF.getText();
+                    user.setFirstName(firstName);
+                    user.setLastName(lastName);
+                    
+			AddDetailsController addDetailsController = new AddDetailsController(stage,user);
 			FXMLLoader loader = new FXMLLoader();
 			loader.setController(addDetailsController);
 			Parent root = null;
