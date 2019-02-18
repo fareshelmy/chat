@@ -1,7 +1,7 @@
 package controller.implementations;
 
 import com.chat.common.User;
-import model.control.implementations.UserDAOHandler;
+import model.control.implementations.services.UserDAOHandler;
 
 /**
  *

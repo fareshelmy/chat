@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import model.control.implementations.UserDAOHandler;
 
 public class Main extends Application {
 

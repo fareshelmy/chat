@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.control.implementations;
+package model.control.implementations.services;
 
 import com.chat.common.User;
 import com.chat.common.UserDAO;
@@ -24,15 +24,14 @@ public class UserDAOHandler {
     UserDAO userDao;
 
     public UserDAOHandler() {
-        try {
-
-            Registry registry = LocateRegistry.getRegistry("127.0.0.1");
-            userDao = (UserDAO) registry.lookup("DatabaseService");
-        } catch (RemoteException ex) {
-            ex.printStackTrace();
-        } catch (NotBoundException ex) {
-            ex.printStackTrace();
-        }
+//        try {
+//
+//            userDao = (UserDAO) ServiceLoca("DatabaseService");
+//        } catch (RemoteException ex) {
+//            ex.printStackTrace();
+//        } catch (NotBoundException ex) {
+//            ex.printStackTrace();
+//        }
     }
 
     public void persistUser(User user) {
