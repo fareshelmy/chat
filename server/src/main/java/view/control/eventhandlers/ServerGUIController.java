@@ -159,8 +159,19 @@ public class ServerGUIController implements Initializable {
 
                     OnlineUsersCounterLabel.setText(onlineUsers.toString());
                     OffileUsersCounterLabel.setText(offlineUsers.toString());
-                    MaleUsersCounterLabel.setText(genderStatistics.get("MALE").toString());
-                    FemaleUsersCounterLabel.setText(genderStatistics.get("FEMALE").toString());
+                    if(genderStatistics.get("MALE")==null){
+                        MaleUsersCounterLabel.setText("0");
+                    }
+                    else{
+                        MaleUsersCounterLabel.setText(genderStatistics.get("MALE").toString());
+                    }
+                    if(genderStatistics.get("FEMALE")==null){
+                        FemaleUsersCounterLabel.setText("0");
+                    }
+                    else{
+                        FemaleUsersCounterLabel.setText(genderStatistics.get("FEMALE").toString());
+                    }
+                    
 
                 });
 
