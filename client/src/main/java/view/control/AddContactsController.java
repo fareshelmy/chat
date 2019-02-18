@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
+//import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -50,7 +50,7 @@ public class AddContactsController implements Initializable {
                 TextField phoneTF = new TextField();
                 allContactsVBOX.getChildren().add(new VBox(phoneTF, msgLabel));
             } else {
-                new Alert(Alert.AlertType.ERROR, "Only allawed adding 4 contacts at a time!").showAndWait();
+               // new Alert(Alert.AlertType.ERROR, "Only allawed adding 4 contacts at a time!").showAndWait();
             }
         });
     }
