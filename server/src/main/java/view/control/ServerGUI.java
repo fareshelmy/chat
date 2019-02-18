@@ -41,7 +41,6 @@ public class ServerGUI extends Application {
         FXMLLoader loader = new FXMLLoader();
         Parent serverGUI = loader.load(getClass().getResource("/fxml/ServerGUI.fxml").openStream());
         ServerGUIController controller = loader.getController();
-        //controller.setData();
         Scene serverScene = new Scene(serverGUI);
         stage.setScene(serverScene);
         stage.show();

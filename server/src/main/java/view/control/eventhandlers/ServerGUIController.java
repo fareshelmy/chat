@@ -120,10 +120,12 @@ public class ServerGUIController implements Initializable {
         StartStopButton.setOnAction((event) -> {
 
             if (!serviceStarted) {
+                System.out.println("Service started.");
                 //Start Service code.
                 serviceStarted = true;
                 StartStopButton.setText("Stop");
             } else {
+                System.out.println("Service stoped.");
                 //Stop Service code.
                 serviceStarted = false;
                 StartStopButton.setText("Start");
@@ -153,10 +155,17 @@ public class ServerGUIController implements Initializable {
                 Map<String, Integer> genderStatistics = userDaoImpl.getGenderStatistics();
                 Integer onlineUsers = userDaoImpl.getOnlineUsers();
                 Integer offlineUsers = userDaoImpl.getOfflineUsers();
-                OnlineUsersCounterLabel.setText(onlineUsers.toString());
-                OffileUsersCounterLabel.setText(offlineUsers.toString());
-                MaleUsersCounterLabel.setText(genderStatistics.get(GenderEnum.MALE).toString());
-                FemaleUsersCounterLabel.setText(genderStatistics.get(GenderEnum.FEMALE).toString());
+                for(String key:genderStatistics.keySet()){
+                    System.out.println(key+" "+genderStatistics.get(key));
+                }
+                Platform.runLater(() -> {
+
+                    OnlineUsersCounterLabel.setText(onlineUsers.toString());
+                    OffileUsersCounterLabel.setText(offlineUsers.toString());
+                    MaleUsersCounterLabel.setText(genderStatistics.get("MALE").toString());
+                    FemaleUsersCounterLabel.setText(genderStatistics.get("FEMALE").toString());
+
+                });
 
                 ArrayList<String> countryStat = new ArrayList<>();
 
@@ -177,7 +186,8 @@ public class ServerGUIController implements Initializable {
                                 protected void updateItem(String country, boolean empty) {
                                     super.updateItem(country, empty);
                                     if (!empty) {
-                                        setGraphic(new Label(country));
+                                        Label countryStatLabel = new Label(country);
+                                        setGraphic(countryStatLabel);
                                     }
                                 }
                             };
