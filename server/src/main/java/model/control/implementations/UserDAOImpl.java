@@ -264,6 +264,7 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
         Map<String, Integer> genderStatistics = new HashMap<>();
         try {
             cachedRowSet.setCommand("select Count(phone),gender from users group by gender");
+            cachedRowSet.execute();
             while (cachedRowSet.next()) {
                 genderStatistics.put(cachedRowSet.getString(2), cachedRowSet.getInt(1));
             }
