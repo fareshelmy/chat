@@ -1,6 +1,10 @@
 package view.control;
 
 
+import com.chat.common.GenderEnum;
+import com.chat.common.RegisteredByEnum;
+import com.chat.common.StatusEnum;
+import com.chat.common.User;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -42,9 +46,11 @@ public class CreateAccountController implements Initializable {
 	@FXML
 	private Button nextBTN;
 	Stage stage;
+        private User user;
+        private String  phone;
 
 	public CreateAccountController() {
-
+         user = new User();
 	}
 
 	public CreateAccountController(Stage stage) {
@@ -55,7 +61,9 @@ public class CreateAccountController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 
 		nextBTN.setOnAction(event -> {
-			CreatePasswordController createPasswordController = new CreatePasswordController(stage);
+                    phone = phoneNumber.getText();
+                    user.setPhone(phone);
+			CreatePasswordController createPasswordController = new CreatePasswordController(stage,user);
 			FXMLLoader loader = new FXMLLoader();
 			loader.setController(createPasswordController);
 			Parent root = null;
