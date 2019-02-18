@@ -1,6 +1,5 @@
 package view.control;
 
-
 import com.chat.common.GenderEnum;
 import com.chat.common.RegisteredByEnum;
 import com.chat.common.StatusEnum;
@@ -21,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -29,60 +29,78 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.BorderPane;
 
 public class CreateAccountController implements Initializable {
-	@FXML
-	private BorderPane borderPane;
-	@FXML
-	private Rectangle rectangle;
-	@FXML
-	private StackPane stackPane;
-	@FXML
-	private FlowPane flowPane;
-	@FXML
-	private ComboBox<String> countryKeyCode;
-	@FXML
-	private TextField phoneNumber;
-	@FXML
-	private Button backBTN;
-	@FXML
-	private Button nextBTN;
-	Stage stage;
-        private User user;
-        private String  phone;
 
-	public CreateAccountController() {
-         user = new User();
-	}
+    @FXML
+    private BorderPane borderPane;
+    @FXML
+    private Rectangle rectangle;
+    @FXML
+    private StackPane stackPane;
+    @FXML
+    private FlowPane flowPane;
+    @FXML
+    private ComboBox<String> countryKeyCode;
+    @FXML
+    private TextField phoneNumber;
+    @FXML
+    private Button backBTN;
+    @FXML
+    private Button nextBTN;
 
-	public CreateAccountController(Stage stage) {
-		this.stage = stage;
-	}
+    @FXML
+    private Label requiredLabel;
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+    Stage stage;
+    private User user;
+    private String phone;
 
-		nextBTN.setOnAction(event -> {
-                    phone = phoneNumber.getText();
-                    user.setPhone(phone);
-			CreatePasswordController createPasswordController = new CreatePasswordController(stage,user);
-			FXMLLoader loader = new FXMLLoader();
-			loader.setController(createPasswordController);
-			Parent root = null;
-			try {
-				root = loader.load(getClass().getResource("/fxml/CreatePassword.fxml").openStream());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Scene scene = new Scene(root, 600, 600);
+    public CreateAccountController() {
 
-			scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
-			stage.setScene(scene);
-			stage.show();
-		});
+    }
 
-		countryKeyCode.getItems().removeAll(countryKeyCode.getItems());
-		countryKeyCode.getItems().addAll("+20", "+30", "+15");
-		countryKeyCode.getSelectionModel().select("+30");
-	}
+    public CreateAccountController(Stage stage) {
+        this.stage = stage;
+        user = new User(null, null, null, null, null, null, null, null, null, null, null, null);
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        nextBTN.setOnAction(event -> {
+            moveToPasswordController();
+        });
+
+        phoneNumber.setOnAction((event) -> {
+            moveToPasswordController();
+        });
+
+        countryKeyCode.getItems().removeAll(countryKeyCode.getItems());
+        countryKeyCode.getItems().addAll("+20", "+30", "+15");
+        countryKeyCode.getSelectionModel().select("+30");
+    }
+
+    private void moveToPasswordController() {
+        if (!phoneNumber.getText().equals("")) {
+            phone = phoneNumber.getText();
+            user.setPhone(phone);
+            CreatePasswordController createPasswordController = new CreatePasswordController(stage, user);
+            FXMLLoader loader = new FXMLLoader();
+            loader.setController(createPasswordController);
+            Parent root = null;
+            try {
+                root = loader.load(getClass().getResource("/fxml/CreatePassword.fxml").openStream());
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            Scene scene = new Scene(root, 400, 600);
+
+            scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            requiredLabel.setVisible(true);
+        }
+    }
 
 }

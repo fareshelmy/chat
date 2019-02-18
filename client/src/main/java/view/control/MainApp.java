@@ -1,7 +1,6 @@
 package view.control;
 
 import controller.implementations.Controller;
-import view.view.MainView;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;

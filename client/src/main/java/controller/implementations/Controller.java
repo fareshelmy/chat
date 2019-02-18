@@ -17,9 +17,6 @@ public class Controller {
         userDAOHandler.persistUser(user);
     }
 
-    public void signInUser(User user) {
-        userDAOHandler.signInUser(user);
-    }
 
     public User validatePhone(String phone) {
         return userDAOHandler.validatePhone(phone);

@@ -43,12 +43,12 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
                 + "', '" + user.getPassword()
                 + "', '" + user.getEmail()
                 + "', '" + (user.getPic() == null ? "00" : user.getPic())
-                + "', '" + user.getGender()
+                + "', '" + (user.getGenderEnum() == null ? GenderEnum.MALE : user.getGenderEnum())
                 + "', '" + user.getCountry()
                 + "', '" + (user.getDateOfBirth() == null ? "00" : user.getDateOfBirth())
-                + "', '" + user.getBio()
-                + "', '" + user.getStatus()
-                + "', '" + user.getRegisteredBy() + "')";
+                + "', '" + (user.getBio() == null ? "Hey there! I am using MrHappy." : user.getBio())
+                + "', '" + (user.getStatusEnum() == null ? StatusEnum.ONLINE : user.getStatusEnum())
+                + "', '" + user.getRegisteredByEnum() + "')";
         try {
             cachedRowSet.setCommand(sql);
             cachedRowSet.execute();
@@ -65,12 +65,12 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
                 + "', PASSWORD = '" + user.getPassword()
                 + "', EMAIL = '" + user.getEmail()
                 + "', PIC = '" + (user.getPic() == null ? "00" : user.getPic())
-                + "', GENDER = '" + user.getGender()
+                + "', GENDER = '" + user.getGenderEnum()
                 + "', COUNTRY = '" + user.getCountry()
                 + "', DATE_OF_BIRTH = '" + (user.getDateOfBirth() == null ? "00" : user.getDateOfBirth())
                 + "', BIO = '" + user.getBio()
-                + "', STATUS = '" + user.getStatus()
-                + "', REGISTERED_BY = '" + user.getRegisteredBy()
+                + "', STATUS = '" + user.getStatusEnum()
+                + "', REGISTERED_BY = '" + user.getRegisteredByEnum()
                 + "' WHERE PHONE = '" + user.getPhone() + "'";
         try {
             cachedRowSet.setCommand(sql);
@@ -96,7 +96,7 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
                         cachedRowSet.getString("LAST_NAME"),
                         cachedRowSet.getString("PASSWORD"),
                         cachedRowSet.getString("EMAIL"),
-//                        cachedRowSet.getBlob("PIC"),
+                        //                        cachedRowSet.getBlob("PIC"),
                         null,
                         GenderEnum.valueOf(cachedRowSet.getString("GENDER").toUpperCase()),
                         cachedRowSet.getString("COUNTRY"),

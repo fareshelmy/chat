@@ -15,10 +15,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 
 public class CreatePasswordController implements Initializable {
 
@@ -28,12 +30,10 @@ public class CreatePasswordController implements Initializable {
     private Rectangle rectangle;
     @FXML
     private Label passwordInfoLBL;
+
     @FXML
-    private Label passwordINFOWarning;
-    @FXML
-    private TextField passwordTXF;
-    @FXML
-    private Label licenceLBL;
+    private PasswordField passwordTXF;
+
     @FXML
     private Button backBTN;
     @FXML
@@ -42,21 +42,27 @@ public class CreatePasswordController implements Initializable {
     private String password;
     private User user;
 
-    public CreatePasswordController(Stage stage) {
-        this.stage = stage;
-    }
-
     CreatePasswordController(Stage stage, User user) {
+        this.stage = stage;
         this.user = user;
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         NextBTN.setOnAction(event -> {
+            moveToCreateAccountController();
+        });
+
+        passwordTXF.setOnAction((event) -> {
+            moveToCreateAccountController();
+        });
+    }
+
+    private void moveToCreateAccountController() {
+        if (!passwordTXF.getText().equals("")) {
             password = passwordTXF.getText();
             user.setPassword(password);
-            CreateAccount_2Controller createAccountController = new CreateAccount_2Controller(stage,user);
+            CreateAccount_2Controller createAccountController = new CreateAccount_2Controller(stage, user);
             FXMLLoader loader = new FXMLLoader();
             loader.setController(createAccountController);
             Parent root = null;
@@ -66,13 +72,15 @@ public class CreatePasswordController implements Initializable {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            Scene scene = new Scene(root, 600, 400);
+            Scene scene = new Scene(root, 400, 600);
 
             scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
             stage.setScene(scene);
             stage.show();
-        });
-
+        } else {
+            passwordInfoLBL.setText("Password must contain at least 8 characters and at least one uppercase letter, one lowercase letter, and one number");
+            passwordInfoLBL.setTextFill(Color.RED);
+        }
     }
 
 }

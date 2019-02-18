@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.sql.Blob;
 import java.util.Date;
 
-
 /**
  *
  * @author FARES-LAP
@@ -43,10 +42,6 @@ public class User implements Serializable {
         this.bio = bio;
         this.statusEnum = statusEnum;
         this.registeredByEnum = registeredByEnum;
-    }
-
-    public User() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public String getPhone() {
@@ -97,8 +92,8 @@ public class User implements Serializable {
         this.pic = pic;
     }
 
-    public String getGender() {
-        return genderEnum.getGender(genderEnum);
+    public GenderEnum getGenderEnum() {
+        return genderEnum;
     }
 
     public void setGenderEnum(GenderEnum genderEnum) {
@@ -129,16 +124,16 @@ public class User implements Serializable {
         this.bio = bio;
     }
 
-    public String getStatus() {
-        return statusEnum.getStatus(statusEnum);
+    public StatusEnum getStatusEnum() {
+        return statusEnum;
     }
 
     public void setStatusEnum(StatusEnum statusEnum) {
         this.statusEnum = statusEnum;
     }
 
-    public String getRegisteredBy() {
-        return registeredByEnum.getRegisteredBy(registeredByEnum);
+    public RegisteredByEnum getRegisteredByEnum() {
+        return registeredByEnum;
     }
 
     public void setRegisteredBy(RegisteredByEnum registeredByEnum) {
