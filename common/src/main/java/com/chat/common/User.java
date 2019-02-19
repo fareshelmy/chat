@@ -92,8 +92,8 @@ public class User implements Serializable {
         this.pic = pic;
     }
 
-    public GenderEnum getGenderEnum() {
-        return genderEnum;
+    public String getGenderEnum() {
+        return genderEnum.getGender(genderEnum);
     }
 
     public void setGenderEnum(GenderEnum genderEnum) {
@@ -124,16 +124,16 @@ public class User implements Serializable {
         this.bio = bio;
     }
 
-    public StatusEnum getStatusEnum() {
-        return statusEnum;
+    public String getStatusEnum() {
+        return statusEnum.getStatus(statusEnum);
     }
 
     public void setStatusEnum(StatusEnum statusEnum) {
         this.statusEnum = statusEnum;
     }
 
-    public RegisteredByEnum getRegisteredByEnum() {
-        return registeredByEnum;
+    public String getRegisteredByEnum() {
+        return registeredByEnum.getRegisteredBy(registeredByEnum);
     }
 
     public void setRegisteredBy(RegisteredByEnum registeredByEnum) {

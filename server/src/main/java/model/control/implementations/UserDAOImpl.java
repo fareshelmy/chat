@@ -36,22 +36,36 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
     @Override
     public void persist(User user) throws RemoteException {
 
-        String sql = "INSERT INTO USERS (PHONE, FIRST_NAME, LAST_NAME, PASSWORD, EMAIL, PIC, GENDER, COUNTRY, DATE_OF_BIRTH, BIO, STATUS, REGISTERED_BY) VALUES ('"
-                + user.getPhone()
-                + "', '" + user.getFirstName()
-                + "', '" + user.getLastName()
-                + "', '" + user.getPassword()
-                + "', '" + user.getEmail()
-                + "', '" + (user.getPic() == null ? "00" : user.getPic())
-                + "', '" + (user.getGenderEnum() == null ? GenderEnum.MALE : user.getGenderEnum())
-                + "', '" + user.getCountry()
-                + "', '" + (user.getDateOfBirth() == null ? "00" : user.getDateOfBirth())
-                + "', '" + (user.getBio() == null ? "Hey there! I am using MrHappy." : user.getBio())
-                + "', '" + (user.getStatusEnum() == null ? StatusEnum.ONLINE : user.getStatusEnum())
-                + "', '" + user.getRegisteredByEnum() + "')";
+//        String sql = "INSERT INTO USERS (PHONE, FIRST_NAME, LAST_NAME, PASSWORD, EMAIL, PIC, GENDER, COUNTRY, DATE_OF_BIRTH, BIO, STATUS, REGISTERED_BY) VALUES ('"
+//                + user.getPhone()
+//                + "', '" + user.getFirstName()
+//                + "', '" + user.getLastName()
+//                + "', '" + user.getPassword()
+//                + "', '" + user.getEmail()
+//                + "', '" + (user.getPic() == null ? "00" : user.getPic())
+//                + "', '" + (user.getGenderEnum() == null ? GenderEnum.MALE : user.getGenderEnum())
+//                + "', '" + user.getCountry()
+//                + "', '" + (user.getDateOfBirth() == null ? "00" : user.getDateOfBirth())
+//                + "', '" + (user.getBio() == null ? "Hey there! I am using MrHappy." : user.getBio())
+//                + "', '" + (user.getStatusEnum() == null ? StatusEnum.ONLINE : user.getStatusEnum())
+//                + "', '" + user.getRegisteredByEnum() + "')";
         try {
-            cachedRowSet.setCommand(sql);
-            cachedRowSet.execute();
+
+            cachedRowSet.moveToInsertRow();
+            cachedRowSet.updateString("PHONE", user.getPhone());
+            cachedRowSet.updateString("FIRST_NAME", user.getFirstName());
+            cachedRowSet.updateString("LAST_NAME", user.getLastName());
+            cachedRowSet.updateString("PASSWORD", user.getPassword());
+            cachedRowSet.updateString("EMAIL", user.getEmail());
+            cachedRowSet.updateBlob("PIC", user.getPic());
+            cachedRowSet.updateString("GENDER", user.getGenderEnum());
+            cachedRowSet.updateString("COUNTRY", user.getCountry());
+            cachedRowSet.updateString("DATE_OF_BIRTH", user.getDateOfBirth());
+            cachedRowSet.updateString("BIO", user.getBio());
+            cachedRowSet.updateString("STATUS", user.getStatusEnum());
+            cachedRowSet.updateString("REGISTERED_BY", user.getRegisteredByEnum());
+            cachedRowSet.insertRow();
+            cachedRowSet.moveToCurrentRow();
             cachedRowSet.acceptChanges(connection);
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
