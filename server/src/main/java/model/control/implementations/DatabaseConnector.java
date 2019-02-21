@@ -31,13 +31,8 @@ public class DatabaseConnector {
             mysqlDataSource.setUser("root");
             mysqlDataSource.setPassword("root");
             Connection connection = mysqlDataSource.getConnection();
-            connection.setAutoCommit(false);
-            RowSetFactory factory = RowSetProvider.newFactory();
-            CachedRowSet cachedRowSet = factory.createCachedRowSet();
-            cachedRowSet.setUrl("jdbc:mysql://localhost:3306/chat");
-            cachedRowSet.setUsername("root");
-            cachedRowSet.setPassword("root");
-            userDAOImpl = new UserDAOImpl(cachedRowSet, connection);
+            
+            userDAOImpl = new UserDAOImpl(connection);
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseConnector.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RemoteException ex) {

@@ -21,103 +21,92 @@ import com.chat.common.GenderEnum;
 import com.chat.common.RegisteredByEnum;
 import com.chat.common.StatusEnum;
 import com.chat.common.UserDAO;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import javax.sql.rowset.CachedRowSet;
 
 public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
 
-    CachedRowSet cachedRowSet;
-    Connection connection;
+    Statement statement;
 
-    public UserDAOImpl(CachedRowSet cachedRowSet, Connection connection) throws RemoteException {
-        this.cachedRowSet = cachedRowSet;
-        this.connection = connection;
+    public UserDAOImpl(Connection connection) throws RemoteException {
+        try {
+            this.statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE,
+                    ResultSet.CLOSE_CURSORS_AT_COMMIT);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void persist(User user) throws RemoteException {
 
-//        String sql = "INSERT INTO USERS (PHONE, FIRST_NAME, LAST_NAME, PASSWORD, EMAIL, PIC, GENDER, COUNTRY, DATE_OF_BIRTH, BIO, STATUS, REGISTERED_BY) VALUES ('"
-//                + user.getPhone()
-//                + "', '" + user.getFirstName()
-//                + "', '" + user.getLastName()
-//                + "', '" + user.getPassword()
-//                + "', '" + user.getEmail()
-//                + "', '" + (user.getPic() == null ? "00" : user.getPic())
-//                + "', '" + (user.getGenderEnum() == null ? GenderEnum.MALE : user.getGenderEnum())
-//                + "', '" + user.getCountry()
-//                + "', '" + (user.getDateOfBirth() == null ? "00" : user.getDateOfBirth())
-//                + "', '" + (user.getBio() == null ? "Hey there! I am using MrHappy." : user.getBio())
-//                + "', '" + (user.getStatusEnum() == null ? StatusEnum.ONLINE : user.getStatusEnum())
-//                + "', '" + user.getRegisteredByEnum() + "')";
         try {
-
-            cachedRowSet.moveToInsertRow();
-            cachedRowSet.updateString("PHONE", user.getPhone());
-            cachedRowSet.updateString("FIRST_NAME", user.getFirstName());
-            cachedRowSet.updateString("LAST_NAME", user.getLastName());
-            cachedRowSet.updateString("PASSWORD", user.getPassword());
-            cachedRowSet.updateString("EMAIL", user.getEmail());
-            cachedRowSet.updateBlob("PIC", user.getPic());
-            cachedRowSet.updateString("GENDER", user.getGenderEnum());
-            cachedRowSet.updateString("COUNTRY", user.getCountry());
-            cachedRowSet.updateString("DATE_OF_BIRTH", user.getDateOfBirth());
-            cachedRowSet.updateString("BIO", user.getBio());
-            cachedRowSet.updateString("STATUS", user.getStatusEnum());
-            cachedRowSet.updateString("REGISTERED_BY", user.getRegisteredByEnum());
-            cachedRowSet.insertRow();
-            cachedRowSet.moveToCurrentRow();
-            cachedRowSet.acceptChanges(connection);
+            String sql = "INSERT INTO USERS VALUES ('" + user.getPhone()
+                    + "', '" + user.getFirstName()
+                    + "', '" + user.getLastName()
+                    + "', '" + user.getPassword()
+                    + "', '" + user.getEmail()
+                    + "', '" + user.getPic()
+                    + "', '" + user.getGenderEnum()
+                    + "', '" + user.getCountry()
+                    + "', '" + user.getDateOfBirth()
+                    + "', '" + user.getBio()
+                    + "', '" + user.getStatusEnum()
+                    + "', '" + user.getRegisteredByEnum() + "')";
+            statement.executeUpdate(sql);
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
     public void update(User user) throws RemoteException {
-        String sql = "UPDATE USERS SET FIRST_NAME = '" + user.getFirstName()
-                + "', LAST_NAME = '" + user.getLastName()
-                + "', PASSWORD = '" + user.getPassword()
-                + "', EMAIL = '" + user.getEmail()
-                + "', PIC = '" + (user.getPic() == null ? "00" : user.getPic())
-                + "', GENDER = '" + user.getGenderEnum()
-                + "', COUNTRY = '" + user.getCountry()
-                + "', DATE_OF_BIRTH = '" + (user.getDateOfBirth() == null ? "00" : user.getDateOfBirth())
-                + "', BIO = '" + user.getBio()
-                + "', STATUS = '" + user.getStatusEnum()
-                + "', REGISTERED_BY = '" + user.getRegisteredByEnum()
-                + "' WHERE PHONE = '" + user.getPhone() + "'";
         try {
-            cachedRowSet.setCommand(sql);
-            cachedRowSet.execute();
-            cachedRowSet.acceptChanges(connection);
+            String sql = "UPDATE USERS SET FIRST_NAME = '" + user.getFirstName()
+                    + "', LAST_NAME = '" + user.getLastName()
+                    + "', PASSWORD = '" + user.getPassword()
+                    + "', EMAIL = '" + user.getEmail()
+                    + "', PIC = '" + user.getPic()
+                    + "', GENDER = '" + user.getGenderEnum()
+                    + "', COUNTRY = '" + user.getCountry()
+                    + "', DATE_OF_BIRTH = '" + user.getDateOfBirth()
+                    + "', BIO = '" + user.getBio()
+                    + "', STATUS = '" + user.getStatusEnum()
+                    + "', REGISTERED_BY = '" + user.getRegisteredByEnum()
+                    + "' WHERE PHONE = '" + user.getPhone() + "'";
+            statement.executeUpdate(sql);
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-//should return User
 
-    // method validatePhone should be added
+    }
+
     @Override
     public User validate(String phone) throws RemoteException {
         String sql = "SELECT * FROM USERS WHERE PHONE = '" + phone + "'";
         User user = null;
         try {
-            cachedRowSet.setCommand(sql);
-            cachedRowSet.execute();
-            if (cachedRowSet.next()) {
-                user = new User(cachedRowSet.getString("PHONE"),
-                        cachedRowSet.getString("FIRST_NAME"),
-                        cachedRowSet.getString("LAST_NAME"),
-                        cachedRowSet.getString("PASSWORD"),
-                        cachedRowSet.getString("EMAIL"),
-                        //                        cachedRowSet.getBlob("PIC"),
-                        null,
-                        GenderEnum.valueOf(cachedRowSet.getString("GENDER").toUpperCase()),
-                        cachedRowSet.getString("COUNTRY"),
-                        cachedRowSet.getString("DATE_OF_BIRTH"),
-                        cachedRowSet.getString("BIO"),
-                        StatusEnum.valueOf(cachedRowSet.getString("STATUS").toUpperCase()),
-                        RegisteredByEnum.valueOf(cachedRowSet.getString("REGISTERED_BY").toUpperCase()));
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (resultSet.next()) {
+                user = new User(resultSet.getString("PHONE"),
+                        resultSet.getString("FIRST_NAME"),
+                        resultSet.getString("LAST_NAME"),
+                        resultSet.getString("PASSWORD"),
+                        resultSet.getString("EMAIL"),
+                        resultSet.getBytes("PIC"),
+                        GenderEnum.valueOf(resultSet.getString("GENDER").toUpperCase()),
+                        resultSet.getString("COUNTRY"),
+                        resultSet.getString("DATE_OF_BIRTH"),
+                        resultSet.getString("BIO"),
+                        StatusEnum.valueOf(resultSet.getString("STATUS").toUpperCase()),
+                        RegisteredByEnum.valueOf(resultSet.getString("REGISTERED_BY").toUpperCase()));
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,42 +120,34 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
         //checks if the added user exists in the database
         String checkUserSql = "SELECT PHONE FROM USERS WHERE PHONE = '" + added.getPhone() + "'";
         try {
-            cachedRowSet.setCommand(checkUserSql);
-            cachedRowSet.execute();
-            if (cachedRowSet.next()) {
+            ResultSet resultSet = statement.executeQuery(checkUserSql);
+            if (resultSet.next()) {
                 //checks if the added user has sent a friend request before
-                String checkSql = "SELECT FRIENDSHIP_STATUS FROM USERS_HAVE_USERS WHERE PHONE_A = '" + added.getPhone()
+                String checkSql = "SELECT ACCEPTANCE_STATUS FROM USERS_HAVE_USERS WHERE PHONE_A = '" + added.getPhone()
                         + "' AND PHONE_B = '" + adder.getPhone() + "'";
-                cachedRowSet.setCommand(checkUserSql);
-                cachedRowSet.execute();
+                ResultSet checkResultSet = statement.executeQuery(checkSql);
                 //checks if that frienship status is pending
-                if (cachedRowSet.next() && cachedRowSet.getString("FRIENDSHIP_STATUS").equals(FriendshipStatusEnum.PENDING.getFriendshipStatus())) {
+                if (checkResultSet.next() && checkResultSet.getString("ACCEPTANCE_STATUS").equalsIgnoreCase(FriendshipStatusEnum.PENDING.getFriendshipStatus())) {
                     //changes this status to accepted and adds a new row for adder
-                    String updateSql = "UPDATE USERS_HAVE_USERS SET FRIENDSHIP_STATUS = '"
+                    String updateSql = "UPDATE USERS_HAVE_USERS SET ACCEPTANCE_STATUS = '"
                             + FriendshipStatusEnum.ACCEPTED.getFriendshipStatus()
                             + "' WHERE PHONE_A = '" + added.getPhone()
                             + "' AND PHONE_B = '" + adder.getPhone() + "'";
-                    cachedRowSet.setCommand(updateSql);
-                    cachedRowSet.execute();
-                    cachedRowSet.acceptChanges(connection);
+                    statement.executeUpdate(updateSql);
 
                     String insertSql = "INSERT INTO USERS_HAVE_USERS VALUES ('" + adder.getPhone()
                             + "', '" + added.getPhone()
                             + "', '" + FriendshipStatusEnum.ACCEPTED.getFriendshipStatus()
                             + "')";
 
-                    cachedRowSet.setCommand(insertSql);
-                    cachedRowSet.execute();
-                    cachedRowSet.acceptChanges(connection);
+                    statement.executeUpdate(insertSql);
                 } else {
                     //adds a new row for this friend request
                     String insertSql = "INSERT INTO USERS_HAVE_USERS VALUES ('" + adder.getPhone()
                             + "', '" + added.getPhone()
                             + "', '" + FriendshipStatusEnum.PENDING.getFriendshipStatus()
                             + "')";
-                    cachedRowSet.setCommand(insertSql);
-                    cachedRowSet.execute();
-                    cachedRowSet.acceptChanges(connection);
+                    statement.executeUpdate(insertSql);
                 }
             } else {
                 userExists = false;
@@ -183,22 +164,21 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
         String sql = "SELECT * FROM USERS WHERE PHONE IN (SELECT PHONE_B FROM USERS_HAVE_USERS WHERE PHONE_A = '"
                 + user.getPhone() + "')";
         try {
-            cachedRowSet.setCommand(sql);
-            cachedRowSet.execute();
+            ResultSet resultSet = statement.executeQuery(sql);
 
-            while (cachedRowSet.next()) {
-                friendList.add(new User(cachedRowSet.getString("PHONE"),
-                        cachedRowSet.getString("FIRST_NAME"),
-                        cachedRowSet.getString("LAST_NAME"),
-                        cachedRowSet.getString("PASSWORD"),
-                        cachedRowSet.getString("EMAIL"),
-                        cachedRowSet.getBlob("PIC"),
-                        GenderEnum.valueOf(cachedRowSet.getString("GENDER").toUpperCase()),
-                        cachedRowSet.getString("COUNTRY"),
-                        cachedRowSet.getString("DATE_OF_BIRTH"),
-                        cachedRowSet.getString("BIO"),
-                        StatusEnum.valueOf(cachedRowSet.getString("STATUS").toUpperCase()),
-                        RegisteredByEnum.valueOf(cachedRowSet.getString("REGISTERED_BY").toUpperCase())));
+            while (resultSet.next()) {
+                friendList.add(new User(resultSet.getString("PHONE"),
+                        resultSet.getString("FIRST_NAME"),
+                        resultSet.getString("LAST_NAME"),
+                        resultSet.getString("PASSWORD"),
+                        resultSet.getString("EMAIL"),
+                        resultSet.getBytes("PIC"),
+                        GenderEnum.valueOf(resultSet.getString("GENDER").toUpperCase()),
+                        resultSet.getString("COUNTRY"),
+                        resultSet.getString("DATE_OF_BIRTH"),
+                        resultSet.getString("BIO"),
+                        StatusEnum.valueOf(resultSet.getString("STATUS").toUpperCase()),
+                        RegisteredByEnum.valueOf(resultSet.getString("REGISTERED_BY").toUpperCase())));
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -210,10 +190,7 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
     public void delete(User user) throws RemoteException {
         String sql = "DELETE FROM USERS WHERE PHONE = '" + user.getPhone() + "'";
         try {
-            cachedRowSet.setCommand(sql);
-            cachedRowSet.execute();
-            cachedRowSet.acceptChanges(connection);
-
+            statement.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -227,9 +204,7 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
                 + "' AND PHONE_B = '" + remover.getPhone()
                 + "')";
         try {
-            cachedRowSet.setCommand(sql);
-            cachedRowSet.execute();
-            cachedRowSet.acceptChanges(connection);
+            statement.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -239,10 +214,10 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
     public Integer getOnlineUsers() throws RemoteException {
         Integer result = null;
         try {
-            cachedRowSet.setCommand("select Count(*) from users where status='ONLINE'");
-            cachedRowSet.execute();
-            if (cachedRowSet.next()) {
-                result = cachedRowSet.getInt(1);
+            String sql = "select Count(*) from users where status='ONLINE'";
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (resultSet.next()) {
+                result = resultSet.getInt(1);
             } else {
                 System.err.println("Error happend!System failed to count online users.");
             }
@@ -258,10 +233,10 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
     public Integer getOfflineUsers() throws RemoteException {
         Integer result = null;
         try {
-            cachedRowSet.setCommand("select Count(*) from users where status='OFFLINE'");
-            cachedRowSet.execute();
-            if (cachedRowSet.next()) {
-                result = cachedRowSet.getInt(1);
+            String sql = "select Count(*) from users where status='OFFLINE'";
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (resultSet.next()) {
+                result = resultSet.getInt(1);
             } else {
                 System.err.println("Error happend!System failed to count offline users.");
             }
@@ -277,10 +252,10 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
     public Map<String, Integer> getGenderStatistics() throws RemoteException {
         Map<String, Integer> genderStatistics = new HashMap<>();
         try {
-            cachedRowSet.setCommand("select Count(phone),gender from users group by gender");
-            cachedRowSet.execute();
-            while (cachedRowSet.next()) {
-                genderStatistics.put(cachedRowSet.getString(2), cachedRowSet.getInt(1));
+            String sql = "select Count(phone),gender from users group by gender";
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                genderStatistics.put(resultSet.getString(2), resultSet.getInt(1));
             }
 
         } catch (SQLException ex) {
@@ -295,10 +270,10 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
 
         Map<String, Integer> countryStatistics = new HashMap<>();
         try {
-            cachedRowSet.setCommand("select Count(phone),country from users group by country");
-            cachedRowSet.execute();
-            while (cachedRowSet.next()) {
-                countryStatistics.put(cachedRowSet.getString(2), cachedRowSet.getInt(1));
+            String sql = "select Count(phone),country from users group by country";
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                countryStatistics.put(resultSet.getString(2), resultSet.getInt(1));
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);

@@ -21,7 +21,7 @@ public class User implements Serializable {
     String lastName;
     String password;
     String email;
-    Blob pic;
+    byte[] pic;
     GenderEnum genderEnum;
     String country;
     String dateOfBirth;
@@ -29,7 +29,7 @@ public class User implements Serializable {
     StatusEnum statusEnum;
     RegisteredByEnum registeredByEnum;
 
-    public User(String phone, String firstName, String lastName, String password, String email, Blob pic, GenderEnum genderEnum, String country, String dateOfBirth, String bio, StatusEnum statusEnum, RegisteredByEnum registeredByEnum) {
+    public User(String phone, String firstName, String lastName, String password, String email, byte[] pic, GenderEnum genderEnum, String country, String dateOfBirth, String bio, StatusEnum statusEnum, RegisteredByEnum registeredByEnum) {
         this.phone = phone;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -84,11 +84,11 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public Blob getPic() {
+    public byte[] getPic() {
         return pic;
     }
 
-    public void setPic(Blob pic) {
+    public void setPic(byte[] pic) {
         this.pic = pic;
     }
 
