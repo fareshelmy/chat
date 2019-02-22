@@ -44,9 +44,8 @@ public class ServerGUI extends Application {
     }
 
     public static void main(String[] args) {
-        // TODO code application logic here
-        userDaoImpl = new DatabaseConnector().getUserDaoImpl();
-        new ServerService(userDaoImpl);
+       
+        new ServerService();
         launch(args);
     }
 

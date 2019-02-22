@@ -4,10 +4,6 @@ import com.chat.common.UserDAO;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.sql.rowset.CachedRowSet;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,11 +16,14 @@ import javax.sql.rowset.CachedRowSet;
  */
 public class ServerService {
 
-    public ServerService(UserDAO userDAOImpl) {
+    public ServerService() {
         Registry registry;
         try {
             registry = LocateRegistry.getRegistry();
-            registry.rebind("DatabaseService", userDAOImpl);
+            UserDAO userDaoImpl = new DatabaseConnector().getUserDaoImpl();
+            registry.rebind("DatabaseService", userDaoImpl);
+            ChatServiceImp chatService = new ChatServiceImp();
+            registry.rebind("ChatService", chatService);
         } catch (RemoteException ex) {
             ex.printStackTrace();
         }

@@ -5,16 +5,11 @@
  */
 package view.control.eventhandlers;
 
-import com.chat.common.UserDAO;
-import com.chat.common.GenderEnum;
-import com.chat.common.StatusEnum;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -107,8 +102,7 @@ public class ServerGUIController implements Initializable {
     private UserDAOImpl userDaoImpl;
 
     public ServerGUIController() {
-        userDaoImpl = new DatabaseConnector().getUserDaoImpl();
-        new ServerService(userDaoImpl);
+        new ServerService(); 
     }
 
     /**
