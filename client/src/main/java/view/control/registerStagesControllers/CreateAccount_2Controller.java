@@ -1,8 +1,6 @@
-package view.control;
+package view.control.registerStagesControllers;
 
-import com.chat.common.GenderEnum;
-import com.chat.common.RegisteredByEnum;
-import com.chat.common.StatusEnum;
+import view.control.registerStagesControllers.AddDetailsController;
 import com.chat.common.User;
 import java.io.IOException;
 import java.net.URL;
@@ -17,10 +15,9 @@ import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
 
-import javafx.scene.layout.FlowPane;
-
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+
+import javafx.scene.layout.FlowPane;
 
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -28,7 +25,7 @@ import javafx.scene.layout.StackPane;
 
 import javafx.scene.layout.BorderPane;
 
-public class CreateAccountController implements Initializable {
+public class CreateAccount_2Controller implements Initializable {
 
     @FXML
     private BorderPane borderPane;
@@ -39,61 +36,60 @@ public class CreateAccountController implements Initializable {
     @FXML
     private FlowPane flowPane;
     @FXML
-    private ComboBox<String> countryKeyCode;
+    private Label infoLabel;
     @FXML
-    private TextField phoneNumber;
+    private TextField firstNameTXF;
+    @FXML
+    private Label requiredLabel;
+    @FXML
+    private TextField lastNameTXF;
     @FXML
     private Button backBTN;
     @FXML
     private Button nextBTN;
-
-    @FXML
-    private Label requiredLabel;
-
     Stage stage;
+    private String firstName;
+    private String lastName;
     private User user;
-    private String phone;
 
-    public CreateAccountController() {
-
-    }
-
-    public CreateAccountController(Stage stage) {
+    CreateAccount_2Controller(Stage stage, User user) {
         this.stage = stage;
-        user = new User(null, null, null, null, null, null, null, null, null, null, null, null);
+        this.user = user;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         nextBTN.setOnAction(event -> {
-            moveToPasswordController();
+            moveToDetailsController();
         });
 
-        phoneNumber.setOnAction((event) -> {
-            moveToPasswordController();
+        firstNameTXF.setOnAction((event) -> {
+            moveToDetailsController();
         });
 
-        countryKeyCode.getItems().removeAll(countryKeyCode.getItems());
-        countryKeyCode.getItems().addAll("+20", "+30", "+15");
-        countryKeyCode.getSelectionModel().select("+30");
+        lastNameTXF.setOnAction((event) -> {
+            moveToDetailsController();
+        });
     }
 
-    private void moveToPasswordController() {
-        if (!phoneNumber.getText().equals("")) {
-            phone = phoneNumber.getText();
-            user.setPhone(phone);
-            CreatePasswordController createPasswordController = new CreatePasswordController(stage, user);
+    private void moveToDetailsController() {
+        if (!firstNameTXF.getText().equals("") && !lastNameTXF.getText().equals("")) {
+            firstName = firstNameTXF.getText();
+            lastName = lastNameTXF.getText();
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+
+            AddDetailsController addDetailsController = new AddDetailsController(stage, user);
             FXMLLoader loader = new FXMLLoader();
-            loader.setController(createPasswordController);
+            loader.setController(addDetailsController);
             Parent root = null;
             try {
-                root = loader.load(getClass().getResource("/fxml/CreatePassword.fxml").openStream());
+                root = loader.load(getClass().getResource("/fxml/registerStagesFXMLs/AddDetails.fxml").openStream());
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            Scene scene = new Scene(root, 400, 600);
+            Scene scene = new Scene(root, 600, 600);
 
             scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
             stage.setScene(scene);
@@ -102,5 +98,4 @@ public class CreateAccountController implements Initializable {
             requiredLabel.setVisible(true);
         }
     }
-
 }

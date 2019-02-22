@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.Image?>
+<?import java.net.URL?>
+<StackPane fx:id="ListContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="frindList" >
+         <children>
+             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" >
+                 <Image url="file:images/default-profile.png">
+                     
+                 </Image>
+             </ImageView>
+            <Label contentDisplay="CENTER" prefHeight="82.0" prefWidth="300.0" text="Find Frinds by searching them using thier phone number" textAlignment="CENTER" textFill="#9e9e9e" textOverrun="CLIP" wrapText="true">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+         <stylesheets>
+      <URL value="@/styles/frindList.css" />
+    </stylesheets>
+      </VBox>
+   </children>
+</StackPane>

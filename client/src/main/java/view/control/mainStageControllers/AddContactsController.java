@@ -1,4 +1,4 @@
-package view.control;
+package view.control.mainStageControllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;

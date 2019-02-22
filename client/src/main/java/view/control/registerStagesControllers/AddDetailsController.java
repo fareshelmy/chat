@@ -1,5 +1,6 @@
-package view.control;
+package view.control.registerStagesControllers;
 
+import com.chat.common.GenderEnum;
 import com.chat.common.RegisteredByEnum;
 import com.chat.common.StatusEnum;
 import com.chat.common.User;
@@ -30,6 +31,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
+import view.control.HomeViewController;
 
 public class AddDetailsController implements Initializable {
 
@@ -81,7 +83,6 @@ public class AddDetailsController implements Initializable {
 
     private void addUser() {
         if (birthdatePocker.getValue() != null) {
-            try {
                 country = countryCBX.getValue();
                 birthDate = birthdatePocker.getValue().toString();
                 System.out.println(birthDate);
@@ -89,18 +90,22 @@ public class AddDetailsController implements Initializable {
                 user.setDateOfBirth(birthDate);
                 user.setStatusEnum(StatusEnum.ONLINE);
                 user.setRegisteredBy(RegisteredByEnum.USER);
+                user.setGenderEnum(GenderEnum.MALE);
                 controller.persistUser(user);
-                ChatWindowFXMLController signInPasswordFXMLController = new ChatWindowFXMLController(stage, controller, user);
+                HomeViewController homeViewController = new HomeViewController(stage, controller, user);
                 FXMLLoader loader = new FXMLLoader();
-                loader.setController(signInPasswordFXMLController);
-                Parent root = loader.load(getClass().getResource("/fxml/ChatWindowFXML.fxml").openStream());
-                Scene scene = new Scene(root, 400, 600);
+                loader.setController(homeViewController);
+                Parent root;
+            try {
+                root = loader.load(getClass().getResource("/fxml/mainStageFXMLs/LogedInView.fxml").openStream());
+                Scene scene = new Scene(root, 600, 600);
                 scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
                 stage.setScene(scene);
                 stage.show();
             } catch (IOException ex) {
                 Logger.getLogger(AddDetailsController.class.getName()).log(Level.SEVERE, null, ex);
             }
+                
         } else {
             infoLabel.setText("Birthday field is required");
             infoLabel.setTextFill(Color.RED);

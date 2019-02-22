@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 public class ServiceLocator {
 
     private static Map<String, Remote> services = new HashMap<>();
-
+    
     public static Remote getService(String serviceName) {
         Remote service = (services.containsKey(serviceName)) ? services.get(serviceName) : null;
         if (service == null) {
@@ -31,12 +31,10 @@ public class ServiceLocator {
                 Registry registry = LocateRegistry.getRegistry("localhost");
                 service = registry.lookup(serviceName);
                 services.put(serviceName, service);
-            } catch (AccessException ex) {
+            } catch (AccessException | NotBoundException ex) {
                 Logger.getLogger(ServiceLocator.class.getName()).log(Level.SEVERE, null, ex);
             } catch (RemoteException ex) {
                 ex.printStackTrace();
-            } catch (NotBoundException ex) {
-                Logger.getLogger(ServiceLocator.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return service;

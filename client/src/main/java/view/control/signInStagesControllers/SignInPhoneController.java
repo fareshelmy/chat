@@ -1,5 +1,6 @@
-package view.control;
+package view.control.signInStagesControllers;
 
+import view.control.registerStagesControllers.CreateAccountController;
 import com.chat.common.User;
 import controller.implementations.Controller;
 import java.io.IOException;
@@ -50,7 +51,7 @@ public class SignInPhoneController implements Initializable {
             loader.setController(createAccountController);
             Parent root = null;
             try {
-                root = loader.load(getClass().getResource("/fxml/CreateAccount.fxml").openStream());
+                root = loader.load(getClass().getResource("/fxml/registerStagesFXMLs/CreateAccount.fxml").openStream());
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -84,7 +85,7 @@ public class SignInPhoneController implements Initializable {
                 SignInPasswordFXMLController signInPasswordFXMLController = new SignInPasswordFXMLController(stage, controller, user);
                 FXMLLoader loader = new FXMLLoader();
                 loader.setController(signInPasswordFXMLController);
-                Parent root = loader.load(getClass().getResource("/fxml/SignInPasswordFXML.fxml").openStream());
+                Parent root = loader.load(getClass().getResource("/fxml/signInStagesFXMLs/SignInPasswordFXML.fxml").openStream());
                 Scene scene = new Scene(root, 400, 600);
                 scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
                 stage.setScene(scene);
@@ -102,14 +103,14 @@ public class SignInPhoneController implements Initializable {
             RememberedAccountsFXMLController rememberedAccountsFXMLController = new RememberedAccountsFXMLController(stage, controller);
             FXMLLoader loader = new FXMLLoader();
             loader.setController(rememberedAccountsFXMLController);
-            Parent root = loader.load(getClass().getResource("/fxml/RememberedAccountsFXML.fxml").openStream());
+            Parent root = loader.load(getClass().getResource("/fxml/signInStagesFXMLs/RememberedAccountsFXML.fxml").openStream());
             Scene scene = new Scene(root, 400, 600);
             scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
             stage.setScene(scene);
             stage.setResizable(false);
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
 

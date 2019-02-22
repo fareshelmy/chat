@@ -1,4 +1,4 @@
-package view.control;
+package view.control.registerStagesControllers;
 
 import com.chat.common.User;
 import java.io.IOException;
@@ -67,7 +67,7 @@ public class CreatePasswordController implements Initializable {
             loader.setController(createAccountController);
             Parent root = null;
             try {
-                root = loader.load(getClass().getResource("/fxml/CreateAccount_2.fxml").openStream());
+                root = loader.load(getClass().getResource("/fxml/registerStagesFXMLs/CreateAccount_2.fxml").openStream());
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

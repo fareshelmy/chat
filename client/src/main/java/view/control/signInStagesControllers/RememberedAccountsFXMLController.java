@@ -1,13 +1,7 @@
-package view.control;
+package view.control.signInStagesControllers;
 
-import com.chat.common.GenderEnum;
-import com.chat.common.RegisteredByEnum;
-import com.chat.common.StatusEnum;
 import com.chat.common.User;
 import controller.implementations.Controller;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -54,7 +48,7 @@ public class RememberedAccountsFXMLController implements Initializable {
 
     }
 
-    RememberedAccountsFXMLController(Stage stage, Controller controller) {
+    public RememberedAccountsFXMLController(Stage stage, Controller controller) {
         this.stage = stage;
         this.controller = controller;
     }
@@ -69,7 +63,7 @@ public class RememberedAccountsFXMLController implements Initializable {
                 SignInPhoneController signInPhoneController = new SignInPhoneController(stage, controller);
                 FXMLLoader loader = new FXMLLoader();
                 loader.setController(signInPhoneController);
-                Parent root = loader.load(getClass().getResource("/fxml/SignInPhone.fxml").openStream());
+                Parent root = loader.load(getClass().getResource("/fxml/signInStagesFXMLs/SignInPhone.fxml").openStream());
                 Scene scene = new Scene(root, 400, 600);
                 scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
                 stage.setScene(scene);
@@ -82,9 +76,10 @@ public class RememberedAccountsFXMLController implements Initializable {
         savedContactHBox.addEventHandler(MouseEvent.MOUSE_CLICKED, (event) -> {
             try {
                 User user = controller.validatePhone("1234");
-                SignInPasswordFXMLController signInPasswordFXMLController = new SignInPasswordFXMLController(stage, controller,user);             FXMLLoader loader = new FXMLLoader();
+                SignInPasswordFXMLController signInPasswordFXMLController = new SignInPasswordFXMLController(stage, controller, user);
+                FXMLLoader loader = new FXMLLoader();
                 loader.setController(signInPasswordFXMLController);
-                Parent root = loader.load(getClass().getResource("/fxml/SignInPasswordFXML.fxml").openStream());
+                Parent root = loader.load(getClass().getResource("/fxml/signInStagesFXMLs/SignInPasswordFXML.fxml").openStream());
                 Scene scene = new Scene(root, 400, 600);
                 scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
                 stage.setScene(scene);

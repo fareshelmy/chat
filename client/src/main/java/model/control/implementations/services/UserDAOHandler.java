@@ -11,6 +11,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.control.implementations.ServiceLocator;
@@ -25,7 +26,7 @@ public class UserDAOHandler {
     UserDAO userDao;
 
     public UserDAOHandler() {
-            userDao = (UserDAO) ServiceLocator.getService("DatabaseService");
+        userDao = (UserDAO) ServiceLocator.getService("DatabaseService");
     }
 
     public void persistUser(User user) {
@@ -43,6 +44,16 @@ public class UserDAOHandler {
             Logger.getLogger(UserDAOHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    public List<User> getUserContacts(User user) {
+        List<User> contacts = null;
+        try {
+            contacts = userDao.retrieveContacts(user);
+        } catch (RemoteException ex) {
+            Logger.getLogger(UserDAOHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return contacts;
     }
 
 }

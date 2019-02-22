@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import view.control.signInStagesControllers.RememberedAccountsFXMLController;
 
 public class Main extends Application {
 
@@ -24,7 +25,7 @@ public class Main extends Application {
             RememberedAccountsFXMLController rememberedAccountsFXMLController = new RememberedAccountsFXMLController(primaryStage, controller);
             FXMLLoader loader = new FXMLLoader();
             loader.setController(rememberedAccountsFXMLController);
-            Parent root = loader.load(getClass().getResource("/fxml/RememberedAccountsFXML.fxml").openStream());
+            Parent root = loader.load(getClass().getResource("/fxml/signInStagesFXMLs/RememberedAccountsFXML.fxml").openStream());
             Scene scene = new Scene(root, 400, 600);
             scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
             primaryStage.setScene(scene);
