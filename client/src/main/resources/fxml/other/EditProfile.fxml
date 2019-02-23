@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<ScrollPane prefHeight="525.0" prefWidth="466.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="642.0" prefWidth="453.0" style="-fx-background-color: #fff;">
+          <children>
+              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="117.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: linear-gradient(#3ec4ff, #207199);" width="464.0" />
+              <ImageView fx:id="profileImgView" fitHeight="109.0" fitWidth="184.0" layoutX="152.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-radius: 50;" />
+            <Circle fx:id="userCircle" fill="WHITE" layoutX="232.0" layoutY="75.0" radius="55.0" stroke="WHITE" strokeType="INSIDE" />
+              <Circle fx:id="statuseCircle" fill="#17c217" layoutX="263.0" layoutY="117.0" radius="9.0" stroke="WHITE" strokeType="INSIDE" />
+              <Text fx:id="nameText" layoutY="164.0" stroke="#0c0d0c" strokeWidth="2.0" text="User Name" textAlignment="CENTER" wrappingWidth="464.0">
+                  <font>
+                      <Font size="26.0" />
+                  </font>
+              </Text>
+              <Text fill="#aaa7a7" layoutX="23.0" layoutY="184.0" stroke="#aaa7a7" text="PROFILE" />
+            <Label layoutX="23.0" layoutY="191.0" text="Phone Number">
+               <graphic>
+                  <ImageView fx:id="phoneImgView" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </Label>
+            <TextField fx:id="phoneTextField" layoutX="230.0" layoutY="188.0" prefHeight="25.0" prefWidth="212.0" />
+            <Label layoutX="23.0" layoutY="228.0" text="First Name">
+               <graphic>
+                  <ImageView fx:id="firstNameImgView" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </Label>
+            <TextField fx:id="firstNameTextField" layoutX="230.0" layoutY="225.0" prefHeight="25.0" prefWidth="212.0" />
+            <Label layoutX="23.0" layoutY="266.0" text="Last Name">
+               <graphic>
+                  <ImageView fx:id="lastNameImgView" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </Label>
+            <TextField fx:id="LastNameTextField" layoutX="230.0" layoutY="263.0" prefHeight="25.0" prefWidth="212.0" />
+            <Label layoutX="23.0" layoutY="302.0" text="Email">
+               <graphic>
+                  <ImageView fx:id="emailImgView" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </Label>
+            <TextField fx:id="emailTextField" layoutX="230.0" layoutY="299.0" prefHeight="25.0" prefWidth="212.0" />
+            <Label layoutX="23.0" layoutY="339.0" text="Country">
+               <graphic>
+                  <ImageView fx:id="countryImgView" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </Label>
+            <TextField fx:id="countryTextField" layoutX="230.0" layoutY="336.0" prefHeight="25.0" prefWidth="212.0" />
+            <Label layoutX="23.0" layoutY="376.0" text="Birthday">
+               <graphic>
+                  <ImageView fx:id="BirthdayImgView" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </Label>
+            <TextField fx:id="BirthdayTextField" layoutX="230.0" layoutY="373.0" prefHeight="25.0" prefWidth="212.0" />
+            <Label layoutX="23.0" layoutY="412.0" text="Gender">
+               <graphic>
+                  <ImageView fx:id="genderImgView" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </Label>
+            <TextField fx:id="genderTextField" layoutX="230.0" layoutY="409.0" prefHeight="25.0" prefWidth="212.0" />
+            <Label layoutX="23.0" layoutY="446.0" text="Password">
+               <graphic>
+                  <ImageView fx:id="passwordImgView" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </Label>
+            <PasswordField fx:id="passwordTextField" layoutX="230.0" layoutY="444.0" prefHeight="25.0" prefWidth="212.0" />
+            <Label layoutX="23.0" layoutY="482.0" text="Bio">
+               <graphic>
+                  <ImageView fx:id="bioImgView" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </Label>
+            <TextArea fx:id="bioTextArea" layoutX="230.0" layoutY="482.0" prefHeight="101.0" prefWidth="213.0" />
+            <Button fx:id="updateButton" layoutX="190.0" layoutY="605.0" mnemonicParsing="false" style="-fx-background-color: #18a4d8; -fx-background-radius: 0;" text="Update" textFill="WHITE" />
+          </children>
+      </AnchorPane>
+   </content>
+</ScrollPane>
