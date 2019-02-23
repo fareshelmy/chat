@@ -61,13 +61,6 @@ public class ChatServiceHandler {
         }
         return null;
     }
-//    public void getAllMyData(User user){
-//        try {
-//            server.getUserDate(user);
-//        } catch (RemoteException ex) {
-//            Logger.getLogger(ChatServiceHandler.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
 
     public void sendMessageToSession(UUID sessionID, Message message) {
         try {

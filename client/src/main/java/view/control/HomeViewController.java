@@ -95,23 +95,16 @@ public class HomeViewController implements Initializable {
 
     }
 
-    public void sendMessageToSession(UUID sessionID, Message message) {
-        controller.sendMessageToSession( sessionID, message);
-    }
-
     public void openSessionRequest(User friend) {
         openSessionResponse(controller.createSession(friend));
+    }
+
+    public void sendMessageToSession(UUID sessionID, Message message) {
+        controller.sendMessageToSession( sessionID, message);
     }
 
     public void displayMessageOnSession(UUID id, Message message) {
         sessions.get(id).displayMessage(message);
     }
 
-    public void sendMessageToGUI(Message message) {
-        throw new UnsupportedOperationException("Not supported broadcast."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void sendListToGUI(List<ClientInterface> onlineFrinds) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

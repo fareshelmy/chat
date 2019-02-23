@@ -28,12 +28,12 @@ public class ClientServiceImp extends UnicastRemoteObject implements ClientInter
 
     @Override
     public void receive(Message message) throws RemoteException {
-        controller.sendMessageToGUI(message);
+//        controller.sendMessageToGUI(message);
     }
 
     @Override
     public void receiveListOfOnlineFrinds(List<ClientInterface> onlineFrinds) throws RemoteException {
-        controller.sendListToGUI(onlineFrinds);
+//        controller.sendListToGUI(onlineFrinds);
     }
 
     @Override

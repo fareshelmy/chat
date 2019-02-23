@@ -48,14 +48,6 @@ public class Controller {
         return userDAOHandler.validatePhone(phone);
     }
 
-    public void sendMessageToGUI(Message message) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void sendListToGUI(List<ClientInterface> onlineFrinds) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public void displayMessageOnSession(UUID id, Message message) {
         homeViewController.displayMessageOnSession(id, message);
     }
