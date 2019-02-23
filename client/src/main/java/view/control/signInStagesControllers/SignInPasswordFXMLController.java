@@ -66,9 +66,10 @@ public class SignInPasswordFXMLController implements Initializable {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setController(homeViewController);
                 Parent root = loader.load(getClass().getResource("/fxml/mainStageFXMLs/LogedInView.fxml").openStream());
-                Scene scene = new Scene(root, 400, 600);
+                Scene scene = new Scene(root, 600, 600);
                 scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
                 stage.setScene(scene);
+                stage.setResizable(true);
                 stage.show();
             } catch (IOException ex) {
                 ex.printStackTrace();

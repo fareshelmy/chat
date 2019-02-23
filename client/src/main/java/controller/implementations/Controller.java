@@ -22,19 +22,19 @@ import view.control.HomeViewController;
  */
 public class Controller {
 
-    private ChatServiceHandler serverService;
+    private ChatServiceHandler chatService;
     private ClientInterface client;
     private HomeViewController homeViewController;
     private UserDAOHandler userDAOHandler;
     private User user;
 
     public Controller() {
-        serverService = new ChatServiceHandler();
+        chatService = new ChatServiceHandler();
         userDAOHandler = new UserDAOHandler();
 
         try {
             client = new ClientServiceImp(this);
-          //  controller = new HomeViewController(user);
+            //  controller = new HomeViewController(user);
         } catch (RemoteException ex) {
             ex.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class Controller {
     }
 
     public void displayMessageOnSession(UUID id, Message message) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        homeViewController.displayMessageOnSession(id, message);
     }
 
     public void openSessionResponse(UUID id) {
@@ -68,12 +68,20 @@ public class Controller {
         return userDAOHandler.getUserContacts(user);
     }
 
-    public void createSession(String phone) {
-        serverService.createSession(client, phone);
+    public UUID createSession(User freind) {
+        return chatService.createSession(client, freind.getPhone());
     }
 
     public void setHomeViewController(HomeViewController homeViewController) {
-        this.homeViewController=homeViewController;
+        this.homeViewController = homeViewController;
+    }
+
+    public void registerUser(User user) {
+        chatService.registerClient(user.getPhone(), client);
+    }
+
+    public void sendMessageToSession(UUID sessionID, Message message) {
+        chatService.sendMessageToSession(sessionID, message);
     }
 
 }
