@@ -15,7 +15,7 @@ import com.chat.common.entities.*;
  *
  * @author rokaya
  */
-public interface ServerInterface extends Remote {
+public interface ChatService extends Remote {
 
     public void broadcast(Message message) throws RemoteException;
 
@@ -23,7 +23,7 @@ public interface ServerInterface extends Remote {
 
     public void unRegistr(String ID,ClientInterface client) throws RemoteException;
 
-    public UUID OpenSession(ClientInterface sender, String ID)throws RemoteException;
+    public UUID openSession(ClientInterface sender, String ID)throws RemoteException;
 
     public void sendMessageToSession(UUID sessionID, Message message)throws RemoteException;
     
