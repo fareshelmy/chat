@@ -1,5 +1,9 @@
 package view.control;
 
+import com.chat.common.GenderEnum;
+import com.chat.common.RegisteredByEnum;
+import com.chat.common.StatusEnum;
+import com.chat.common.User;
 import controller.implementations.Controller;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -23,20 +27,17 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
 
         try {
-            EditProfileController profileController = new EditProfileController();
+            EditProfileController profileController = new EditProfileController(new User("0100", "Yasmin", "Ayman",
+                    "0000", "yyy", new byte[10], GenderEnum.FEMALE, "Egypt", "hello", "hello there", StatusEnum.BUSY, RegisteredByEnum.USER));
             FXMLLoader loader = new FXMLLoader();
             loader.setController(profileController);
-            Parent root = loader.load(getClass().getResource("/fxml/other/EditProfile.fxml").openStream());
+            Parent root = loader.load(getClass().getResource("EditProfile.fxml").openStream());
 
             Scene scene = new Scene(root);
 
             primaryStage.setScene(scene);
             primaryStage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
-//        try {
 //            RememberedAccountsFXMLController rememberedAccountsFXMLController = new RememberedAccountsFXMLController(primaryStage, controller);
 //            FXMLLoader loader = new FXMLLoader();
 //            loader.setController(rememberedAccountsFXMLController);
@@ -46,9 +47,9 @@ public class Main extends Application {
 //            primaryStage.setScene(scene);
 //            primaryStage.setResizable(false);
 //            primaryStage.show();
-//        } catch (IOException ex) {
-//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public static void main(String[] args) {

@@ -23,6 +23,8 @@ import javafx.scene.layout.StackPane;
 import view.control.mainStageControllers.ChatWindowFXMLController;
 import view.control.mainStageControllers.FriendListController;
 import java.util.List;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class HomeViewController implements Initializable {
@@ -39,6 +41,8 @@ public class HomeViewController implements Initializable {
     @FXML
     private StackPane chatArea;
 
+    Button updateBTN = new Button();
+
     /////////////////////////////Controllers/////////////////////
     /////////////////////////////Chiled/////////////////////////
     FriendListController friendListController;
@@ -48,8 +52,10 @@ public class HomeViewController implements Initializable {
     //////////////////////////////////My user///////////////////////////
     User user;
     //////////////////////////////all opened sessions/////////////////////
+    private Stage stage;
 
     public HomeViewController(Stage stage, Controller controller, User user) {
+        this.stage = stage;
         this.controller = controller;
         this.sessions = new HashMap<>();
         this.user = user;
@@ -72,6 +78,21 @@ public class HomeViewController implements Initializable {
             System.err.println("error in loading FriendListFXML.fxml");
             ex.printStackTrace();
         }
+
+        updateBTN.setOnAction((event) -> {
+
+            try {
+                EditProfileController profileController = new EditProfileController(user);
+                FXMLLoader updateloader = new FXMLLoader();
+                updateloader.setController(profileController);
+                Parent root = updateloader.load(getClass().getResource("/fxml/other/EditProfile.fxml").openStream());
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
 
     }
 
@@ -100,7 +121,7 @@ public class HomeViewController implements Initializable {
     }
 
     public void sendMessageToSession(UUID sessionID, Message message) {
-        controller.sendMessageToSession( sessionID, message);
+        controller.sendMessageToSession(sessionID, message);
     }
 
     public void displayMessageOnSession(UUID id, Message message) {

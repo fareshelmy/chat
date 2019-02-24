@@ -9,13 +9,14 @@ import com.chat.common.User;
 import com.chat.common.UserDAO;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.control.implementations.ServiceLocator;
 
 /**
  *
- * @author yasmi
+ * @author yasmin
  */
 public class UserDAOHandler {
 
@@ -51,6 +52,35 @@ public class UserDAOHandler {
             Logger.getLogger(UserDAOHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return contacts;
+    }
+
+    public void update(User user) {
+        try {
+            userDao.update(user);
+        } catch (RemoteException ex) {
+            Logger.getLogger(UserDAOHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public boolean addContact(User adder, User added) {
+        System.out.println("model.control.implementations.services.UserDAOHandler.addContact()");
+        return false;
+    }
+
+    public Integer getOfflineUsers() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Integer getOnlineUsers() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void removeContact(User remover, User removed) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<User> retrieveContacts(User user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

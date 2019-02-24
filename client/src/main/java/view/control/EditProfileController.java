@@ -5,6 +5,11 @@
  */
 package view.control;
 
+import com.chat.common.GenderEnum;
+import com.chat.common.RegisteredByEnum;
+import com.chat.common.StatusEnum;
+import com.chat.common.User;
+import controller.implementations.Controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -64,9 +69,6 @@ public class EditProfileController implements Initializable {
     private ImageView lastNameImgView;
 
     @FXML
-    private TextField phoneTextField2;
-
-    @FXML
     private ImageView emailImgView;
 
     @FXML
@@ -105,6 +107,14 @@ public class EditProfileController implements Initializable {
     @FXML
     private Button updateButton;
 ///fxml/mainStageFXMLs/ChatWindowFXML.fxml
+    private User user;
+
+    private Controller controller;
+
+    EditProfileController(User user) {
+        this.user = user;
+        controller = new Controller();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -129,19 +139,48 @@ public class EditProfileController implements Initializable {
             phoneImgView.setImage(phoneImage);
 
             userCircle.setFill(new ImagePattern(bioImage));
-            bioTextArea.setText("Bio");
-            BirthdayTextField.setText("10/1/1997");
-            countryTextField.setText("kddnmd");
-            emailTextField.setText("kdm");
-            genderTextField.setText(",dl,");
-            firstNameTextField.setText("dmd");
-            lastNameTextField.setText("kmd");
-            passwordTextField.setText("000");
-            phoneTextField.setText("933");
+            bioTextArea.setText(user.getBio());
+            BirthdayTextField.setText(user.getDateOfBirth());
+            countryTextField.setText(user.getCountry());
+            emailTextField.setText(user.getEmail());
+            genderTextField.setText(user.getGenderEnum());
+            firstNameTextField.setText(user.getFirstName());
+            lastNameTextField.setText(user.getLastName());
+            passwordTextField.setText(user.getPassword());
+            phoneTextField.setText(user.getPhone());
+
+            BirthdayTextField.setEditable(false);
+            BirthdayTextField.setMouseTransparent(true);
+            BirthdayTextField.setFocusTraversable(false);
+
+            countryTextField.setEditable(false);
+            countryTextField.setMouseTransparent(true);
+            countryTextField.setFocusTraversable(false);
+
+            genderTextField.setEditable(false);
+            genderTextField.setMouseTransparent(true);
+            genderTextField.setFocusTraversable(false);
+
+            phoneTextField.setEditable(false);
+            phoneTextField.setMouseTransparent(true);
+            phoneTextField.setFocusTraversable(false);
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(EditProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        updateButton.setOnAction((event) -> {
+            user.setBio(bioTextArea.getText());
+            user.setEmail(emailTextField.getText());
+            user.setFirstName(firstNameTextField.getText());
+            user.setLastName(lastNameTextField.getText());
+            user.setPassword(passwordTextField.getText());
+
+            // photo
+            //Image newPicture = bioImgView.getImage();
+            //user.setPic();
+            controller.updateUser(user);
+        });
 
     }
 

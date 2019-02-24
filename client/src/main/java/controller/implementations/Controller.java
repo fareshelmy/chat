@@ -11,6 +11,8 @@ import com.chat.common.entities.Message;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.control.implementations.services.ChatServiceHandler;
 import model.control.implementations.services.ClientServiceImp;
 import model.control.implementations.services.UserDAOHandler;
@@ -76,4 +78,8 @@ public class Controller {
         chatService.sendMessageToSession(sessionID, message);
     }
 
+    public void updateUser(User user) {
+        userDAOHandler.update(user);
+
+    }
 }
