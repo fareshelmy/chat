@@ -9,6 +9,7 @@ import com.chat.common.GenderEnum;
 import com.chat.common.RegisteredByEnum;
 import com.chat.common.StatusEnum;
 import com.chat.common.User;
+import com.chat.utils.FieldValidationUtil;
 import controller.implementations.Controller;
 import java.net.URL;
 import java.time.LocalDate;
@@ -58,7 +59,7 @@ public class MainGUIFXMLController implements Initializable {
     @FXML
     private TabPane tabPane;
     @FXML
-    private Button saveButton, broadcastButton;
+    private Button saveButton, broadcastButton, serviceButton, refreshButton;
     @FXML
     private TextField phoneNumberTextField, firstNameTextField, lastNameTextField, emailTextField;
     @FXML
@@ -69,11 +70,9 @@ public class MainGUIFXMLController implements Initializable {
     private DatePicker birthDatePicker;
 
     private final Controller controller;
-    private final Stage stage;
 
-    MainGUIFXMLController(Stage stage, Controller controller) {
+    MainGUIFXMLController(Controller controller) {
         this.controller = controller;
-        this.stage = stage;
     }
 
     @Override
@@ -88,16 +87,6 @@ public class MainGUIFXMLController implements Initializable {
         genderComboBox.getItems().addAll("Male", "Female");
         genderComboBox.getSelectionModel().select("Male");
 
-        tabPane.getSelectionModel().selectedItemProperty().addListener((observable) -> {
-            if (tabPane.getSelectionModel().getSelectedItem().equals(dashboardTab)) {
-                refreshStatistics();
-            } else if (tabPane.getSelectionModel().getSelectedItem().equals(addUserTab)) {
-
-            } else if (tabPane.getSelectionModel().getSelectedItem().equals(broadcastTab)) {
-
-            }
-        });
-
         saveButton.setOnAction((event) -> {
             saveUser();
         });
@@ -109,6 +98,21 @@ public class MainGUIFXMLController implements Initializable {
         });
         broadcastButton.setOnAction((event) -> {
             broadcastMessage(broadcastTextArea.getText());
+        });
+
+        serviceButton.setOnAction((event) -> {
+            if (serviceButton.getText().equals("Start Service")) {
+                controller.startService();
+                refreshStatistics();
+                serviceButton.setText("Stop Service");
+            } else {
+                controller.stopService();
+                serviceButton.setText("Start Service");
+            }
+        });
+
+        refreshButton.setOnAction((event) -> {
+            refreshStatistics();
         });
     }
 
@@ -142,47 +146,54 @@ public class MainGUIFXMLController implements Initializable {
     private void refreshStatistics() {
         int onlineUsersCount = controller.getOnlineUsersCount();
         int offlineUsersCount = controller.getOfflineUsersCount();
-        createPieChart("Online Users", onlineUsersCount, "Offline Users", offlineUsersCount, statusPieChart, "#c3c3c3", "#2f4f4f", onlineUsersCount + offlineUsersCount);
+        if (onlineUsersCount > 0 || offlineUsersCount > 0) {
+            createPieChart("Online Users", onlineUsersCount, "Offline Users", offlineUsersCount, statusPieChart, "#c3c3c3", "#2f4f4f", onlineUsersCount + offlineUsersCount);
+        }
+
         Map<String, Integer> genderStatistics = controller.getGenderStatistics();
-        Integer maleCount = genderStatistics.get(GenderEnum.MALE.getGender(GenderEnum.MALE));
-        Integer femaleCount = genderStatistics.get(GenderEnum.FEMALE.getGender(GenderEnum.FEMALE));
-        createPieChart("Male Users", maleCount, "Female Users", femaleCount, genderPieChart, "#2f4f4f", "#800000", maleCount + femaleCount);
+        if (genderStatistics != null) {
+            Integer maleCount = genderStatistics.get(GenderEnum.MALE.getGender(GenderEnum.MALE));
+            Integer femaleCount = genderStatistics.get(GenderEnum.FEMALE.getGender(GenderEnum.FEMALE));
+            createPieChart("Male Users", maleCount, "Female Users", femaleCount, genderPieChart, "#2f4f4f", "#800000", maleCount + femaleCount);
+        }
         worldImageView.setImage(new Image(getClass().getResource("/images/world.png").toString()));
 
         Map<String, Integer> countryStatistics = controller.getCountryStatistics();
-        Integer egyptCount = countryStatistics.get("Egypt");
-        egyptNumberLabel.setText(egyptCount == null ? String.valueOf(0) : egyptCount.toString());
-        ImageView egyptImageView = new ImageView(new Image(getClass().getResource("/images/egypt.png").toString()));
-        egyptImageView.setFitWidth(13);
-        egyptImageView.setFitHeight(10);
-        egyptLabel.setGraphic(egyptImageView);
+        if (countryStatistics != null) {
+            Integer egyptCount = countryStatistics.get("Egypt");
+            egyptNumberLabel.setText(egyptCount == null ? String.valueOf(0) : egyptCount.toString());
+            ImageView egyptImageView = new ImageView(new Image(getClass().getResource("/images/egypt.png").toString()));
+            egyptImageView.setFitWidth(13);
+            egyptImageView.setFitHeight(10);
+            egyptLabel.setGraphic(egyptImageView);
 
-        Integer KSACount = countryStatistics.get("KSA");
-        KSANumberLabel.setText(KSACount == null ? String.valueOf(0) : KSACount.toString());
+            Integer KSACount = countryStatistics.get("KSA");
+            KSANumberLabel.setText(KSACount == null ? String.valueOf(0) : KSACount.toString());
 
-        ImageView KSAImageView = new ImageView(new Image(getClass().getResource("/images/ksa.png").toString()));
-        KSAImageView.setFitWidth(13);
-        KSAImageView.setFitHeight(10);
-        KSALabel.setGraphic(KSAImageView);
+            ImageView KSAImageView = new ImageView(new Image(getClass().getResource("/images/ksa.png").toString()));
+            KSAImageView.setFitWidth(13);
+            KSAImageView.setFitHeight(10);
+            KSALabel.setGraphic(KSAImageView);
 
-        Integer UAECount = countryStatistics.get("UAE");
-        UAENumberLabel.setText(UAECount == null ? String.valueOf(0) : UAECount.toString());
+            Integer UAECount = countryStatistics.get("UAE");
+            UAENumberLabel.setText(UAECount == null ? String.valueOf(0) : UAECount.toString());
 
-        ImageView UAEImageView = new ImageView(new Image(getClass().getResource("/images/uae.jpg").toString()));
-        UAEImageView.setFitWidth(13);
-        UAEImageView.setFitHeight(10);
-        UAELabel.setGraphic(UAEImageView);
+            ImageView UAEImageView = new ImageView(new Image(getClass().getResource("/images/uae.jpg").toString()));
+            UAEImageView.setFitWidth(13);
+            UAEImageView.setFitHeight(10);
+            UAELabel.setGraphic(UAEImageView);
 
-        Integer USACount = countryStatistics.get("USA");
-        USANumberLabel.setText(USACount == null ? String.valueOf(0) : USACount.toString());
+            Integer USACount = countryStatistics.get("USA");
+            USANumberLabel.setText(USACount == null ? String.valueOf(0) : USACount.toString());
 
-        ImageView USAImageView = new ImageView(new Image(getClass().getResource("/images/usa.png").toString()));
-        USAImageView.setFitWidth(13);
-        USAImageView.setFitHeight(10);
-        USALabel.setGraphic(USAImageView);
+            ImageView USAImageView = new ImageView(new Image(getClass().getResource("/images/usa.png").toString()));
+            USAImageView.setFitWidth(13);
+            USAImageView.setFitHeight(10);
+            USALabel.setGraphic(USAImageView);
 
-        Integer otherCountriesCount = countryStatistics.get("Other");
-        otherNumberLabel.setText(otherCountriesCount == null ? String.valueOf(0) : otherCountriesCount.toString());
+            Integer otherCountriesCount = countryStatistics.get("Other");
+            otherNumberLabel.setText(otherCountriesCount == null ? String.valueOf(0) : otherCountriesCount.toString());
+        }
     }
 
     private void saveUser() {
@@ -193,7 +204,7 @@ public class MainGUIFXMLController implements Initializable {
         String country = countryComboBox.getValue();
         String gender = genderComboBox.getValue();
         LocalDate birthDate = birthDatePicker.getValue();
-        if (phoneNumber != null && firstName != null && lastName != null && email != null && birthDate != null) {
+        if (FieldValidationUtil.validatePhone(phoneNumber) && firstName != null && lastName != null && FieldValidationUtil.validateEmail(email) && birthDate != null) {
             if (controller.validateUser(phoneNumber) == null) {
                 User user = new User();
                 user.setPhone(phoneNumber);
@@ -214,6 +225,7 @@ public class MainGUIFXMLController implements Initializable {
             }
         } else {
             errorLabel.setVisible(true);
+            errorLabel.setText("Data missing or invalid");
         }
     }
 
@@ -229,6 +241,7 @@ public class MainGUIFXMLController implements Initializable {
         firstNameTextField.clear();
         lastNameTextField.clear();
         emailTextField.clear();
+        errorLabel.setVisible(false);
     }
 
 }

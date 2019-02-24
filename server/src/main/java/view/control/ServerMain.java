@@ -43,14 +43,7 @@ public class ServerMain extends Application {
      * @param args the command line arguments
      */
     public ServerMain() {
-        try {
-            UserDAOImpl userDaoImpl = new DatabaseConnector().getUserDaoImpl();
-            ChatService chatServiceImpl = new ChatServiceImpl();
-            controller = new Controller(userDaoImpl, chatServiceImpl);
-            new ServerService(userDaoImpl, chatServiceImpl);
-        } catch (RemoteException ex) {
-            Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        controller = new Controller();
     }
 
     public static void main(String[] args) {
@@ -61,7 +54,7 @@ public class ServerMain extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        MainGUIFXMLController mainGUIFXMLController = new MainGUIFXMLController(stage, controller);
+        MainGUIFXMLController mainGUIFXMLController = new MainGUIFXMLController(controller);
         FXMLLoader loader = new FXMLLoader();
         loader.setController(mainGUIFXMLController);
         Parent serverGUI = loader.load(getClass().getResource("/fxml/MainGUIFXML.fxml").openStream());
