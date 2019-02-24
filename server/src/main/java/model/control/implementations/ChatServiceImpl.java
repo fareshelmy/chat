@@ -1,9 +1,9 @@
 package model.control.implementations;
 
 
+import com.chat.common.ChatService;
 import com.chat.common.ChatSession;
 import com.chat.common.ClientInterface;
-import com.chat.common.ServerInterface;
 import com.chat.common.entities.Message;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -13,12 +13,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class ChatServiceImp extends UnicastRemoteObject implements ServerInterface {
+public class ChatServiceImpl extends UnicastRemoteObject implements ChatService {
 
     Map<String, ClientInterface> allClients;
     Map<UUID, ChatSession> sessionList;
 
-    public ChatServiceImp() throws RemoteException {
+    public ChatServiceImpl() throws RemoteException {
         allClients = new HashMap<>();
         sessionList = new HashMap<>();
     }
@@ -32,7 +32,7 @@ public class ChatServiceImp extends UnicastRemoteObject implements ServerInterfa
     }
 
     @Override
-    public void registr(String ID, ClientInterface client) throws RemoteException {
+    public void register(String ID, ClientInterface client) throws RemoteException {
         allClients.put(ID, client);
         //////////////////////////////Temprory return all online clients //////////////////////////
 //        client.receiveListOfOnlineFrinds(allClients);
@@ -40,13 +40,13 @@ public class ChatServiceImp extends UnicastRemoteObject implements ServerInterfa
     }
 
     @Override
-    public void unRegistr(String ID,ClientInterface client) throws RemoteException {
+    public void unregister(String ID,ClientInterface client) throws RemoteException {
         allClients.remove(ID,client);
         System.out.println(allClients.size());
     }
 
     @Override
-    public UUID OpenSession(ClientInterface sender, String ID) throws RemoteException {
+    public UUID openSession(ClientInterface sender, String ID) throws RemoteException {
         UUID sessionID = UUID.randomUUID();
 //        System.out.println(sessionID.toString());
         Set<ClientInterface> set = new HashSet<>();

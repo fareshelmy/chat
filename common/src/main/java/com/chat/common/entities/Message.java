@@ -12,13 +12,17 @@ import java.io.Serializable;
  *
  * @author rokaya
  */
-public class Message implements Serializable{
+public class Message implements Serializable {
 
     User user;
     String message;
 
     public Message(User user, String message) {
         this.user = user;
+        this.message = message;
+    }
+
+    public Message(String message) {
         this.message = message;
     }
 

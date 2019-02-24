@@ -1,11 +1,17 @@
 package view.control;
 
+import JAXB.ChatSessionType;
+import JAXB.MessageType;
+import JAXB.ObjectFactory;
 import com.chat.common.ClientInterface;
 import com.chat.common.User;
 import com.chat.common.entities.Message;
 import controller.implementations.Controller;
+import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -26,6 +32,14 @@ import java.util.List;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 public class HomeViewController implements Initializable {
 
@@ -53,6 +67,7 @@ public class HomeViewController implements Initializable {
     User user;
     //////////////////////////////all opened sessions/////////////////////
     private Stage stage;
+    List<MessageType> messagesList;
 
     public HomeViewController(Stage stage, Controller controller, User user) {
         this.stage = stage;
@@ -61,11 +76,38 @@ public class HomeViewController implements Initializable {
         this.user = user;
         controller.setHomeViewController(this);
         controller.registerUser(user);
+        messagesList = new ArrayList<>();
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Add friend List to Contacts List
+
+        /////////////////////code regarding XMLAPI//////////////////////////////
+//        MessageType message = new MessageType();
+//        message.setSender("Fares");
+//        message.setBackgroundcolor("red");
+//        message.setBody("Haiii");
+//        DatatypeFactory datatypeFactory = null;
+//        try {
+//            datatypeFactory = DatatypeFactory.newInstance();
+//        } catch (DatatypeConfigurationException ex) {
+//            Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        XMLGregorianCalendar date = datatypeFactory.newXMLGregorianCalendar(2019, 02, 12, 13, 34,
+//                DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED);
+//        message.setDate(date);
+//        message.setBold(true);
+//        message.setItalic(false);
+//        message.setUnderline(true);
+//        message.setFontcolor("black");
+//        message.setFontstyle("serif");
+//        message.setTimestamp(date);
+//        message.setFontsize(BigInteger.valueOf(13));
+//        messagesList.add(message);
+//        saveChatSession(messagesList);
+        /////////////////////code regarding XMLAPI//////////////////////////////
 
         friendListController = new FriendListController(controller.getFriendList(user), this);
         FXMLLoader loader = new FXMLLoader();
@@ -128,4 +170,21 @@ public class HomeViewController implements Initializable {
         sessions.get(id).displayMessage(message);
     }
 
+    private void saveChatSession(List<MessageType> messagesList) {
+        try {
+            JAXBContext context = JAXBContext.newInstance("model.control.implementations.JAXB");
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            ObjectFactory objectFactory = new ObjectFactory();
+            ChatSessionType chatSession = objectFactory.createChatSessionType();
+
+            for (MessageType message : messagesList) {
+                chatSession.getMessage().add(message);
+            }
+            JAXBElement<ChatSessionType> JAXBElement = objectFactory.createChatSession(chatSession);
+            marshaller.marshal(JAXBElement, new File("/src/main/resources/output.xml"));
+        } catch (JAXBException ex) {
+            Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

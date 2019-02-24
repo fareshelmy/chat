@@ -24,9 +24,9 @@ public interface UserDAO extends Remote {
 
     Map<String, Integer> getGenderStatistics() throws RemoteException;
 
-    Integer getOfflineUsers() throws RemoteException;
+    int getOfflineUsers() throws RemoteException;
 
-    Integer getOnlineUsers() throws RemoteException;
+    int getOnlineUsers() throws RemoteException;
 
     void persist(User user) throws RemoteException;
 

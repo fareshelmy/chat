@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chatSession xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="message.xsd">
+    <message>
+        <sender>Fares</sender>
+        <date>2019-02-20</date>
+        <timestamp>13:59:00</timestamp>
+        <body>hi</body>
+        <fontstyle>console</fontstyle>                
+        <fontcolor>black</fontcolor>
+        <fontsize>13</fontsize>
+        <bold>true</bold>
+        <italic>true</italic>
+        <underline>false</underline>
+        <backgroundcolor>grey</backgroundcolor>
+    </message>
+</chatSession>

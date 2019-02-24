@@ -33,6 +33,7 @@ import javax.sql.rowset.CachedRowSet;
 public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
 
     Statement statement;
+    private byte[] imageBytes;
 
     public UserDAOImpl(Connection connection) throws RemoteException {
         try {
@@ -41,7 +42,7 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
                     ResultSet.CLOSE_CURSORS_AT_COMMIT);
         } catch (SQLException ex) {
             Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
     }
 
     @Override
@@ -211,10 +212,10 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
     }
 
     @Override
-    public Integer getOnlineUsers() throws RemoteException {
+    public int getOnlineUsers() throws RemoteException {
         Integer result = null;
         try {
-            String sql = "select Count(*) from users where status='ONLINE'";
+            String sql = "select Count(*) from users where status='" + StatusEnum.ONLINE.getStatus(StatusEnum.ONLINE) + "'";
             ResultSet resultSet = statement.executeQuery(sql);
             if (resultSet.next()) {
                 result = resultSet.getInt(1);
@@ -230,10 +231,10 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
     }
 
     @Override
-    public Integer getOfflineUsers() throws RemoteException {
+    public int getOfflineUsers() throws RemoteException {
         Integer result = null;
         try {
-            String sql = "select Count(*) from users where status='OFFLINE'";
+            String sql = "select Count(*) from users where status='" + StatusEnum.OFFLINE.getStatus(StatusEnum.OFFLINE) + "'";
             ResultSet resultSet = statement.executeQuery(sql);
             if (resultSet.next()) {
                 result = resultSet.getInt(1);

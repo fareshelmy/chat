@@ -5,7 +5,6 @@
  */
 package model.control.implementations.services;
 
-
 import com.chat.common.ClientInterface;
 import com.chat.common.entities.Message;
 import controller.implementations.Controller;
@@ -29,6 +28,7 @@ public class ClientServiceImp extends UnicastRemoteObject implements ClientInter
     @Override
     public void receive(Message message) throws RemoteException {
 //        controller.sendMessageToGUI(message);
+        System.out.println(message.getMessage());
     }
 
     @Override

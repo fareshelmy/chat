@@ -1,3 +1,25 @@
+.chart-pie-label {
+    -fx-fill: #b9b9b9;
+    -fx-font-size: 1em;
+} 
+
+.chart-legend {
+    -fx-background-color:  #b9b9b9;
+    -fx-stroke: #b9b9b9;
+}
+
+.chart-pie-label-line {
+    -fx-stroke: #b9b9b9;
+    -fx-fill: #b9b9b9;
+}
+
+.chart-title {
+    -fx-stroke: #b9b9b9;
+    -fx-fill: #b9b9b9;
+    -fx-font-family: "Aeial";
+}
+
+
 .tab-pane .tab-header-area .tab-header-background {
     -fx-opacity: 0;
 }
@@ -30,7 +52,7 @@
 
 .tab:selected .tab-label { 
     -fx-alignment: CENTER;
-    -fx-text-fill: #96b946;
+    -fx-text-fill: #b9b9b9;
 }
 
 .tab-pane:top *.tab-header-area {

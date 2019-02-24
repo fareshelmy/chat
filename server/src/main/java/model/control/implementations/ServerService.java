@@ -1,5 +1,6 @@
 package model.control.implementations;
 
+import com.chat.common.ChatService;
 import com.chat.common.UserDAO;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -16,14 +17,12 @@ import java.rmi.registry.Registry;
  */
 public class ServerService {
 
-    public ServerService() {
+    public ServerService(UserDAO userDaoImpl, ChatService chatServiceImpl) {
         Registry registry;
         try {
             registry = LocateRegistry.getRegistry();
-            UserDAO userDaoImpl = new DatabaseConnector().getUserDaoImpl();
             registry.rebind("DatabaseService", userDaoImpl);
-            ChatServiceImp chatService = new ChatServiceImp();
-            registry.rebind("ChatService", chatService);
+            registry.rebind("ChatService", chatServiceImpl);
         } catch (RemoteException ex) {
             ex.printStackTrace();
         }

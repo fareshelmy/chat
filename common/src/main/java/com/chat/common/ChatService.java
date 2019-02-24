@@ -19,9 +19,9 @@ public interface ChatService extends Remote {
 
     public void broadcast(Message message) throws RemoteException;
 
-    public void registr(String ID,ClientInterface client) throws RemoteException;
+    public void register(String ID,ClientInterface client) throws RemoteException;
 
-    public void unRegistr(String ID,ClientInterface client) throws RemoteException;
+    public void unregister(String ID,ClientInterface client) throws RemoteException;
 
     public UUID openSession(ClientInterface sender, String ID)throws RemoteException;
 

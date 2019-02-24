@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="chatSession" type="chatSessionType"/>
+    <xs:complexType name="chatSessionType">
+        <xs:sequence>
+            <xs:element name="message" type="messageType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+	
+    <xs:complexType name="messageType">
+        <xs:sequence>
+            <xs:element name="sender" type="xs:string"/>
+            <xs:element name="date" type="xs:date"/>
+            <xs:element name="timestamp" type="xs:time"/>
+            <xs:element name="body" type="xs:string"/>
+            <xs:element name="fontstyle" type="xs:string"/>
+            <xs:element name="fontcolor" type="xs:string"/>
+            <xs:element name="fontsize" type="xs:positiveInteger"/>
+            <xs:element name="bold" type="xs:boolean"/>
+            <xs:element name="italic" type="xs:boolean"/>
+            <xs:element name="underline" type="xs:boolean"/>
+            <xs:element name="backgroundcolor" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

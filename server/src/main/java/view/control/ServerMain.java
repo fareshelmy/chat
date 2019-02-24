@@ -1,9 +1,11 @@
 package view.control;
 
+import com.chat.common.ChatService;
 import com.chat.common.GenderEnum;
 import com.chat.common.RegisteredByEnum;
 import com.chat.common.StatusEnum;
 import com.chat.common.User;
+import controller.implementations.Controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.rmi.RemoteException;
@@ -19,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import model.control.implementations.ChatServiceImpl;
 import model.control.implementations.DatabaseConnector;
 import model.control.implementations.ServerService;
 import model.control.implementations.UserDAOImpl;
@@ -32,28 +35,36 @@ import model.control.implementations.UserDAOImpl;
  *
  * @author M
  */
-public class ServerGUI extends Application {
+public class ServerMain extends Application {
 
-    private static UserDAOImpl userDaoImpl;
+    private Controller controller;
 
     /**
      * @param args the command line arguments
      */
-    public ServerGUI() {
-
+    public ServerMain() {
+        try {
+            UserDAOImpl userDaoImpl = new DatabaseConnector().getUserDaoImpl();
+            ChatService chatServiceImpl = new ChatServiceImpl();
+            controller = new Controller(userDaoImpl, chatServiceImpl);
+            new ServerService(userDaoImpl, chatServiceImpl);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public static void main(String[] args) {
-       
-        new ServerService();
+
+        new ServerMain();
         launch(args);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
+        MainGUIFXMLController mainGUIFXMLController = new MainGUIFXMLController(stage, controller);
         FXMLLoader loader = new FXMLLoader();
+        loader.setController(mainGUIFXMLController);
         Parent serverGUI = loader.load(getClass().getResource("/fxml/MainGUIFXML.fxml").openStream());
-        MainGUIFXMLController controller = loader.getController();
         Scene scene = new Scene(serverGUI);
         scene.getStylesheets().add(getClass().getResource("/styles/Styles.css").toExternalForm());
         stage.setScene(scene);

@@ -31,7 +31,7 @@ public class ChatServiceHandler {
     public void registerClient(String ID, ClientInterface client) {
         try {
             System.out.println("register; "+ID);
-            server.registr(ID, client);
+            server.register(ID, client);
         } catch (RemoteException ex) {
             ex.printStackTrace();
         }
@@ -39,7 +39,7 @@ public class ChatServiceHandler {
 
     public void unregisterClient(String ID, ClientInterface client) {
         try {
-            server.unRegistr(ID, client);
+            server.unregister(ID, client);
         } catch (RemoteException ex) {
             ex.printStackTrace();
         }

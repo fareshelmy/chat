@@ -14,12 +14,11 @@ import java.io.Serializable;
 public enum GenderEnum implements Serializable {
     MALE("male"),
     FEMALE("female");
+    String gender;
 
     private GenderEnum(String gender) {
         this.gender = gender;
     }
-
-    String gender;
 
     public String getGender(GenderEnum genderEnum) {
         return genderEnum.gender;

@@ -5,6 +5,9 @@
  */
 package com.chat.common;
 
+import com.chat.common.GenderEnum;
+import com.chat.common.RegisteredByEnum;
+import com.chat.common.StatusEnum;
 import java.awt.Image;
 import java.io.Serializable;
 import java.sql.Blob;
@@ -42,6 +45,9 @@ public class User implements Serializable {
         this.bio = bio;
         this.statusEnum = statusEnum;
         this.registeredByEnum = registeredByEnum;
+    }
+
+    public User() {
     }
 
     public String getPhone() {
