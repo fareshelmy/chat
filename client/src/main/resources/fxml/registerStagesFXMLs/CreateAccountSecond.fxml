@@ -12,70 +12,70 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #18a4d8;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
-	<top>
-		<Rectangle fx:id="rectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" stroke="#18a4d8" strokeType="INSIDE" style="-fx-fill: #18a4d8;" width="400.0" BorderPane.alignment="CENTER" />
-	</top>
-	<center>
-		<StackPane fx:id="stackPane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-			<children>
-				<Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="560.0" stroke="#18a4d8" strokeType="INSIDE" style="-fx-fill: linear-gradient(#3ec4ff, #207199);" width="400.0" />
-				<FlowPane fx:id="flowPane" maxHeight="330.0" maxWidth="300.0" minHeight="200.0" minWidth="200.0" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #fff;">
-					<children>
-						<Label prefHeight="28.0" prefWidth="250.0" text="Create account" wrapText="true">
-							<FlowPane.margin>
-								<Insets left="30.0" top="40.0" />
-							</FlowPane.margin>
-							<font>
-								<Font name="System Bold" size="19.0" />
-							</font>
-						</Label>
-						<Label fx:id="infoLabel" layoutX="41.0" layoutY="78.0" prefHeight="46.0" prefWidth="293.0" text="We need a little more info before you can use this app." wrapText="true">
-							<font>
-								<Font size="13.0" />
-							</font>
-							<FlowPane.margin>
-								<Insets />
-							</FlowPane.margin>
-							<padding>
-								<Insets left="30.0" />
-							</padding>
-						</Label>
-						<TextField fx:id="firstNameTXF" focusTraversable="false" layoutX="40.0" layoutY="140.0" prefHeight="31.0" prefWidth="240.0" promptText="First name" style="-fx-border-style: hidden hidden solid hidden; -fx-border-color: #787878; -fx-background-color: #fff;">
-							<opaqueInsets>
-								<Insets />
-							</opaqueInsets>
-							<FlowPane.margin>
-								<Insets left="30.0" top="10.0" />
-							</FlowPane.margin>
-						</TextField>
-						<TextField fx:id="lastNameTXF" focusTraversable="false" prefHeight="31.0" prefWidth="240.0" promptText="Last name" style="-fx-border-style: hidden hidden solid hidden; -fx-border-color: #787878; -fx-background-color: #fff;">
-							<FlowPane.margin>
-								<Insets left="30.0" top="10.0" />
-							</FlowPane.margin>
-							<opaqueInsets>
-								<Insets />
-							</opaqueInsets>
-						</TextField>
-						<Label fx:id="requiredLabel" prefHeight="31.0" prefWidth="261.0" text="Both fields are required." textFill="#e82311" visible="false" wrapText="true">
-							<font>
-								<Font size="13.0" />
-							</font>
-							<FlowPane.margin>
-								<Insets left="31.0" top="20.0" />
-							</FlowPane.margin>
-						</Label>
-						<ButtonBar maxHeight="20.0" prefHeight="40.0" prefWidth="270.0">
-							<buttons>
-								<Button fx:id="backBTN" graphicTextGap="0.0" mnemonicParsing="false" style="-fx-background-color: #D3D3D3; -fx-background-radius: 0;" text="Back" />
-								<Button fx:id="nextBTN" mnemonicParsing="false" style="-fx-background-color: #18a4d8; -fx-background-radius: 0;" text="Next" textFill="WHITE" />
-							</buttons>
-							<FlowPane.margin>
-								<Insets top="10.0" />
-							</FlowPane.margin>
-						</ButtonBar>
-					</children>
-				</FlowPane>
-			</children>
-		</StackPane>
-	</center>
+    <top>
+        <Rectangle fx:id="rectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" stroke="#18a4d8" strokeType="INSIDE" style="-fx-fill: #18a4d8;" width="400.0" BorderPane.alignment="CENTER" />
+    </top>
+    <center>
+        <StackPane fx:id="stackPane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="560.0" stroke="#18a4d8" strokeType="INSIDE" style="-fx-fill: linear-gradient(#3ec4ff, #207199);" width="400.0" />
+                <FlowPane fx:id="flowPane" maxHeight="330.0" maxWidth="300.0" minHeight="200.0" minWidth="200.0" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #fff;">
+                    <children>
+                        <Label prefHeight="28.0" prefWidth="250.0" text="Create account" wrapText="true">
+                            <FlowPane.margin>
+                                <Insets left="30.0" top="40.0" />
+                            </FlowPane.margin>
+                            <font>
+                                <Font name="System Bold" size="19.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="infoLabel" layoutX="41.0" layoutY="78.0" prefHeight="46.0" prefWidth="293.0" text="We need a little more info before you can use this app." wrapText="true">
+                            <font>
+                                <Font size="13.0" />
+                            </font>
+                            <FlowPane.margin>
+                                <Insets />
+                            </FlowPane.margin>
+                            <padding>
+                                <Insets left="30.0" />
+                            </padding>
+                        </Label>
+                        <TextField fx:id="firstNameTXF" focusTraversable="false" layoutX="40.0" layoutY="140.0" prefHeight="31.0" prefWidth="240.0" promptText="First name" style="-fx-border-style: hidden hidden solid hidden; -fx-border-color: #787878; -fx-background-color: #fff;">
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                            <FlowPane.margin>
+                                <Insets left="30.0" top="10.0" />
+                            </FlowPane.margin>
+                        </TextField>
+                        <TextField fx:id="lastNameTXF" focusTraversable="false" prefHeight="31.0" prefWidth="240.0" promptText="Last name" style="-fx-border-style: hidden hidden solid hidden; -fx-border-color: #787878; -fx-background-color: #fff;">
+                            <FlowPane.margin>
+                                <Insets left="30.0" top="10.0" />
+                            </FlowPane.margin>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                        </TextField>
+                        <Label fx:id="requiredLabel" prefHeight="31.0" prefWidth="261.0" text="Both fields are required." textFill="#e82311" visible="false" wrapText="true">
+                            <font>
+                                <Font size="13.0" />
+                            </font>
+                            <FlowPane.margin>
+                                <Insets left="31.0" top="20.0" />
+                            </FlowPane.margin>
+                        </Label>
+                        <ButtonBar maxHeight="20.0" prefHeight="40.0" prefWidth="270.0">
+                            <buttons>
+                                <Button fx:id="backBTN" graphicTextGap="0.0" mnemonicParsing="false" style="-fx-background-color: #D3D3D3; -fx-background-radius: 0;" text="Back" />
+                                <Button fx:id="nextBTN" mnemonicParsing="false" style="-fx-background-color: #18a4d8; -fx-background-radius: 0;" text="Next" textFill="WHITE" />
+                            </buttons>
+                            <FlowPane.margin>
+                                <Insets top="10.0" />
+                            </FlowPane.margin>
+                        </ButtonBar>
+                    </children>
+                </FlowPane>
+            </children>
+        </StackPane>
+    </center>
 </BorderPane>

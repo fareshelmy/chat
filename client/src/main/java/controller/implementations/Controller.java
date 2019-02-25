@@ -118,4 +118,10 @@ public class Controller {
         String response = chatService.sendMessageToBot(reguest);
         return response;
     }
+
+    public boolean addContact(User adder, User add) {
+        boolean userFound = userDAOHandler.addContact(adder, add);
+
+        return userFound;
+    }
 }

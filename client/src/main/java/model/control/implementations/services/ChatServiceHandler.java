@@ -31,7 +31,6 @@ public class ChatServiceHandler {
 
     public void registerClient(String ID, ClientInterface client) {
         try {
-            System.out.println("register; " + ID);
             server.register(ID, client);
         } catch (RemoteException ex) {
             ex.printStackTrace();

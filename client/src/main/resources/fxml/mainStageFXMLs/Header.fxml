@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<fx:root prefHeight="134.0" prefWidth="701.0" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fx:id="userImage" fitHeight="94.0" fitWidth="111.0" layoutX="24.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="20.0" />
+      <Label fx:id="userName" layoutX="180.0" layoutY="46.0" text="Label" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="46.0" />
+      <ToggleButton fx:id="chatBotButton" layoutX="142.0" layoutY="77.0" mnemonicParsing="false" text="ToggleButton" AnchorPane.leftAnchor="142.0" AnchorPane.topAnchor="77.0" />
+      <MenuBar fx:id="optionsMenuBar" layoutX="130.0" layoutY="87.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+        <menus>
+          <Menu fx:id="optionsMenu" mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem fx:id="editSelection" mnemonicParsing="false" text="Edit profile" />
+                  <MenuItem fx:id="groupChatSelection" mnemonicParsing="false" text="Create group chat" />
+                  <MenuItem fx:id="AddFrindSelection" mnemonicParsing="false" text="Add frind(s)" />
+                  <MenuItem fx:id="signOutSelection" mnemonicParsing="false" text="Sign out" />
+                  <MenuItem fx:id="closeSelection" mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</fx:root>

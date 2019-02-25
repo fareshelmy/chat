@@ -26,51 +26,51 @@
             xmlns:fx="http://javafx.com/fxml/1">
     <top>
         <Rectangle fx:id="rectangle" arcHeight="5.0" arcWidth="5.0"
-                           fill="DODGERBLUE" height="40.0" stroke="#18a4d8" strokeType="INSIDE"
-                           style="-fx-fill: #18a4d8;" width="400.0"
-                           BorderPane.alignment="CENTER" />
+                   fill="DODGERBLUE" height="40.0" stroke="#18a4d8" strokeType="INSIDE"
+                   style="-fx-fill: #18a4d8;" width="400.0"
+                   BorderPane.alignment="CENTER" />
     </top>
     <center>
         <StackPane fx:id="stackPane" prefHeight="150.0"
-                           prefWidth="200.0" BorderPane.alignment="CENTER">
+                   prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
                 <Rectangle arcHeight="5.0" arcWidth="5.0"
-                                           fill="DODGERBLUE" height="560.0" stroke="#18a4d8"
-                                           strokeType="INSIDE"
-                                           style="-fx-fill: linear-gradient(#3ec4ff, #207199);" width="400.0" />
+                           fill="DODGERBLUE" height="560.0" stroke="#18a4d8"
+                           strokeType="INSIDE"
+                           style="-fx-fill: linear-gradient(#3ec4ff, #207199);" width="400.0" />
                 <FlowPane fx:id="flowPane" maxHeight="350.0"
-                                          maxWidth="300.0" minHeight="200.0" minWidth="200.0"
-                                          prefHeight="200.0" prefWidth="200.0"
-                                          style="-fx-background-color: #fff;">
+                          maxWidth="300.0" minHeight="200.0" minWidth="200.0"
+                          prefHeight="200.0" prefWidth="200.0"
+                          style="-fx-background-color: #fff;">
                     <children>
                         <GridPane prefHeight="236.0" prefWidth="300.0">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES"
-                                                                                   maxWidth="145.0" minWidth="10.0" prefWidth="90.0" />
+                                                   maxWidth="145.0" minWidth="10.0" prefWidth="90.0" />
                                 <ColumnConstraints hgrow="SOMETIMES"
-                                                                                   maxWidth="214.0" minWidth="10.0" prefWidth="210.0" />
+                                                   maxWidth="214.0" minWidth="10.0" prefWidth="210.0" />
                             </columnConstraints>
                             <rowConstraints>
                                 <RowConstraints maxHeight="85.0" minHeight="10.0"
-                                                                                prefHeight="40.0" vgrow="SOMETIMES" />
+                                                prefHeight="40.0" vgrow="SOMETIMES" />
                                 <RowConstraints maxHeight="115.0"
-                                                                                minHeight="10.0" prefHeight="61.0" vgrow="SOMETIMES" />
+                                                minHeight="10.0" prefHeight="61.0" vgrow="SOMETIMES" />
                                 <RowConstraints maxHeight="145.0"
-                                                                                minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
                                 <RowConstraints maxHeight="145.0"
-                                                                                minHeight="10.0" prefHeight="58.0" vgrow="SOMETIMES" />
+                                                minHeight="10.0" prefHeight="58.0" vgrow="SOMETIMES" />
                                 <RowConstraints maxHeight="145.0"
-                                                                                minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
+                                                minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
                                 <Label prefHeight="28.0" prefWidth="142.0"
-                                                                       text="Add details" GridPane.columnIndex="1">
+                                       text="Add details" GridPane.columnIndex="1">
                                     <font>
                                         <Font name="System Bold" size="19.0" />
                                     </font>
                                 </Label>
                                 <Label alignment="CENTER" text="Select Image"
-                                                                       GridPane.rowIndex="1">
+                                       GridPane.rowIndex="1">
                                     <font>
                                         <Font name="System Bold" size="11.0" />
                                     </font>
@@ -87,16 +87,16 @@
                                     </GridPane.margin>
                                 </Label>
                                 <TextArea fx:id="bioTextArea" prefHeight="96.0" prefWidth="210.0"
-                                                                          style="-fx-background-radius: 0;" GridPane.columnIndex="1"
-                                                                          GridPane.rowIndex="4">
+                                          style="-fx-background-radius: 0;" GridPane.columnIndex="1"
+                                          GridPane.rowIndex="4">
                                     <GridPane.margin>
                                         <Insets right="10.0" />
                                     </GridPane.margin>
                                 </TextArea>
                                 <Circle fx:id="circleImage" fill="#dbe1e8"
-                                                                        nodeOrientation="RIGHT_TO_LEFT" opacity="0.67" radius="28.0"
-                                                                        stroke="BLACK" strokeLineCap="BUTT" strokeLineJoin="BEVEL"
-                                                                        GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                        nodeOrientation="RIGHT_TO_LEFT" opacity="0.67" radius="28.0"
+                                        stroke="BLACK" strokeLineCap="BUTT" strokeLineJoin="BEVEL"
+                                        GridPane.columnIndex="1" GridPane.rowIndex="1">
                                     <cursor>
                                         <Cursor fx:constant="DEFAULT" />
                                     </cursor>
@@ -121,28 +121,28 @@
                                     </font>
                                 </Label>
                                 <TextField fx:id="emailTXF" prefHeight="27.0"
-                                                                           prefWidth="175.0"
-                                                                           style="-fx-border-style: hidden hidden solid hidden; -fx-border-color: #787878; -fx-background-color: #fff;"
-                                                                           GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                           prefWidth="175.0"
+                                           style="-fx-border-style: hidden hidden solid hidden; -fx-border-color: #787878; -fx-background-color: #fff;"
+                                           GridPane.columnIndex="1" GridPane.rowIndex="2">
                                     <GridPane.margin>
                                         <Insets right="10.0" />
                                     </GridPane.margin>
                                 </TextField>
                                 <ComboBox fx:id="genderCOMX" prefWidth="150.0"
-                                                                          style="-fx-background-color: #D3D3D3; -fx-background-radius: 0;"
-                                                                          GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          style="-fx-background-color: #D3D3D3; -fx-background-radius: 0;"
+                                          GridPane.columnIndex="1" GridPane.rowIndex="3" />
                             </children>
                         </GridPane>
                         <ButtonBar maxHeight="20.0" prefHeight="40.0"
-                                                           prefWidth="270.0">
+                                   prefWidth="270.0">
                             <buttons>
                                 <Button fx:id="backBTN" contentDisplay="CENTER"
-                                                                        graphicTextGap="0.0" mnemonicParsing="false"
-                                                                        style="-fx-background-color: #D3D3D3; -fx-background-radius: 0;"
-                                                                        text="Back" />
+                                        graphicTextGap="0.0" mnemonicParsing="false"
+                                        style="-fx-background-color: #D3D3D3; -fx-background-radius: 0;"
+                                        text="Back" />
                                 <Button fx:id="nextBTN" mnemonicParsing="false"
-                                                                        style="-fx-background-color: #18a4d8; -fx-background-radius: 0;"
-                                                                        text="Next" textFill="WHITE" />
+                                        style="-fx-background-color: #18a4d8; -fx-background-radius: 0;"
+                                        text="Next" textFill="WHITE" />
                             </buttons>
                             <FlowPane.margin>
                                 <Insets top="20.0" />
