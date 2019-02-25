@@ -88,7 +88,7 @@ public class AddDetailsController implements Initializable {
                 System.out.println(birthDate);
                 user.setCountry(country);
                 user.setDateOfBirth(birthDate);
-                user.setStatusEnum(StatusEnum.ONLINE);
+                user.setStatusEnum(StatusEnum.AVAILABLE);
                 user.setRegisteredBy(RegisteredByEnum.USER);
                 user.setGenderEnum(GenderEnum.MALE);
                 controller.persistUser(user);

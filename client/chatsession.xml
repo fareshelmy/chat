@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<chatSession>
+    <message>
+        <sender>Fares</sender>
+        <date>2019-02-12</date>
+        <timestamp></timestamp>
+        <body>Haiii</body>
+        <fontstyle>serif</fontstyle>
+        <fontcolor>black</fontcolor>
+        <fontsize>13</fontsize>
+        <bold>true</bold>
+        <italic>false</italic>
+        <underline>true</underline>
+        <backgroundcolor>red</backgroundcolor>
+    </message>
+</chatSession>

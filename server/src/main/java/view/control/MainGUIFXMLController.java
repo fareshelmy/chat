@@ -97,7 +97,13 @@ public class MainGUIFXMLController implements Initializable {
             }
         });
         broadcastButton.setOnAction((event) -> {
-            broadcastMessage(broadcastTextArea.getText());
+            if (serviceButton.getText().equals("Stop Service")) {
+                broadcastMessage(broadcastTextArea.getText());
+                errorLabel.setVisible(false);
+            } else {
+                errorLabel.setVisible(true);
+                errorLabel.setText("Server down!");
+            }
         });
 
         serviceButton.setOnAction((event) -> {

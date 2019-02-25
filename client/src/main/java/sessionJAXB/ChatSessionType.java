@@ -6,7 +6,7 @@
 //
 
 
-package JAXB;
+package sessionJAXB;
 
 import java.util.ArrayList;
 import java.util.List;

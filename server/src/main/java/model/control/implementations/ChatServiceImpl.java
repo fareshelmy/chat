@@ -32,7 +32,9 @@ public class ChatServiceImpl extends UnicastRemoteObject implements ChatService 
     @Override
     public void broadcast(Message message) throws RemoteException {
         for (ClientInterface client : allClients.values()) {
-            client.receive(message);
+            if (client != null) {
+                client.receive(message);
+            }
         }
     }
 
@@ -87,7 +89,9 @@ public class ChatServiceImpl extends UnicastRemoteObject implements ChatService 
         contactList.forEach((contact) -> {
             try {
                 ClientInterface clientInterface = allClients.get(contact.getPhone());
-                clientInterface.receiveStatusChange(user);
+                if (clientInterface != null) {
+                    clientInterface.receiveStatusChange(user);
+                }
             } catch (RemoteException ex) {
                 Logger.getLogger(ChatServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }

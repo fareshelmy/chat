@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<accounts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="accounts.xsd">
+	<account>
+    <accountId>11111111111</accountId>
+    <saved>false</saved>
+</account>
+</accounts>

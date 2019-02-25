@@ -14,6 +14,8 @@ import java.util.logging.Logger;
 import model.control.implementations.ServiceLocator;
 import com.chat.common.ChatService;
 import com.chat.common.User;
+import com.chat.utils.RemoteExceptionHandlerAlert;
+import javafx.scene.control.Alert;
 
 /**
  *
@@ -33,6 +35,7 @@ public class ChatServiceHandler {
             server.register(ID, client);
         } catch (RemoteException ex) {
             ex.printStackTrace();
+            new RemoteExceptionHandlerAlert(Alert.AlertType.ERROR);
         }
     }
 
@@ -41,6 +44,7 @@ public class ChatServiceHandler {
             server.unregister(ID, client);
         } catch (RemoteException ex) {
             ex.printStackTrace();
+            new RemoteExceptionHandlerAlert(Alert.AlertType.ERROR);
         }
     }
 
@@ -49,6 +53,7 @@ public class ChatServiceHandler {
             server.broadcast(message);
         } catch (RemoteException ex) {
             ex.printStackTrace();
+            new RemoteExceptionHandlerAlert(Alert.AlertType.ERROR);
         }
     }
 
@@ -57,6 +62,7 @@ public class ChatServiceHandler {
             return server.openSession(sender, receiverID);
         } catch (RemoteException ex) {
             Logger.getLogger(ChatServiceHandler.class.getName()).log(Level.SEVERE, null, ex);
+            new RemoteExceptionHandlerAlert(Alert.AlertType.ERROR);
         }
         return null;
     }
@@ -66,6 +72,7 @@ public class ChatServiceHandler {
             server.sendMessageToSession(sessionID, message);
         } catch (RemoteException ex) {
             Logger.getLogger(ChatServiceHandler.class.getName()).log(Level.SEVERE, null, ex);
+            new RemoteExceptionHandlerAlert(Alert.AlertType.ERROR);
         }
     }
 
@@ -74,6 +81,7 @@ public class ChatServiceHandler {
             server.notifyStatusChange(user);
         } catch (RemoteException ex) {
             Logger.getLogger(ChatServiceHandler.class.getName()).log(Level.SEVERE, null, ex);
+            new RemoteExceptionHandlerAlert(Alert.AlertType.ERROR);
         }
     }
 

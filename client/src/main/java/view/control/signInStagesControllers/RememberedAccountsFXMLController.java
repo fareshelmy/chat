@@ -1,12 +1,15 @@
 package view.control.signInStagesControllers;
 
+import accountsJAXB.AccountType;
 import com.chat.common.User;
 import controller.implementations.Controller;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /*
@@ -30,16 +34,7 @@ import javafx.stage.Stage;
 public class RememberedAccountsFXMLController implements Initializable {
 
     @FXML
-    private ImageView personImageView;
-
-    @FXML
-    private ImageView plusImageView;
-
-    @FXML
-    private HBox newContactHBox;
-
-    @FXML
-    private HBox savedContactHBox;
+    private VBox vBox;
 
     Stage stage;
     private Controller controller;
@@ -55,10 +50,35 @@ public class RememberedAccountsFXMLController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        personImageView.setImage(new Image(getClass().getResource("/images/person.jpg").toString()));
-        plusImageView.setImage(new Image(getClass().getResource("/images/plus.png").toString()));
+        new Thread(() -> {
+            List<AccountType> accounts = controller.loadAccounts();
+            accounts.forEach((account) -> {
+                User user = controller.validatePhone(account.getAccountId());
+                if (user != null) {
+                    AccountHBox accountHBox = new AccountHBox(user);
+                    accountHBox.addEventHandler(MouseEvent.MOUSE_CLICKED, (event) -> {
+                        try {
+                            SignInPasswordFXMLController signInPasswordFXMLController = new SignInPasswordFXMLController(stage, controller, user);
+                            FXMLLoader loader = new FXMLLoader();
+                            loader.setController(signInPasswordFXMLController);
+                            Parent root = loader.load(getClass().getResource("/fxml/signInStagesFXMLs/SignInPasswordFXML.fxml").openStream());
+                            Scene scene = new Scene(root, 400, 600);
+                            scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
+                            stage.setScene(scene);
+                            stage.show();
+                        } catch (IOException ex) {
+                            Logger.getLogger(RememberedAccountsFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                    Platform.runLater(() -> {
+                        vBox.getChildren().add(accountHBox);
+                    });
+                }
+            });
+        }).start();
 
-        newContactHBox.addEventHandler(MouseEvent.MOUSE_CLICKED, (event) -> {
+        AccountHBox newAccountHBox = new AccountHBox(null);
+        newAccountHBox.addEventHandler(MouseEvent.MOUSE_CLICKED, (event) -> {
             try {
                 SignInPhoneController signInPhoneController = new SignInPhoneController(stage, controller);
                 FXMLLoader loader = new FXMLLoader();
@@ -72,23 +92,6 @@ public class RememberedAccountsFXMLController implements Initializable {
                 Logger.getLogger(RememberedAccountsFXMLController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-
-        savedContactHBox.addEventHandler(MouseEvent.MOUSE_CLICKED, (event) -> {
-            try {
-                User user = controller.validatePhone("1234");
-                SignInPasswordFXMLController signInPasswordFXMLController = new SignInPasswordFXMLController(stage, controller, user);
-                FXMLLoader loader = new FXMLLoader();
-                loader.setController(signInPasswordFXMLController);
-                Parent root = loader.load(getClass().getResource("/fxml/signInStagesFXMLs/SignInPasswordFXML.fxml").openStream());
-                Scene scene = new Scene(root, 400, 600);
-                scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException ex) {
-                Logger.getLogger(RememberedAccountsFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        );
     }
 
 }

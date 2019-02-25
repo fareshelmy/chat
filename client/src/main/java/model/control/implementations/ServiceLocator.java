@@ -5,6 +5,7 @@ package model.control.implementations;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.chat.utils.RemoteExceptionHandlerAlert;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.Remote;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
 
 /**
  *
@@ -23,7 +25,7 @@ import java.util.logging.Logger;
 public class ServiceLocator {
 
     private static Map<String, Remote> services = new HashMap<>();
-    
+
     public static Remote getService(String serviceName) {
         Remote service = (services.containsKey(serviceName)) ? services.get(serviceName) : null;
         if (service == null) {
@@ -35,6 +37,7 @@ public class ServiceLocator {
                 Logger.getLogger(ServiceLocator.class.getName()).log(Level.SEVERE, null, ex);
             } catch (RemoteException ex) {
                 ex.printStackTrace();
+                new RemoteExceptionHandlerAlert(Alert.AlertType.ERROR);
             }
         }
         return service;

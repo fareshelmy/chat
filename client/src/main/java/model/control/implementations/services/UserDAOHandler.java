@@ -7,11 +7,13 @@ package model.control.implementations.services;
 
 import com.chat.common.User;
 import com.chat.common.UserDAO;
+import com.chat.utils.RemoteExceptionHandlerAlert;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
 import model.control.implementations.ServiceLocator;
 
 /**
@@ -32,6 +34,7 @@ public class UserDAOHandler {
             userDao.persist(user);
         } catch (RemoteException ex) {
             Logger.getLogger(UserDAOHandler.class.getName()).log(Level.SEVERE, null, ex);
+            new RemoteExceptionHandlerAlert(Alert.AlertType.ERROR);
         }
     }
 
@@ -40,6 +43,7 @@ public class UserDAOHandler {
             return userDao.validate(phone);
         } catch (RemoteException ex) {
             Logger.getLogger(UserDAOHandler.class.getName()).log(Level.SEVERE, null, ex);
+            new RemoteExceptionHandlerAlert(Alert.AlertType.ERROR);
         }
         return null;
     }
@@ -50,6 +54,7 @@ public class UserDAOHandler {
             contacts = userDao.retrieveContacts(user);
         } catch (RemoteException ex) {
             Logger.getLogger(UserDAOHandler.class.getName()).log(Level.SEVERE, null, ex);
+            new RemoteExceptionHandlerAlert(Alert.AlertType.ERROR);
         }
         return contacts;
     }
@@ -59,6 +64,7 @@ public class UserDAOHandler {
             userDao.update(user);
         } catch (RemoteException ex) {
             Logger.getLogger(UserDAOHandler.class.getName()).log(Level.SEVERE, null, ex);
+            new RemoteExceptionHandlerAlert(Alert.AlertType.ERROR);
         }
     }
 
@@ -66,21 +72,4 @@ public class UserDAOHandler {
         System.out.println("model.control.implementations.services.UserDAOHandler.addContact()");
         return false;
     }
-
-    public Integer getOfflineUsers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public Integer getOnlineUsers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void removeContact(User remover, User removed) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public List<User> retrieveContacts(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }

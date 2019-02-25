@@ -5,6 +5,8 @@
  */
 package controller.implementations;
 
+import accountsJAXB.AccountType;
+import sessionJAXB.MessageType;
 import com.chat.common.ClientInterface;
 import com.chat.common.StatusEnum;
 import com.chat.common.User;
@@ -14,6 +16,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.control.implementations.AccountsJAXBHandler;
+import model.control.implementations.SessionJAXBHandler;
 import model.control.implementations.services.ChatServiceHandler;
 import model.control.implementations.services.ClientServiceImp;
 import model.control.implementations.services.UserDAOHandler;
@@ -30,6 +34,7 @@ public class Controller {
     private HomeViewController homeViewController;
     private UserDAOHandler userDAOHandler;
     private User user;
+    private AccountsJAXBHandler accountsJAXBHandler;
 
     public Controller() {
         chatService = new ChatServiceHandler();
@@ -41,6 +46,7 @@ public class Controller {
         } catch (RemoteException ex) {
             ex.printStackTrace();
         }
+        accountsJAXBHandler = new AccountsJAXBHandler();
     }
 
     public void persistUser(User user) {
@@ -90,5 +96,21 @@ public class Controller {
 
     public void receiveStatusChange(User user) {
         homeViewController.receiveStatusChange(user);
+    }
+
+    public void saveChatSession(List<MessageType> messagesList) {
+        new SessionJAXBHandler().saveChatSession(messagesList);
+    }
+
+    public List<MessageType> loadChatSession() {
+        return new SessionJAXBHandler().loadChatSession();
+    }
+
+    public void saveAccount(User user) {
+        accountsJAXBHandler.saveAccount(user);
+    }
+
+    public List<AccountType> loadAccounts() {
+        return accountsJAXBHandler.loadAccounts();
     }
 }

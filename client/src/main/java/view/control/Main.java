@@ -1,11 +1,9 @@
 package view.control;
 
-import com.chat.common.GenderEnum;
-import com.chat.common.RegisteredByEnum;
-import com.chat.common.StatusEnum;
-import com.chat.common.User;
+import sessionJAXB.MessageType;
 import controller.implementations.Controller;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -37,7 +35,7 @@ public class Main extends Application {
 //
 //            primaryStage.setScene(scene);
 //            primaryStage.show();
-
+            
             RememberedAccountsFXMLController rememberedAccountsFXMLController = new RememberedAccountsFXMLController(primaryStage, controller);
             FXMLLoader loader = new FXMLLoader();
             loader.setController(rememberedAccountsFXMLController);

@@ -1,14 +1,16 @@
 package view.control;
 
-import JAXB.ChatSessionType;
-import JAXB.MessageType;
-import JAXB.ObjectFactory;
+import sessionJAXB.ChatSessionType;
+import sessionJAXB.MessageType;
+import sessionJAXB.ObjectFactory;
 import com.chat.common.ClientInterface;
 import com.chat.common.StatusEnum;
 import com.chat.common.User;
 import com.chat.common.entities.Message;
 import controller.implementations.Controller;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
@@ -37,6 +39,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
@@ -109,6 +112,14 @@ public class HomeViewController implements Initializable {
 //        messagesList.add(message);
 //        saveChatSession(messagesList);
         /////////////////////code regarding XMLAPI//////////////////////////////
+        
+        ///////////////////// code regarding accounts JAXB ////////////////////////
+        
+        stage.setOnCloseRequest((event) -> {
+            controller.saveAccount(user);
+            System.exit(0);
+        });
+        ///////////////////// code regarding accounts JAXB ////////////////////////
 
         friendListController = new FriendListController(controller.getFriendList(user), this);
         FXMLLoader loader = new FXMLLoader();
@@ -171,22 +182,13 @@ public class HomeViewController implements Initializable {
         sessions.get(id).displayMessage(message);
     }
 
-    private void saveChatSession(List<MessageType> messagesList) {
-        try {
-            JAXBContext context = JAXBContext.newInstance("JAXB");
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            ObjectFactory objectFactory = new ObjectFactory();
-            ChatSessionType chatSession = objectFactory.createChatSessionType();
+    public void saveChatSession(List<MessageType> messagesList) {
+        controller.saveChatSession(messagesList);
+    }
 
-            for (MessageType message : messagesList) {
-                chatSession.getMessage().add(message);
-            }
-            JAXBElement<ChatSessionType> JAXBElement = objectFactory.createChatSession(chatSession);
-            marshaller.marshal(JAXBElement, new File("/src/main/resources/output.xml"));
-        } catch (JAXBException ex) {
-            Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void loadChatSession() {
+        messagesList.clear();
+        messagesList = controller.loadChatSession();
     }
 
     public void notifyStatusChange(User user) {

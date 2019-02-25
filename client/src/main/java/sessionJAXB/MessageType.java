@@ -6,7 +6,7 @@
 //
 
 
-package JAXB;
+package sessionJAXB;
 
 import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;
