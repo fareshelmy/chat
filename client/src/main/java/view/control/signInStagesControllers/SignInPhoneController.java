@@ -2,6 +2,7 @@ package view.control.signInStagesControllers;
 
 import view.control.registerStagesControllers.CreateAccountController;
 import com.chat.common.User;
+import com.chat.utils.FieldValidationUtil;
 import controller.implementations.Controller;
 import java.io.IOException;
 import java.net.URL;
@@ -79,22 +80,27 @@ public class SignInPhoneController implements Initializable {
     }
 
     private void moveToPasswordValidation() {
-        User user = controller.validatePhone(phoneTXF.getText());
-        if (user != null) {
-            try {
-                SignInPasswordFXMLController signInPasswordFXMLController = new SignInPasswordFXMLController(stage, controller, user);
-                FXMLLoader loader = new FXMLLoader();
-                loader.setController(signInPasswordFXMLController);
-                Parent root = loader.load(getClass().getResource("/fxml/signInStagesFXMLs/SignInPasswordFXML.fxml").openStream());
-                Scene scene = new Scene(root, 400, 600);
-                scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException ex) {
-                Logger.getLogger(SignInPhoneController.class.getName()).log(Level.SEVERE, null, ex);
+        if (FieldValidationUtil.validatePhone(phoneTXF.getText())) {
+            User user = controller.validatePhone(phoneTXF.getText());
+            if (user != null) {
+                try {
+                    SignInPasswordFXMLController signInPasswordFXMLController = new SignInPasswordFXMLController(stage, controller, user);
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setController(signInPasswordFXMLController);
+                    Parent root = loader.load(getClass().getResource("/fxml/signInStagesFXMLs/SignInPasswordFXML.fxml").openStream());
+                    Scene scene = new Scene(root, 400, 600);
+                    scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (IOException ex) {
+                    Logger.getLogger(SignInPhoneController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                invalidLabel.setVisible(true);
             }
         } else {
             invalidLabel.setVisible(true);
+            invalidLabel.setText("Invalid phone number");
         }
     }
 
@@ -110,7 +116,7 @@ public class SignInPhoneController implements Initializable {
             stage.setResizable(false);
             stage.show();
         } catch (IOException ex) {
-            
+
         }
     }
 

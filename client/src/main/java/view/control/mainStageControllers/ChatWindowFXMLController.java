@@ -5,6 +5,7 @@
  */
 package view.control.mainStageControllers;
 
+import com.chat.common.StatusEnum;
 import view.control.HomeViewController;
 import com.chat.common.entities.Message;
 import com.chat.common.User;
@@ -72,5 +73,10 @@ public class ChatWindowFXMLController implements Initializable {
     public void sendMessage() {
         Message message = new Message(user, msgWriter.getText());
         controller.sendMessageToSession(sessionID, message);
+    }
+
+//to notify this user's contacts of status change
+    public void notifyStatusChange(){
+        controller.notifyStatusChange(user);
     }
 }

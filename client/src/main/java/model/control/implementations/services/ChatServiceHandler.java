@@ -5,8 +5,6 @@
  */
 package model.control.implementations.services;
 
-
-
 import com.chat.common.ClientInterface;
 import com.chat.common.entities.Message;
 import java.rmi.RemoteException;
@@ -15,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.control.implementations.ServiceLocator;
 import com.chat.common.ChatService;
+import com.chat.common.User;
 
 /**
  *
@@ -30,7 +29,7 @@ public class ChatServiceHandler {
 
     public void registerClient(String ID, ClientInterface client) {
         try {
-            System.out.println("register; "+ID);
+            System.out.println("register; " + ID);
             server.register(ID, client);
         } catch (RemoteException ex) {
             ex.printStackTrace();
@@ -65,6 +64,14 @@ public class ChatServiceHandler {
     public void sendMessageToSession(UUID sessionID, Message message) {
         try {
             server.sendMessageToSession(sessionID, message);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ChatServiceHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void notifyStatusChange(User user) {
+        try {
+            server.notifyStatusChange(user);
         } catch (RemoteException ex) {
             Logger.getLogger(ChatServiceHandler.class.getName()).log(Level.SEVERE, null, ex);
         }

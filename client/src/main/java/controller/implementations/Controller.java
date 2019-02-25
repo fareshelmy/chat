@@ -6,6 +6,7 @@
 package controller.implementations;
 
 import com.chat.common.ClientInterface;
+import com.chat.common.StatusEnum;
 import com.chat.common.User;
 import com.chat.common.entities.Message;
 import java.rmi.RemoteException;
@@ -81,5 +82,13 @@ public class Controller {
     public void updateUser(User user) {
         userDAOHandler.update(user);
 
+    }
+
+    public void notifyStatusChange(User user) {
+        chatService.notifyStatusChange(user);
+    }
+
+    public void receiveStatusChange(User user) {
+        homeViewController.receiveStatusChange(user);
     }
 }

@@ -121,9 +121,13 @@ public class Controller {
     public void startService() {
         try {
             userDaoImpl = new DatabaseConnector().getUserDaoImpl();
-            chatServiceImpl = new ChatServiceImpl();
+            chatServiceImpl = new ChatServiceImpl(userDaoImpl);
             serverService = new ServerService(userDaoImpl, chatServiceImpl);
-
+            User user = new User();
+            user.setPhone("11");
+            User user1 = new User();
+            user1.setPhone("111");
+            userDaoImpl.addContact(user1, user);
         } catch (RemoteException ex) {
             Logger.getLogger(Controller.class
                     .getName()).log(Level.SEVERE, null, ex);

@@ -4,6 +4,7 @@ import JAXB.ChatSessionType;
 import JAXB.MessageType;
 import JAXB.ObjectFactory;
 import com.chat.common.ClientInterface;
+import com.chat.common.StatusEnum;
 import com.chat.common.User;
 import com.chat.common.entities.Message;
 import controller.implementations.Controller;
@@ -172,7 +173,7 @@ public class HomeViewController implements Initializable {
 
     private void saveChatSession(List<MessageType> messagesList) {
         try {
-            JAXBContext context = JAXBContext.newInstance("model.control.implementations.JAXB");
+            JAXBContext context = JAXBContext.newInstance("JAXB");
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             ObjectFactory objectFactory = new ObjectFactory();
@@ -186,5 +187,14 @@ public class HomeViewController implements Initializable {
         } catch (JAXBException ex) {
             Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void notifyStatusChange(User user) {
+        controller.notifyStatusChange(user);
+    }
+
+    //to be replaced with a notification
+    public void receiveStatusChange(User user) {
+        System.out.println(user.getStatusEnum());
     }
 }

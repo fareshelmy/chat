@@ -1,28 +1,33 @@
 package model.control.implementations;
 
-
 import com.chat.common.ChatService;
 import com.chat.common.ChatSession;
 import com.chat.common.ClientInterface;
+import com.chat.common.User;
+import com.chat.common.UserDAO;
 import com.chat.common.entities.Message;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ChatServiceImpl extends UnicastRemoteObject implements ChatService {
 
     Map<String, ClientInterface> allClients;
     Map<UUID, ChatSession> sessionList;
+    private final UserDAO userDaoImpl;
 
-    public ChatServiceImpl() throws RemoteException {
+    public ChatServiceImpl(UserDAO userDaoImpl) throws RemoteException {
         allClients = new HashMap<>();
         sessionList = new HashMap<>();
+        this.userDaoImpl = userDaoImpl;
     }
-    
 
     @Override
     public void broadcast(Message message) throws RemoteException {
@@ -40,8 +45,8 @@ public class ChatServiceImpl extends UnicastRemoteObject implements ChatService 
     }
 
     @Override
-    public void unregister(String ID,ClientInterface client) throws RemoteException {
-        allClients.remove(ID,client);
+    public void unregister(String ID, ClientInterface client) throws RemoteException {
+        allClients.remove(ID, client);
         System.out.println(allClients.size());
     }
 
@@ -53,7 +58,7 @@ public class ChatServiceImpl extends UnicastRemoteObject implements ChatService 
         set.add(sender);
         set.add(allClients.get(ID));
         allClients.get(ID).openSessionWindow(sessionID);
-        sessionList.put(sessionID, new ChatSession(sessionID,set));
+        sessionList.put(sessionID, new ChatSession(sessionID, set));
         System.out.println("sessionCreated");
         return sessionID;
     }
@@ -76,5 +81,17 @@ public class ChatServiceImpl extends UnicastRemoteObject implements ChatService 
 //    public Map<String, ClientInterface> getAllusers() throws RemoteException {
 //        return allClients;
 //    }
+    @Override
+    public void notifyStatusChange(User user) throws RemoteException {
+        List<User> contactList = userDaoImpl.retrieveContacts(user);
+        contactList.forEach((contact) -> {
+            try {
+                ClientInterface clientInterface = allClients.get(contact.getPhone());
+                clientInterface.receiveStatusChange(user);
+            } catch (RemoteException ex) {
+                Logger.getLogger(ChatServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+    }
 
 }

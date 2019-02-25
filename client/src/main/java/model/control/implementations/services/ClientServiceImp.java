@@ -6,6 +6,7 @@
 package model.control.implementations.services;
 
 import com.chat.common.ClientInterface;
+import com.chat.common.User;
 import com.chat.common.entities.Message;
 import controller.implementations.Controller;
 import java.rmi.RemoteException;
@@ -44,6 +45,11 @@ public class ClientServiceImp extends UnicastRemoteObject implements ClientInter
     @Override
     public void openSessionWindow(UUID id) throws RemoteException {
         controller.openSessionResponse(id);
+    }
+
+    @Override
+    public void receiveStatusChange(User user) throws RemoteException {
+        controller.receiveStatusChange(user);
     }
 
 }

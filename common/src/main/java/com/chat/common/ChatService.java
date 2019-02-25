@@ -30,4 +30,6 @@ public interface ChatService extends Remote {
 //    public void getUserDate(User user)throws RemoteException;
     //testfunction
 //    public Map<String,ClientInterface> getAllusers()throws RemoteException;
+
+    public void notifyStatusChange(User user) throws RemoteException;
 }

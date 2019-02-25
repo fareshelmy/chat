@@ -5,6 +5,7 @@
  */
 package view.control.signInStagesControllers;
 
+import com.chat.common.StatusEnum;
 import com.chat.common.User;
 import controller.implementations.Controller;
 import java.io.IOException;
@@ -62,6 +63,9 @@ public class SignInPasswordFXMLController implements Initializable {
     private void moveToMainWindow() {
         if (passwordField.getText().equals(user.getPassword())) {
             try {
+                user.setStatusEnum(StatusEnum.ONLINE);
+                controller.updateUser(user);
+                controller.notifyStatusChange(user);
                 HomeViewController homeViewController = new HomeViewController(stage, controller, user);
                 FXMLLoader loader = new FXMLLoader();
                 loader.setController(homeViewController);
@@ -71,6 +75,7 @@ public class SignInPasswordFXMLController implements Initializable {
                 stage.setScene(scene);
                 stage.setResizable(true);
                 stage.show();
+
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

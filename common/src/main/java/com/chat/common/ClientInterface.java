@@ -24,4 +24,6 @@ public interface ClientInterface extends Remote {
     public void reciveMessageFromSession(UUID id, Message message) throws RemoteException;
 
     public void openSessionWindow(UUID id) throws RemoteException;
+
+    public void receiveStatusChange(User user) throws RemoteException;
 }
