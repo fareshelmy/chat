@@ -6,6 +6,10 @@ import com.chat.common.ClientInterface;
 import com.chat.common.User;
 import com.chat.common.UserDAO;
 import com.chat.common.entities.Message;
+import com.pandorabots.api.MagicParameters;
+import com.pandorabots.api.PandorabotsAPI;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
@@ -16,6 +20,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.JSONException;
 
 public class ChatServiceImpl extends UnicastRemoteObject implements ChatService {
 
@@ -96,6 +101,27 @@ public class ChatServiceImpl extends UnicastRemoteObject implements ChatService 
                 Logger.getLogger(ChatServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+    }
+
+    @Override
+    public String sendMessageToBot(String request) throws RemoteException {
+        String responseMsg = "Sorry Mr.Happy is not avaliable :(";
+        MagicParameters magicParameters = new MagicParameters();
+        PandorabotsAPI papi = new PandorabotsAPI(magicParameters.getHostName(), magicParameters.getAppId(),
+                magicParameters.getUserKey(), magicParameters.isDebug());
+
+        try {
+            responseMsg = papi.talk("mrhappy", "yasmin", request);
+            System.out.println("User: " + request);
+            System.out.println("Mr Happy: " + responseMsg);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        } catch (URISyntaxException ex) {
+            ex.printStackTrace();
+        }
+        return responseMsg;
     }
 
 }

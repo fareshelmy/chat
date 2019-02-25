@@ -85,4 +85,15 @@ public class ChatServiceHandler {
         }
     }
 
+    public String sendMessageToBot(String request) {
+        String response = "Mr.Happy is not avaliable right now! :(";
+        try {
+            response = server.sendMessageToBot(request);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ChatServiceHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return response;
+
+    }
+
 }

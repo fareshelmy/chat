@@ -26,10 +26,10 @@ public class Main extends Application {
 
         try {
 //            EditProfileController profileController = new EditProfileController(new User("0100", "Yasmin", "Ayman",
-//                    "0000", "yyy", new byte[10], GenderEnum.FEMALE, "Egypt", "hello", "hello there", StatusEnum.BUSY, RegisteredByEnum.USER));
+//                    "0000", "yyy", new byte[10], GenderEnum.FEMALE, "Egypt", "hello", "hello there", StatusEnum.BUSY, RegisteredByEnum.USER), controller);
 //            FXMLLoader loader = new FXMLLoader();
 //            loader.setController(profileController);
-//            Parent root = loader.load(getClass().getResource("EditProfile.fxml").openStream());
+//            Parent root = loader.load(getClass().getResource("/fxml/other/EditProfile.fxml").openStream());
 //
 //            Scene scene = new Scene(root);
 //
@@ -52,10 +52,17 @@ public class Main extends Application {
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        /// bot
+        String reguest = "Hi there";
+        String response = controller.sendMessageToBot(reguest);
+        System.out.println("Mr.happy: " + response);
+        //controller.sendMessageToSession(sessionID, response);
     }
 
     public static void main(String[] args) {
         new Main();
         launch(args);
     }
+
 }

@@ -92,6 +92,7 @@ public class RememberedAccountsFXMLController implements Initializable {
                 Logger.getLogger(RememberedAccountsFXMLController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        vBox.getChildren().add(newAccountHBox);
     }
 
 }

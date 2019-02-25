@@ -10,14 +10,19 @@ import com.chat.common.RegisteredByEnum;
 import com.chat.common.StatusEnum;
 import com.chat.common.User;
 import controller.implementations.Controller;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,11 +31,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -111,63 +119,64 @@ public class EditProfileController implements Initializable {
 
     private Controller controller;
 
-    EditProfileController(User user) {
+    private FileInputStream fileInputStream;
+    private BufferedImage bufferedImage;
+    private Image image;
+
+    EditProfileController(User user, Controller controller) {
         this.user = user;
-        controller = new Controller();
+        this.controller = controller;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            Image bioImage = new Image(new FileInputStream("/images/bio.png"));
-            Image birthdayImage = new Image(new FileInputStream("/images/birthday.png"));
-            Image countryImage = new Image(new FileInputStream("/images/country.png"));
-            Image emailImage = new Image(new FileInputStream("/images/email.png"));
-            Image genderImage = new Image(new FileInputStream("/images/gender.png"));
-            Image nameImage = new Image(new FileInputStream("/images/name.png"));
-            Image passwordImage = new Image(new FileInputStream("/images/password.png"));
-            Image phoneImage = new Image(new FileInputStream("/images/phone.png"));
 
-            bioImgView.setImage(bioImage);
-            BirthdayImgView.setImage(birthdayImage);
-            countryImgView.setImage(countryImage);
-            emailImgView.setImage(emailImage);
-            genderImgView.setImage(genderImage);
-            firstNameImgView.setImage(nameImage);
-            lastNameImgView.setImage(nameImage);
-            passwordImgView.setImage(passwordImage);
-            phoneImgView.setImage(phoneImage);
+        Image birthdayImage = new Image(getClass().getResource("/images/birthday.png").toString());
+        Image countryImage = new Image(getClass().getResource("/images/country.png").toString());
+        Image emailImage = new Image(getClass().getResource("/images/email.png").toString());
+        Image genderImage = new Image(getClass().getResource("/images/gender.png").toString());
+        Image nameImage = new Image(getClass().getResource("/images/name.png").toString());
+        Image passwordImage = new Image(getClass().getResource("/images/password.png").toString());
+        Image phoneImage = new Image(getClass().getResource("/images/phone.png").toString());
 
-            userCircle.setFill(new ImagePattern(bioImage));
-            bioTextArea.setText(user.getBio());
-            BirthdayTextField.setText(user.getDateOfBirth());
-            countryTextField.setText(user.getCountry());
-            emailTextField.setText(user.getEmail());
-            genderTextField.setText(user.getGenderEnum());
-            firstNameTextField.setText(user.getFirstName());
-            lastNameTextField.setText(user.getLastName());
-            passwordTextField.setText(user.getPassword());
-            phoneTextField.setText(user.getPhone());
+        Image bioImage = new Image(getClass().getResource("/images/bio.png").toString());
 
-            BirthdayTextField.setEditable(false);
-            BirthdayTextField.setMouseTransparent(true);
-            BirthdayTextField.setFocusTraversable(false);
+        bioImgView.setImage(bioImage);
+        BirthdayImgView.setImage(birthdayImage);
+        countryImgView.setImage(countryImage);
+        emailImgView.setImage(emailImage);
+        genderImgView.setImage(genderImage);
+        firstNameImgView.setImage(nameImage);
+        lastNameImgView.setImage(nameImage);
+        passwordImgView.setImage(passwordImage);
+        phoneImgView.setImage(phoneImage);
 
-            countryTextField.setEditable(false);
-            countryTextField.setMouseTransparent(true);
-            countryTextField.setFocusTraversable(false);
+        userCircle.setFill(new ImagePattern(bioImage));
+        bioTextArea.setText(user.getBio());
+        BirthdayTextField.setText(user.getDateOfBirth());
+        countryTextField.setText(user.getCountry());
+        emailTextField.setText(user.getEmail());
+        genderTextField.setText(user.getGenderEnum());
+        firstNameTextField.setText(user.getFirstName());
+        lastNameTextField.setText(user.getLastName());
+        passwordTextField.setText(user.getPassword());
+        phoneTextField.setText(user.getPhone());
 
-            genderTextField.setEditable(false);
-            genderTextField.setMouseTransparent(true);
-            genderTextField.setFocusTraversable(false);
+        BirthdayTextField.setEditable(false);
+        BirthdayTextField.setMouseTransparent(true);
+        BirthdayTextField.setFocusTraversable(false);
 
-            phoneTextField.setEditable(false);
-            phoneTextField.setMouseTransparent(true);
-            phoneTextField.setFocusTraversable(false);
+        countryTextField.setEditable(false);
+        countryTextField.setMouseTransparent(true);
+        countryTextField.setFocusTraversable(false);
 
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(EditProfileController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        genderTextField.setEditable(false);
+        genderTextField.setMouseTransparent(true);
+        genderTextField.setFocusTraversable(false);
+
+        phoneTextField.setEditable(false);
+        phoneTextField.setMouseTransparent(true);
+        phoneTextField.setFocusTraversable(false);
 
         updateButton.setOnAction((event) -> {
             user.setBio(bioTextArea.getText());
@@ -181,6 +190,37 @@ public class EditProfileController implements Initializable {
             //user.setPic();
             controller.updateUser(user);
         });
+
+    }
+
+    public byte[] convertImageToByteArray(String imagePath) {
+        byte[] bytes = null;
+        try {
+            File file = new File("C:\\Users\\islam\\Desktop\\li.jpg");
+            fileInputStream = new FileInputStream(file);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            byte[] mybuffer = new byte[1024];
+
+            for (int readNum; (readNum = fileInputStream.read(mybuffer)) != -1;) {
+                // Writes to this byte array output stream
+                byteArrayOutputStream.write(mybuffer, 0, readNum);
+                System.out.println("read " + readNum + " bytes,");
+            }
+            bytes = byteArrayOutputStream.toByteArray();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return bytes;
+    }
+
+    public Image convertByteArrayToImage(byte[] rawImage) {
+        try {
+            bufferedImage = ImageIO.read(new ByteArrayInputStream(rawImage));
+            image = SwingFXUtils.toFXImage(bufferedImage, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return image;
 
     }
 

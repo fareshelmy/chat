@@ -30,7 +30,9 @@ public class ServiceLocator {
         Remote service = (services.containsKey(serviceName)) ? services.get(serviceName) : null;
         if (service == null) {
             try {
-                Registry registry = LocateRegistry.getRegistry("localhost");
+                //Registry registry = LocateRegistry.getRegistry("localhost");
+                Registry registry = LocateRegistry.getRegistry("10.145.1.226",3000);
+
                 service = registry.lookup(serviceName);
                 services.put(serviceName, service);
             } catch (AccessException | NotBoundException ex) {

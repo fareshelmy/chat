@@ -59,11 +59,11 @@ public class AddDetailsController implements Initializable {
     private String country;
     private String birthDate;
 
-    Stage stage;
+    private Stage stage;
     private Controller controller;
 
-    AddDetailsController(Stage stage, User user) {
-        controller = new Controller();
+    AddDetailsController(Stage stage, User user, Controller controller) {
+        this.controller = controller;
         this.stage = stage;
         this.user = user;
     }
@@ -71,33 +71,31 @@ public class AddDetailsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        nextBTN.setOnAction(event -> {
-            addUser();
-        });
-
         countryCBX.getItems().removeAll(countryCBX.getItems());
         countryCBX.getItems().addAll("Egypt", "USA", "UK");
         countryCBX.getSelectionModel().select("Egypt");
+        nextBTN.setOnAction(event -> {
+            goNext();
+        });
+        backBTN.setOnAction((event) -> {
+            goBack();
+        });
 
     }
 
-    private void addUser() {
+    private void goNext() {
         if (birthdatePocker.getValue() != null) {
-                country = countryCBX.getValue();
-                birthDate = birthdatePocker.getValue().toString();
-                System.out.println(birthDate);
-                user.setCountry(country);
-                user.setDateOfBirth(birthDate);
-                user.setStatusEnum(StatusEnum.AVAILABLE);
-                user.setRegisteredBy(RegisteredByEnum.USER);
-                user.setGenderEnum(GenderEnum.MALE);
-                controller.persistUser(user);
-                HomeViewController homeViewController = new HomeViewController(stage, controller, user);
-                FXMLLoader loader = new FXMLLoader();
-                loader.setController(homeViewController);
-                Parent root;
+            country = countryCBX.getValue();
+            birthDate = birthdatePocker.getValue().toString();
+            System.out.println(birthDate);
+            user.setCountry(country);
+            user.setDateOfBirth(birthDate);
+            AddDetailsSecondController addDetailsSecondController = new AddDetailsSecondController(stage, user, controller);
+            FXMLLoader loader = new FXMLLoader();
+            loader.setController(addDetailsSecondController);
+            Parent root;
             try {
-                root = loader.load(getClass().getResource("/fxml/mainStageFXMLs/LogedInView.fxml").openStream());
+                root = loader.load(getClass().getResource("/fxml/registerStagesFXMLs/AddDetailsSecond.fxml").openStream());
                 Scene scene = new Scene(root, 600, 600);
                 scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
                 stage.setScene(scene);
@@ -105,10 +103,26 @@ public class AddDetailsController implements Initializable {
             } catch (IOException ex) {
                 Logger.getLogger(AddDetailsController.class.getName()).log(Level.SEVERE, null, ex);
             }
-                
+
         } else {
             infoLabel.setText("Birthday field is required");
             infoLabel.setTextFill(Color.RED);
+        }
+    }
+
+    private void goBack() {
+        try {
+            CreateNameController accountSecondController = new CreateNameController(stage, user , controller);
+            FXMLLoader loader = new FXMLLoader();
+            loader.setController(accountSecondController);
+            Parent root = loader.load(getClass().getResource("/fxml/registerStagesFXMLs/CreateAccountSecond.fxml").openStream());
+            Scene scene = new Scene(root, 400, 600);
+            scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException ex) {
+
         }
     }
 

@@ -24,7 +24,7 @@ public class ServerService {
 
     public ServerService(UserDAO userDaoImpl, ChatService chatServiceImpl) {
         try {
-            registry = LocateRegistry.getRegistry();
+             registry = LocateRegistry.getRegistry();
             registry.rebind("DatabaseService", userDaoImpl);
             registry.rebind("ChatService", chatServiceImpl);
         } catch (RemoteException ex) {

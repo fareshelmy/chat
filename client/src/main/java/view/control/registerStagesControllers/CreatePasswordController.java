@@ -1,9 +1,14 @@
 package view.control.registerStagesControllers;
 
+import com.chat.common.RegisteredByEnum;
 import com.chat.common.User;
+import com.chat.utils.FieldValidationUtil;
+import controller.implementations.Controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +26,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import view.control.HomeViewController;
+import view.control.signInStagesControllers.SignInPhoneController;
 
 public class CreatePasswordController implements Initializable {
 
@@ -38,49 +45,91 @@ public class CreatePasswordController implements Initializable {
     private Button backBTN;
     @FXML
     private Button NextBTN;
-    Stage stage;
+    private Stage stage;
     private String password;
     private User user;
+    private Controller controller;
 
-    CreatePasswordController(Stage stage, User user) {
+    CreatePasswordController(Stage stage, User user, Controller controller) {
         this.stage = stage;
         this.user = user;
+        this.controller = controller;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         NextBTN.setOnAction(event -> {
-            moveToCreateAccountController();
+            goNext();
         });
 
         passwordTXF.setOnAction((event) -> {
-            moveToCreateAccountController();
+            goNext();
         });
+
+        backBTN.setOnAction((event) -> {
+            goBack();
+        });
+
     }
 
-    private void moveToCreateAccountController() {
-        if (!passwordTXF.getText().equals("")) {
-            password = passwordTXF.getText();
+    private void goNext() {
+        password = passwordTXF.getText();
+        if (!password.equals("") && FieldValidationUtil.validatePassword(password)) {
             user.setPassword(password);
-            CreateAccount_2Controller createAccountController = new CreateAccount_2Controller(stage, user);
-            FXMLLoader loader = new FXMLLoader();
-            loader.setController(createAccountController);
-            Parent root = null;
-            try {
-                root = loader.load(getClass().getResource("/fxml/registerStagesFXMLs/CreateAccount_2.fxml").openStream());
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            Scene scene = new Scene(root, 400, 600);
+            if (user.getRegisteredByEnum().equals(RegisteredByEnum.ADMIN)) {
+                controller.updateUser(user);
 
-            scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
-            stage.setScene(scene);
-            stage.show();
+                HomeViewController homeViewController = new HomeViewController(stage, controller, user);
+                FXMLLoader loader = new FXMLLoader();
+                loader.setController(homeViewController);
+                Parent root;
+                try {
+                    root = loader.load(getClass().getResource("/fxml/mainStageFXMLs/LogedInView.fxml").openStream());
+                    Scene scene = new Scene(root, 600, 600);
+                    scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (IOException ex) {
+                    Logger.getLogger(AddDetailsController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } else {
+
+                CreateNameController createAccountController = new CreateNameController(stage, user, controller);
+                FXMLLoader loader = new FXMLLoader();
+                loader.setController(createAccountController);
+                Parent root = null;
+                try {
+                    root = loader.load(getClass().getResource("/fxml/registerStagesFXMLs/CreateAccountSecond.fxml").openStream());
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                Scene scene = new Scene(root, 400, 600);
+
+                scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
+                stage.setScene(scene);
+                stage.show();
+            }
         } else {
             passwordInfoLBL.setText("Password must contain at least 8 characters and at least one uppercase letter, one lowercase letter, and one number");
             passwordInfoLBL.setTextFill(Color.RED);
         }
     }
 
+    private void goBack() {
+        try {
+            CreatePhoneController createAccountController = new CreatePhoneController(stage, controller);
+            FXMLLoader loader = new FXMLLoader();
+            loader.setController(createAccountController);
+            Parent root = loader.load(getClass().getResource("/fxml/registerStagesFXMLs/CreateAccount.fxml").openStream());
+            Scene scene = new Scene(root, 400, 600);
+            scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException ex) {
+
+        }
+    }
 }

@@ -136,7 +136,7 @@ public class HomeViewController implements Initializable {
         updateBTN.setOnAction((event) -> {
 
             try {
-                EditProfileController profileController = new EditProfileController(user);
+                EditProfileController profileController = new EditProfileController(user, controller);
                 FXMLLoader updateloader = new FXMLLoader();
                 updateloader.setController(profileController);
                 Parent root = updateloader.load(getClass().getResource("/fxml/other/EditProfile.fxml").openStream());

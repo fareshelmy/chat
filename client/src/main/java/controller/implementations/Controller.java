@@ -113,4 +113,9 @@ public class Controller {
     public List<AccountType> loadAccounts() {
         return accountsJAXBHandler.loadAccounts();
     }
+
+    public String sendMessageToBot(String reguest) {
+        String response = chatService.sendMessageToBot(reguest);
+        return response;
+    }
 }

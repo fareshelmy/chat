@@ -1,6 +1,6 @@
 package view.control.signInStagesControllers;
 
-import view.control.registerStagesControllers.CreateAccountController;
+import view.control.registerStagesControllers.CreatePhoneController;
 import com.chat.common.User;
 import com.chat.utils.FieldValidationUtil;
 import controller.implementations.Controller;
@@ -47,7 +47,7 @@ public class SignInPhoneController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         createLBL.setOnMouseClicked(value -> {
-            CreateAccountController createAccountController = new CreateAccountController(stage);
+            CreatePhoneController createAccountController = new CreatePhoneController(stage, controller);
             FXMLLoader loader = new FXMLLoader();
             loader.setController(createAccountController);
             Parent root = null;

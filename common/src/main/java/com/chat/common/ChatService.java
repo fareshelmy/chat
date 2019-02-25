@@ -5,12 +5,11 @@
  */
 package com.chat.common;
 
-
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.UUID;
 import com.chat.common.entities.*;
+
 /**
  *
  * @author rokaya
@@ -19,17 +18,19 @@ public interface ChatService extends Remote {
 
     public void broadcast(Message message) throws RemoteException;
 
-    public void register(String ID,ClientInterface client) throws RemoteException;
+    public void register(String ID, ClientInterface client) throws RemoteException;
 
-    public void unregister(String ID,ClientInterface client) throws RemoteException;
+    public void unregister(String ID, ClientInterface client) throws RemoteException;
 
-    public UUID openSession(ClientInterface sender, String ID)throws RemoteException;
+    public UUID openSession(ClientInterface sender, String ID) throws RemoteException;
 
-    public void sendMessageToSession(UUID sessionID, Message message)throws RemoteException;
-    
+    public void sendMessageToSession(UUID sessionID, Message message) throws RemoteException;
+
 //    public void getUserDate(User user)throws RemoteException;
     //testfunction
 //    public Map<String,ClientInterface> getAllusers()throws RemoteException;
-
     public void notifyStatusChange(User user) throws RemoteException;
+
+    public String sendMessageToBot(String request) throws RemoteException;
+
 }

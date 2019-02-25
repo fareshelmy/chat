@@ -2,6 +2,7 @@ package view.control.registerStagesControllers;
 
 import view.control.registerStagesControllers.AddDetailsController;
 import com.chat.common.User;
+import controller.implementations.Controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,7 +26,7 @@ import javafx.scene.layout.StackPane;
 
 import javafx.scene.layout.BorderPane;
 
-public class CreateAccount_2Controller implements Initializable {
+public class CreateNameController implements Initializable {
 
     @FXML
     private BorderPane borderPane;
@@ -47,14 +48,16 @@ public class CreateAccount_2Controller implements Initializable {
     private Button backBTN;
     @FXML
     private Button nextBTN;
-    Stage stage;
+    private Stage stage;
     private String firstName;
     private String lastName;
     private User user;
+    private Controller controller;
 
-    CreateAccount_2Controller(Stage stage, User user) {
+    CreateNameController(Stage stage, User user, Controller controller) {
         this.stage = stage;
         this.user = user;
+        this.controller = controller;
     }
 
     @Override
@@ -70,6 +73,10 @@ public class CreateAccount_2Controller implements Initializable {
         lastNameTXF.setOnAction((event) -> {
             moveToDetailsController();
         });
+
+        backBTN.setOnAction((event) -> {
+            goBack();
+        });
     }
 
     private void moveToDetailsController() {
@@ -79,7 +86,7 @@ public class CreateAccount_2Controller implements Initializable {
             user.setFirstName(firstName);
             user.setLastName(lastName);
 
-            AddDetailsController addDetailsController = new AddDetailsController(stage, user);
+            AddDetailsController addDetailsController = new AddDetailsController(stage, user, controller);
             FXMLLoader loader = new FXMLLoader();
             loader.setController(addDetailsController);
             Parent root = null;
@@ -96,6 +103,22 @@ public class CreateAccount_2Controller implements Initializable {
             stage.show();
         } else {
             requiredLabel.setVisible(true);
+        }
+    }
+
+    private void goBack() {
+        try {
+            CreatePasswordController createPasswordController = new CreatePasswordController(stage, user, controller);
+            FXMLLoader loader = new FXMLLoader();
+            loader.setController(createPasswordController);
+            Parent root = loader.load(getClass().getResource("/fxml/registerStagesFXMLs/CreatePassword.fxml").openStream());
+            Scene scene = new Scene(root, 400, 600);
+            scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException ex) {
+
         }
     }
 }
