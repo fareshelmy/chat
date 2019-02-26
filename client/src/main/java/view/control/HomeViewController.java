@@ -200,12 +200,13 @@
 //        System.out.println(user.getStatusEnum());
 //    }
 //}
-
-
 package view.control;
 
 import com.chat.common.User;
 import com.chat.common.entities.Message;
+import com.github.plushaze.traynotification.notification.Notification;
+import com.github.plushaze.traynotification.notification.Notifications;
+import com.github.plushaze.traynotification.notification.TrayNotification;
 import controller.implementations.Controller;
 import java.io.File;
 import java.io.IOException;
@@ -233,7 +234,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -291,6 +294,14 @@ public class HomeViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        String title = "Welcome " + user.getFirstName() + " " + user.getLastName() + " !";
+        Notification notification = Notifications.SUCCESS;
+
+        TrayNotification notifyMessage = new TrayNotification(title, "Have a nice day ^_^", notification);
+        notifyMessage.showAndDismiss(Duration.seconds(5));
+
+        AudioClip plonkSound = new AudioClip(getClass().getResource("/sounds/msg.mp3").toString());
+        plonkSound.play();
         // Add friend List to Contacts List
 
         /////////////////////code regarding XMLAPI//////////////////////////////
@@ -332,9 +343,9 @@ public class HomeViewController implements Initializable {
         cntTab.setContent(friendListController);
 
         headerController = new HeaderController(this);
- 
+
         header.getChildren().addAll(headerController.getChildren());
-        
+
         updateBTN.setOnAction((event) -> {
 
             try {

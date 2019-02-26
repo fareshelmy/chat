@@ -18,7 +18,11 @@ import static org.junit.Assert.*;
  */
 public class UserDAOHandlerTest {
 
+    User user = null;
+
     public UserDAOHandlerTest() {
+        user = new User("01008888888", "test", "test", "000", "test@hotmail.com", new byte[1000], GenderEnum.FEMALE, "Egypt", "2018-02-20", "hello", StatusEnum.BUSY, RegisteredByEnum.USER);
+
     }
 
     @BeforeClass
@@ -43,7 +47,6 @@ public class UserDAOHandlerTest {
     @Test
     public void testPersistUser() {
         System.out.println("persistUser");
-        User user = null;
         UserDAOHandler instance = new UserDAOHandler();
         instance.persistUser(user);
 
@@ -60,32 +63,6 @@ public class UserDAOHandlerTest {
         User expResult = null;
         User result = instance.validatePhone(phone);
         assertEquals(expResult, result);
-
-    }
-
-    /**
-     * Test of getUserContacts method, of class UserDAOHandler.
-     */
-    @Test
-    public void testGetUserContacts() {
-        System.out.println("getUserContacts");
-        User user = null;
-        UserDAOHandler instance = new UserDAOHandler();
-        List<User> expResult = null;
-        List<User> result = instance.getUserContacts(user);
-        assertEquals(expResult, result);
-
-    }
-
-    /**
-     * Test of update method, of class UserDAOHandler.
-     */
-    @Test
-    public void testUpdate() {
-        System.out.println("update");
-        User user = null;
-        UserDAOHandler instance = new UserDAOHandler();
-        instance.update(user);
 
     }
 

@@ -8,11 +8,15 @@ package model.control.implementations.services;
 import com.chat.common.ClientInterface;
 import com.chat.common.User;
 import com.chat.common.entities.Message;
+import com.github.plushaze.traynotification.notification.Notification;
+import com.github.plushaze.traynotification.notification.Notifications;
+import com.github.plushaze.traynotification.notification.TrayNotification;
 import controller.implementations.Controller;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.UUID;
+import javafx.util.Duration;
 
 /**
  *
@@ -28,8 +32,9 @@ public class ClientServiceImp extends UnicastRemoteObject implements ClientInter
 
     @Override
     public void receive(Message message) throws RemoteException {
-//        controller.sendMessageToGUI(message);
+        //controller.sendMessageToGUI(message);
         System.out.println(message.getMessage());
+
     }
 
     @Override
@@ -40,6 +45,7 @@ public class ClientServiceImp extends UnicastRemoteObject implements ClientInter
     @Override
     public void reciveMessageFromSession(UUID id, Message message) throws RemoteException {
         controller.displayMessageOnSession(id, message);
+
     }
 
     @Override

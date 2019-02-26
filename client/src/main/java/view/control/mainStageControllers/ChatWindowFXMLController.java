@@ -80,13 +80,14 @@
 //        controller.notifyStatusChange(user);
 //    }
 //}
-
-
 package view.control.mainStageControllers;
 
 import view.control.HomeViewController;
 import com.chat.common.entities.Message;
 import com.chat.common.User;
+import com.github.plushaze.traynotification.notification.Notification;
+import com.github.plushaze.traynotification.notification.Notifications;
+import com.github.plushaze.traynotification.notification.TrayNotification;
 import java.io.IOException;
 import view.view.MyHBox;
 import java.util.UUID;
@@ -100,6 +101,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
+import javafx.util.Duration;
 
 /**
  *
@@ -162,6 +165,15 @@ public class ChatWindowFXMLController extends BorderPane {
             hBox.getChildren().add(nameLabel);
             hBox.getChildren().add(messageLabel);
             msgBox.getChildren().add(hBox);
+
+            String title = "New message from: " + message.getUser().getFirstName() + " " + message.getUser().getLastName();
+
+            Notification notification = Notifications.NOTICE;
+
+            TrayNotification notifyMessage = new TrayNotification(title, message.getMessage(), notification);
+            notifyMessage.showAndDismiss(Duration.seconds(5));
+            AudioClip plonkSound = new AudioClip(getClass().getResource("/sounds/msg.mp3").toString());
+            plonkSound.play();
         });
 
     }
