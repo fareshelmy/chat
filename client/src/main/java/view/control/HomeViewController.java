@@ -202,6 +202,8 @@
 //}
 package view.control;
 
+import com.chat.common.RegisteredByEnum;
+import com.chat.common.StatusEnum;
 import com.chat.common.User;
 import com.chat.common.entities.Message;
 import com.github.plushaze.traynotification.notification.Notification;
@@ -210,6 +212,7 @@ import com.github.plushaze.traynotification.notification.TrayNotification;
 import controller.implementations.Controller;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -241,6 +244,10 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import sessionJAXB.ChatSessionType;
 import sessionJAXB.MessageType;
 import sessionJAXB.ObjectFactory;
@@ -280,6 +287,8 @@ public class HomeViewController implements Initializable {
     //////////////////////////////all opened sessions/////////////////////
     private Stage stage;
     List<MessageType> messagesList;
+    private boolean chatBotEnabled;
+    private boolean flag;
 
     public HomeViewController(Stage stage, Controller controller, User user) {
         this.stage = stage;
@@ -305,30 +314,29 @@ public class HomeViewController implements Initializable {
         // Add friend List to Contacts List
 
         /////////////////////code regarding XMLAPI//////////////////////////////
-//        MessageType message = new MessageType();
-//        message.setSender("Fares");
-//        message.setBackgroundcolor("red");
-//        message.setBody("Haiii");
-//        DatatypeFactory datatypeFactory = null;
-//        try {
-//            datatypeFactory = DatatypeFactory.newInstance();
-//        } catch (DatatypeConfigurationException ex) {
-//            Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        XMLGregorianCalendar date = datatypeFactory.newXMLGregorianCalendar(2019, 02, 12, 13, 34,
-//                DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED);
-//        message.setDate(date);
-//        message.setBold(true);
-//        message.setItalic(false);
-//        message.setUnderline(true);
-//        message.setFontcolor("black");
-//        message.setFontstyle("serif");
-//        message.setTimestamp(date);
-//        message.setFontsize(BigInteger.valueOf(13));
-//        messagesList.add(message);
-//        saveChatSession(messagesList);
-        /////////////////////code regarding XMLAPI//////////////////////////////
-//        friendListController = new FriendListController(controller.getFriendList(user), this);
+        MessageType message = new MessageType();
+        message.setSender("Fares");
+        message.setBackgroundcolor("red");
+        message.setBody("Hello");
+        DatatypeFactory datatypeFactory = null;
+        try {
+            datatypeFactory = DatatypeFactory.newInstance();
+        } catch (DatatypeConfigurationException ex) {
+            Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        XMLGregorianCalendar date = datatypeFactory.newXMLGregorianCalendar(2019, 02, 12, 13, 34,
+                DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED);
+        message.setDate(date);
+        message.setBold(true);
+        message.setItalic(false);
+        message.setUnderline(true);
+        message.setFontcolor("black");
+        message.setFontstyle("serif");
+        message.setTimestamp(date);
+        message.setFontsize(BigInteger.valueOf(13));
+        messagesList.add(message);
+        controller.saveChatSession(messagesList);
+        ///////////////////code regarding XMLAPI//////////////////////////////
 //        FXMLLoader loader = new FXMLLoader();
 //        loader.setController(friendListController);
 //        Parent frindListBox = null;
@@ -342,7 +350,7 @@ public class HomeViewController implements Initializable {
         friendListController = new FriendListController(this);
         cntTab.setContent(friendListController);
 
-        headerController = new HeaderController(this);
+        headerController = new HeaderController(this, user);
 
         header.getChildren().addAll(headerController.getChildren());
 
@@ -360,7 +368,13 @@ public class HomeViewController implements Initializable {
                 Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-
+        stage.setOnCloseRequest((event) -> {
+            controller.saveAccount(user, false);
+            user.setStatusEnum(StatusEnum.OFFLINE);
+            controller.notifyStatusChange(user);
+            controller.updateUser(user);
+            System.exit(0);
+        });
     }
 
     public void openSessionResponse(UUID sessionID) {
@@ -390,24 +404,6 @@ public class HomeViewController implements Initializable {
         return controller.getFriendList(user);
     }
 
-    private void saveChatSession(List<MessageType> messagesList) {
-        try {
-            JAXBContext context = JAXBContext.newInstance("JAXB");
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            ObjectFactory objectFactory = new ObjectFactory();
-            ChatSessionType chatSession = objectFactory.createChatSessionType();
-
-            for (MessageType message : messagesList) {
-                chatSession.getMessage().add(message);
-            }
-            JAXBElement<ChatSessionType> JAXBElement = objectFactory.createChatSession(chatSession);
-            marshaller.marshal(JAXBElement, new File("/src/main/resources/output.xml"));
-        } catch (JAXBException ex) {
-            Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     public void notifyStatusChange(User user) {
         controller.notifyStatusChange(user);
     }
@@ -415,5 +411,30 @@ public class HomeViewController implements Initializable {
     //to be replaced with a notification
     public void receiveStatusChange(User user) {
         System.out.println(user.getStatusEnum());
+    }
+
+    public boolean enableChatBot(boolean chatBotEnabled) {
+        this.chatBotEnabled = chatBotEnabled;
+        return this.chatBotEnabled;
+    }
+
+    public void editProfile() {
+        try {
+            EditProfileController profileController = new EditProfileController(user, controller);
+            FXMLLoader loader = new FXMLLoader();
+            loader.setController(profileController);
+            Parent root = loader.load(getClass().getResource("/fxml/other/EditProfile.fxml").openStream());
+
+            Scene scene = new Scene(root);
+            Stage stage1 = new Stage();
+            stage1.setScene(scene);
+            stage1.showAndWait();
+        } catch (IOException ex) {
+            Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void enableChatBot() {
+        flag = true;
     }
 }

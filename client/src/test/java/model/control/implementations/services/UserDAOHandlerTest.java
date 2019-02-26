@@ -69,17 +69,17 @@ public class UserDAOHandlerTest {
     /**
      * Test of addContact method, of class UserDAOHandler.
      */
-    @Test
-    public void testAddContact() {
-        System.out.println("addContact");
-        User adder = null;
-        User added = null;
-        UserDAOHandler instance = new UserDAOHandler();
-        boolean expResult = false;
-        boolean result = instance.addContact(adder, added);
-        assertEquals(expResult, result);
-
-    }
+//    @Test
+//    public void testAddContact() {
+//        System.out.println("addContact");
+//        User adder = null;
+//        User added = null;
+//        UserDAOHandler instance = new UserDAOHandler();
+//        boolean expResult = false;
+//        boolean result = instance.addContact(adder, added);
+//        assertEquals(expResult, result);
+//
+//    }
 
     /**
      * Test of getOfflineUsers method, of class UserDAOHandler.

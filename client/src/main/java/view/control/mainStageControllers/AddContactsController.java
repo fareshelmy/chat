@@ -50,6 +50,7 @@ public class AddContactsController implements Initializable {
     private Controller controller;
     private Stage stage;
 
+    
     public AddContactsController(User user, Controller controller, Stage stage) {
         this.stage = stage;
         this.controller = controller;
@@ -58,7 +59,7 @@ public class AddContactsController implements Initializable {
         phoneTextFields = new ArrayList<>();
         this.user = user;
 
-        user = new User("9", "9", "9", "9", "9", new byte[1000], GenderEnum.FEMALE, "Egypt", "2019-02-09", "9", StatusEnum.BUSY, RegisteredByEnum.USER);
+        user = new User("1111111111", "9", "9", "9", "9", new byte[1000], GenderEnum.FEMALE, "Egypt", "2019-02-09", "9", StatusEnum.BUSY, RegisteredByEnum.USER);
     }
 
     @Override

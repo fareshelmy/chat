@@ -5,7 +5,6 @@ package model.control.implementations;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import com.chat.utils.RemoteExceptionHandlerAlert;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.Remote;
@@ -39,7 +38,6 @@ public class ServiceLocator {
                 Logger.getLogger(ServiceLocator.class.getName()).log(Level.SEVERE, null, ex);
             } catch (RemoteException ex) {
                 ex.printStackTrace();
-                new RemoteExceptionHandlerAlert(Alert.AlertType.ERROR);
             }
         }
         return service;

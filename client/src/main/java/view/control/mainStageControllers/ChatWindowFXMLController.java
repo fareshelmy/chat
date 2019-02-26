@@ -137,17 +137,14 @@ public class ChatWindowFXMLController extends BorderPane {
 
         } catch (IOException ex) {
             System.out.println("Error in loading ChatWindowFXML.fxml");
-            ex.printStackTrace();
         }
         sendButton.setOnAction((event) -> {
             sendMessage();
         });
-        msgBox.setOnKeyPressed((event) -> {
-            if (event.getCode().equals(KeyCode.ENTER)) {
+        msgWriter.setOnAction((event) -> {
                 sendMessage();
-            }
         });
-        msgBox.getChildren().add(new MyHBox());
+        
 
     }
 
@@ -179,8 +176,9 @@ public class ChatWindowFXMLController extends BorderPane {
     }
 
     public void sendMessage() {
-        Message message = new Message(user, msgWriter.getText());
+        Message message = new Message(user, msgWriter.getText().trim());
         controller.sendMessageToSession(sessionID, message);
+        msgWriter.clear();
     }
 
 //to notify this user's contacts of status change

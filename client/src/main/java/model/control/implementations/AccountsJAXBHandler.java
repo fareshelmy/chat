@@ -10,6 +10,9 @@ import accountsJAXB.AccountsType;
 import accountsJAXB.ObjectFactory;
 import com.chat.common.User;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -33,7 +36,7 @@ public class AccountsJAXBHandler {
         accounts = new ArrayList<>();
     }
 
-    public void saveAccount(User user) {
+    public void saveAccount(User user, boolean save) {
         try {
             JAXBContext context = JAXBContext.newInstance("accountsJAXB");
             Marshaller marshaller = context.createMarshaller();
@@ -41,7 +44,7 @@ public class AccountsJAXBHandler {
             accountsJAXB.ObjectFactory objectFactory = new ObjectFactory();
             AccountType newAccount = objectFactory.createAccountType();
             newAccount.setAccountId(user.getPhone());
-            newAccount.setSaved(true);
+            newAccount.setSaved(save);
             AccountsType accountsType = objectFactory.createAccountsType();
 
             for (AccountType oldAccount : accounts) {
@@ -57,16 +60,15 @@ public class AccountsJAXBHandler {
     }
 
     public List<AccountType> loadAccounts() {
-        List<AccountType> accountsList = null;
         try {
             JAXBContext context = JAXBContext.newInstance("accountsJAXB");
             Unmarshaller unmarshaller = context.createUnmarshaller();
             JAXBElement JAXBMyAccountsElement = (JAXBElement) unmarshaller.unmarshal(new File("accounts.xml"));
             AccountsType accountsType = (AccountsType) JAXBMyAccountsElement.getValue();
-            accountsList = accountsType.getAccount();
+            accounts = accountsType.getAccount();
         } catch (JAXBException ex) {
             Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return accountsList;
+        return accounts;
     }
 }

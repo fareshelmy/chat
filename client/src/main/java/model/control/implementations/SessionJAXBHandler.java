@@ -11,6 +11,9 @@ import com.chat.common.User;
 import sessionJAXB.ChatSessionType;
 import sessionJAXB.MessageType;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,6 +23,15 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Templates;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import sessionJAXB.ObjectFactory;
 import view.control.HomeViewController;
 
@@ -42,6 +54,7 @@ public class SessionJAXBHandler {
             }
             JAXBElement<ChatSessionType> JAXBElement = objectFactory.createChatSession(chatSession);
             marshaller.marshal(JAXBElement, new File("chatsession.xml"));
+            transferToHTML("chatsession.xml", "index.html", "xslt.xsl");
         } catch (JAXBException ex) {
             Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -59,5 +72,22 @@ public class SessionJAXBHandler {
             Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return messagesList;
+    }
+
+    public static void transferToHTML(String inputFileName, String outputFilename, String xslFilename) {
+        try {
+            TransformerFactory factory = TransformerFactory.newInstance();
+            Templates template = factory.newTemplates(new StreamSource(new FileInputStream(xslFilename)));
+            Transformer transformer = template.newTransformer();
+            Source source = new StreamSource(new FileInputStream(inputFileName));
+            Result result = new StreamResult(new FileOutputStream(outputFilename));
+            transformer.transform(source, result);
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (TransformerConfigurationException ex) {
+            ex.printStackTrace();
+        } catch (TransformerException ex) {
+            ex.printStackTrace();
+        }
     }
 }

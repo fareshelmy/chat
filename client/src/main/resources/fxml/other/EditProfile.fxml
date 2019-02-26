@@ -44,7 +44,7 @@
                   <ImageView fx:id="lastNameImgView" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                </graphic>
             </Label>
-            <TextField fx:id="LastNameTextField" layoutX="230.0" layoutY="263.0" prefHeight="25.0" prefWidth="212.0" />
+            <TextField fx:id="lastNameTextField" layoutX="230.0" layoutY="263.0" prefHeight="25.0" prefWidth="212.0" />
             <Label layoutX="23.0" layoutY="302.0" text="Email">
                <graphic>
                   <ImageView fx:id="emailImgView" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />

@@ -106,8 +106,8 @@ public class Controller {
         return new SessionJAXBHandler().loadChatSession();
     }
 
-    public void saveAccount(User user) {
-        accountsJAXBHandler.saveAccount(user);
+    public void saveAccount(User user, boolean save) {
+        accountsJAXBHandler.saveAccount(user, save);
     }
 
     public List<AccountType> loadAccounts() {

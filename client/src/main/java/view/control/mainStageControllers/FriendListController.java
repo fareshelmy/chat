@@ -213,10 +213,8 @@ public class FriendListController extends StackPane {
             loader.load();
         } catch (IOException ex) {
             System.err.println("error in loading FriendListFXML.fxml");
-            ex.printStackTrace();
         }
         if (!frindList.isEmpty()) {
-            System.out.println(frindListBox.getChildren()); 
             ListContainer.getChildren().clear();
             vBox = new VBox();
             vBox.setStyle(frindListBox.getStyle());

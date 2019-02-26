@@ -7,7 +7,6 @@ package model.control.implementations.services;
 
 import com.chat.common.User;
 import com.chat.common.UserDAO;
-import com.chat.utils.RemoteExceptionHandlerAlert;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +33,6 @@ public class UserDAOHandler {
             userDao.persist(user);
         } catch (RemoteException ex) {
             Logger.getLogger(UserDAOHandler.class.getName()).log(Level.SEVERE, null, ex);
-            new RemoteExceptionHandlerAlert(Alert.AlertType.ERROR);
         }
     }
 
@@ -43,7 +41,6 @@ public class UserDAOHandler {
             return userDao.validate(phone);
         } catch (RemoteException ex) {
             Logger.getLogger(UserDAOHandler.class.getName()).log(Level.SEVERE, null, ex);
-            new RemoteExceptionHandlerAlert(Alert.AlertType.ERROR);
         }
         return null;
     }
@@ -54,7 +51,6 @@ public class UserDAOHandler {
             contacts = userDao.retrieveContacts(user);
         } catch (RemoteException ex) {
             Logger.getLogger(UserDAOHandler.class.getName()).log(Level.SEVERE, null, ex);
-            new RemoteExceptionHandlerAlert(Alert.AlertType.ERROR);
         }
         return contacts;
     }
@@ -64,12 +60,16 @@ public class UserDAOHandler {
             userDao.update(user);
         } catch (RemoteException ex) {
             Logger.getLogger(UserDAOHandler.class.getName()).log(Level.SEVERE, null, ex);
-            new RemoteExceptionHandlerAlert(Alert.AlertType.ERROR);
         }
     }
 
     public boolean addContact(User adder, User added) {
-        System.out.println("model.control.implementations.services.UserDAOHandler.addContact()");
-        return false;
+        boolean userFound = false;
+        try {
+            userFound = userDao.addContact(adder, added);
+        } catch (RemoteException ex) {
+            Logger.getLogger(UserDAOHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return userFound;
     }
 }
