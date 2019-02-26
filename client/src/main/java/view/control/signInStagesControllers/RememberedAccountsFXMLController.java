@@ -50,6 +50,23 @@ public class RememberedAccountsFXMLController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        AccountHBox newAccountHBox = new AccountHBox(null);
+        newAccountHBox.addEventHandler(MouseEvent.MOUSE_CLICKED, (event) -> {
+            try {
+                SignInPhoneController signInPhoneController = new SignInPhoneController(stage, controller);
+                FXMLLoader loader = new FXMLLoader();
+                loader.setController(signInPhoneController);
+                Parent root = loader.load(getClass().getResource("/fxml/signInStagesFXMLs/SignInPhone.fxml").openStream());
+                Scene scene = new Scene(root, 400, 600);
+                scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(RememberedAccountsFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        vBox.getChildren().add(newAccountHBox);
+
         new Thread(() -> {
             List<AccountType> accounts = controller.loadAccounts();
             accounts.forEach((account) -> {
@@ -76,23 +93,6 @@ public class RememberedAccountsFXMLController implements Initializable {
                 }
             });
         }).start();
-
-        AccountHBox newAccountHBox = new AccountHBox(null);
-        newAccountHBox.addEventHandler(MouseEvent.MOUSE_CLICKED, (event) -> {
-            try {
-                SignInPhoneController signInPhoneController = new SignInPhoneController(stage, controller);
-                FXMLLoader loader = new FXMLLoader();
-                loader.setController(signInPhoneController);
-                Parent root = loader.load(getClass().getResource("/fxml/signInStagesFXMLs/SignInPhone.fxml").openStream());
-                Scene scene = new Scene(root, 400, 600);
-                scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException ex) {
-                Logger.getLogger(RememberedAccountsFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
-        vBox.getChildren().add(newAccountHBox);
     }
 
 }

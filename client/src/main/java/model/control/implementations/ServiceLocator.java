@@ -31,7 +31,7 @@ public class ServiceLocator {
         if (service == null) {
             try {
                 //Registry registry = LocateRegistry.getRegistry("localhost");
-                Registry registry = LocateRegistry.getRegistry("10.145.1.226",3000);
+                Registry registry = LocateRegistry.getRegistry("localhost");
 
                 service = registry.lookup(serviceName);
                 services.put(serviceName, service);

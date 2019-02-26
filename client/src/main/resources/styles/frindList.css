@@ -1,3 +1,11 @@
-.VBox{
-    -fx-background-color: red;
+#frindListBox{
+    -fx-background-color: white;
+    -fx-pref-width:100%;
+    -fx-pref-height:100%;
+}
+#ListContainer{
+    -fx-background-color: white;
+}
+.frind-Box{
+    -fx-background-color: white;
 }
