@@ -153,7 +153,7 @@ public class EditProfileController implements Initializable {
 
         userCircle.setFill(new ImagePattern(bioImage));
         bioTextArea.setText(user.getBio());
-        BirthdayTextField.setText(user.getDateOfBirth());
+        BirthdayTextField.setText(user.getDateOfBirth().toString());
         countryTextField.setText(user.getCountry());
         emailTextField.setText(user.getEmail());
         genderTextField.setText(user.getGenderEnum());

@@ -9,6 +9,7 @@ import controller.implementations.Controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.rmi.RemoteException;
+import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,6 +48,10 @@ public class ServerMain extends Application {
     }
 
     public static void main(String[] args) {
+        UserDAOImpl userDaoImpl = DatabaseConnector.getUserDaoImpl();
+//            userDaoImpl.update(new User("123", "fares", "wwije", "wkwije", "kjei2", null, GenderEnum.FEMALE, "qqee", new Date(), "iwje2", StatusEnum.BUSY, RegisteredByEnum.USER));
+//            System.out.println(userDaoImpl.addContact(new User("111", "fares", "wwije", "wkwije", "kjei2", null, GenderEnum.FEMALE, "qqee", new Date(), "iwje2", StatusEnum.BUSY, RegisteredByEnum.USER),
+//                    new User("123", "fares", "wwije", "wkwije", "kjei2", null, GenderEnum.FEMALE, "qqee", new Date(), "iwje2", StatusEnum.BUSY, RegisteredByEnum.USER)));
 
         new ServerMain();
         launch(args);

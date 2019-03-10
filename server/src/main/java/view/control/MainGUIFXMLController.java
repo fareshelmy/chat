@@ -13,6 +13,8 @@ import com.chat.utils.FieldValidationUtil;
 import controller.implementations.Controller;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -219,7 +221,7 @@ public class MainGUIFXMLController implements Initializable {
                 user.setEmail(email);
                 user.setCountry(country);
                 user.setGenderEnum(GenderEnum.valueOf(gender.toUpperCase()));
-                user.setDateOfBirth(birthDate.toString());
+                user.setDateOfBirth(Date.from(birthDate.atStartOfDay().toInstant(ZoneOffset.UTC)));
                 user.setStatusEnum(StatusEnum.OFFLINE);
                 user.setRegisteredBy(RegisteredByEnum.ADMIN);
                 controller.persistUser(user);

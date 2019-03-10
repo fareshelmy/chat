@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-Mar-2019 19:07:28 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="controller.implementations.Users" table="users" catalog="chat" optimistic-lock="version">
+        <id name="phone" type="string">
+            <column name="phone" length="20" />
+            <generator class="assigned" />
+        </id>
+        <property name="firstName" type="string">
+            <column name="first_name" length="20" not-null="true" />
+        </property>
+        <property name="lastName" type="string">
+            <column name="last_name" length="20" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="20" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="40" not-null="true" />
+        </property>
+        <property name="pic" type="binary">
+            <column name="pic" />
+        </property>
+        <property name="gender" type="string">
+            <column name="gender" length="20" not-null="true" />
+        </property>
+        <property name="country" type="string">
+            <column name="country" length="20" not-null="true" />
+        </property>
+        <property name="dateOfBirth" type="date">
+            <column name="date_of_birth" length="10" not-null="true" />
+        </property>
+        <property name="bio" type="string">
+            <column name="bio" length="500" not-null="true" />
+        </property>
+        <property name="status" type="string">
+            <column name="status" length="40" not-null="true" />
+        </property>
+        <property name="registeredBy" type="string">
+            <column name="registered_by" length="40" not-null="true" />
+        </property>
+        <set name="usersHaveUsersesForPhoneB" table="users_have_users" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="phone_b" length="20" not-null="true" />
+            </key>
+            <one-to-many class="controller.implementations.UsersHaveUsers" />
+        </set>
+        <set name="usersHaveUsersesForPhoneA" table="users_have_users" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="phone_a" length="20" not-null="true" />
+            </key>
+            <one-to-many class="controller.implementations.UsersHaveUsers" />
+        </set>
+    </class>
+</hibernate-mapping>

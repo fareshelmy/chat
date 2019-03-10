@@ -9,6 +9,7 @@ import com.chat.common.User;
 import controller.implementations.Controller;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -59,7 +60,7 @@ public class AddContactsController implements Initializable {
         phoneTextFields = new ArrayList<>();
         this.user = user;
 
-        user = new User("1111111111", "9", "9", "9", "9", new byte[1000], GenderEnum.FEMALE, "Egypt", "2019-02-09", "9", StatusEnum.BUSY, RegisteredByEnum.USER);
+        user = new User("1111111111", "9", "9", "9", "9", new byte[1000], GenderEnum.FEMALE, "Egypt", new Date(), "9", StatusEnum.BUSY, RegisteredByEnum.USER);
     }
 
     @Override

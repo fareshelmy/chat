@@ -120,7 +120,7 @@ public class Controller {
 
     public void startService() {
         try {
-            userDaoImpl = new DatabaseConnector().getUserDaoImpl();
+            userDaoImpl = DatabaseConnector.getUserDaoImpl();
             chatServiceImpl = new ChatServiceImpl(userDaoImpl);
             serverService = new ServerService(userDaoImpl, chatServiceImpl);
             User user = new User();

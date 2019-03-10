@@ -4,6 +4,7 @@ import com.chat.common.GenderEnum;
 import com.chat.common.RegisteredByEnum;
 import com.chat.common.StatusEnum;
 import com.chat.common.User;
+import java.util.Date;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -21,7 +22,7 @@ public class UserDAOHandlerTest {
     User user = null;
 
     public UserDAOHandlerTest() {
-        user = new User("01008888888", "test", "test", "000", "test@hotmail.com", new byte[1000], GenderEnum.FEMALE, "Egypt", "2018-02-20", "hello", StatusEnum.BUSY, RegisteredByEnum.USER);
+        user = new User("01008888888", "test", "test", "000", "test@hotmail.com", new byte[1000], GenderEnum.FEMALE, "Egypt", new Date(), "hello", StatusEnum.BUSY, RegisteredByEnum.USER);
 
     }
 
@@ -80,7 +81,6 @@ public class UserDAOHandlerTest {
 //        assertEquals(expResult, result);
 //
 //    }
-
     /**
      * Test of getOfflineUsers method, of class UserDAOHandler.
      */

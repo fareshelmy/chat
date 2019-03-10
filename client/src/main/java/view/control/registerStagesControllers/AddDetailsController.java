@@ -7,6 +7,9 @@ import com.chat.common.User;
 import controller.implementations.Controller;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,10 +60,10 @@ public class AddDetailsController implements Initializable {
 
     private User user;
     private String country;
-    private String birthDate;
 
     private Stage stage;
     private Controller controller;
+    private LocalDate birthDate;
 
     AddDetailsController(Stage stage, User user, Controller controller) {
         this.controller = controller;
@@ -86,10 +89,9 @@ public class AddDetailsController implements Initializable {
     private void goNext() {
         if (birthdatePocker.getValue() != null) {
             country = countryCBX.getValue();
-            birthDate = birthdatePocker.getValue().toString();
-            System.out.println(birthDate);
+            birthDate = birthdatePocker.getValue();
             user.setCountry(country);
-            user.setDateOfBirth(birthDate);
+            user.setDateOfBirth(Date.from(birthDate.atStartOfDay().toInstant(ZoneOffset.UTC)));
             AddDetailsSecondController addDetailsSecondController = new AddDetailsSecondController(stage, user, controller);
             FXMLLoader loader = new FXMLLoader();
             loader.setController(addDetailsSecondController);
@@ -112,7 +114,7 @@ public class AddDetailsController implements Initializable {
 
     private void goBack() {
         try {
-            CreateNameController accountSecondController = new CreateNameController(stage, user , controller);
+            CreateNameController accountSecondController = new CreateNameController(stage, user, controller);
             FXMLLoader loader = new FXMLLoader();
             loader.setController(accountSecondController);
             Parent root = loader.load(getClass().getResource("/fxml/registerStagesFXMLs/CreateAccountSecond.fxml").openStream());

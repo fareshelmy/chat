@@ -27,12 +27,12 @@ public class User implements Serializable {
     byte[] pic;
     GenderEnum genderEnum;
     String country;
-    String dateOfBirth;
+    Date dateOfBirth;
     String bio;
     StatusEnum statusEnum;
     RegisteredByEnum registeredByEnum;
 
-    public User(String phone, String firstName, String lastName, String password, String email, byte[] pic, GenderEnum genderEnum, String country, String dateOfBirth, String bio, StatusEnum statusEnum, RegisteredByEnum registeredByEnum) {
+    public User(String phone, String firstName, String lastName, String password, String email, byte[] pic, GenderEnum genderEnum, String country, Date dateOfBirth, String bio, StatusEnum statusEnum, RegisteredByEnum registeredByEnum) {
         this.phone = phone;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -114,11 +114,11 @@ public class User implements Serializable {
         this.country = country;
     }
 
-    public String getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
