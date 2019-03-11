@@ -317,23 +317,17 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
         Session session = MyFactory.getSession();
         session.beginTransaction();
 
-        String queryString = "select count(Users.phone),Users.country from Users group by Users.country";
-        Query countryResults = session.createQuery(queryString);
-        List<Object> countries = countryResults.list();
-        countries.forEach((countryStats) -> {
-            countryStatistics.put((String)countryStats[1], (Integer)countryStats[0]);
+        String queryString = "select Users.country from Users";
+        Query countriesResults = session.createQuery(queryString);
+        List<String> countries = countriesResults.list();
+        
+        countries.forEach((country) -> {
+            String countryQueryString  = "select count(u) from Users u where u.country = :country";
+            Query usersFromCountry = session.createQuery(countryQueryString).setString("country", country);
+            countryStatistics.put(country, (Integer)usersFromCountry.uniqueResult());
         });
         
-//        try {
-//            String sql = "select Count(phone),country from users group by country";
-//            ResultSet resultSet = statement.executeQuery(sql);
-//            while (resultSet.next()) {
-//                countryStatistics.put(resultSet.getString(2), resultSet.getInt(1));
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return countryStatistics;
-        return null;
+        return countryStatistics;
+        
     }
 }
