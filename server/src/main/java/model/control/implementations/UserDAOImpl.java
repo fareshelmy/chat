@@ -35,6 +35,7 @@ import java.text.DateFormat;
 import java.util.HashSet;
 import javax.sql.rowset.CachedRowSet;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
@@ -120,10 +121,33 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
             if (addedCheckObject != null) {
                 //changes this status to accepted and adds a new row for adder
                 addedCheckObject.setAcceptanceStatus("accepted");
-                Users newAdderObject = new Users();
-                newAdderObject.setPhone(adder.getPhone());
-                Users newAddedObject = new Users();
-                newAddedObject.setPhone(added.getPhone());
+
+                Users newAdderObject = new Users(adder.getPhone(),
+                        adder.getFirstName(),
+                        adder.getLastName(),
+                        adder.getPassword(),
+                        adder.getEmail(),
+                        adder.getPic(),
+                        adder.getGenderEnum(),
+                        adder.getCountry(),
+                        adder.getDateOfBirth(),
+                        adder.getBio(),
+                        adder.getStatusEnum(),
+                        adder.getRegisteredByEnum(), new HashSet(0), new HashSet(0));
+
+                Users newAddedObject = new Users(added.getPhone(),
+                        added.getFirstName(),
+                        added.getLastName(),
+                        added.getPassword(),
+                        added.getEmail(),
+                        added.getPic(),
+                        added.getGenderEnum(),
+                        added.getCountry(),
+                        added.getDateOfBirth(),
+                        added.getBio(),
+                        added.getStatusEnum(),
+                        added.getRegisteredByEnum(), new HashSet(0), new HashSet(0));
+
                 UsersHaveUsers newEntry = new UsersHaveUsers(new UsersHaveUsersId(adder.getPhone(), added.getPhone()), newAdderObject, newAddedObject, "accepted");
                 session.beginTransaction();
                 session.saveOrUpdate(addedCheckObject);
@@ -131,10 +155,33 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
                 session.getTransaction().commit();
             } else {
                 //adds a new row for this friend request
-                Users newAdderObject = new Users();
-                newAdderObject.setPhone(adder.getPhone());
-                Users newAddedObject = new Users();
-                newAddedObject.setPhone(added.getPhone());
+                
+                Users newAdderObject = new Users(adder.getPhone(),
+                        adder.getFirstName(),
+                        adder.getLastName(),
+                        adder.getPassword(),
+                        adder.getEmail(),
+                        adder.getPic(),
+                        adder.getGenderEnum(),
+                        adder.getCountry(),
+                        adder.getDateOfBirth(),
+                        adder.getBio(),
+                        adder.getStatusEnum(),
+                        adder.getRegisteredByEnum(), new HashSet(0), new HashSet(0));
+
+                Users newAddedObject = new Users(added.getPhone(),
+                        added.getFirstName(),
+                        added.getLastName(),
+                        added.getPassword(),
+                        added.getEmail(),
+                        added.getPic(),
+                        added.getGenderEnum(),
+                        added.getCountry(),
+                        added.getDateOfBirth(),
+                        added.getBio(),
+                        added.getStatusEnum(),
+                        added.getRegisteredByEnum(), new HashSet(0), new HashSet(0));
+
                 UsersHaveUsers newEntry = new UsersHaveUsers(new UsersHaveUsersId(adder.getPhone(), added.getPhone()), newAdderObject, newAddedObject, "pending");
                 session.beginTransaction();
                 session.persist(newEntry);
@@ -148,31 +195,36 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
 
     @Override
     public List<User> retrieveContacts(User user) throws RemoteException {
-//        List<User> friendList = new ArrayList<>();
-//        String sql = "SELECT * FROM USERS WHERE PHONE IN (SELECT PHONE_B FROM USERS_HAVE_USERS WHERE PHONE_A = '"
-//                + user.getPhone() + "')";
-//        try {
-//            ResultSet resultSet = statement.executeQuery(sql);
-//
-//            while (resultSet.next()) {
-//                friendList.add(new User(resultSet.getString("PHONE"),
-//                        resultSet.getString("FIRST_NAME"),
-//                        resultSet.getString("LAST_NAME"),
-//                        resultSet.getString("PASSWORD"),
-//                        resultSet.getString("EMAIL"),
-//                        resultSet.getBytes("PIC"),
-//                        GenderEnum.valueOf(resultSet.getString("GENDER").toUpperCase()),
-//                        resultSet.getString("COUNTRY"),
-//                        resultSet.getString("DATE_OF_BIRTH"),
-//                        resultSet.getString("BIO"),
-//                        StatusEnum.valueOf(resultSet.getString("STATUS").toUpperCase()),
-//                        RegisteredByEnum.valueOf(resultSet.getString("REGISTERED_BY").toUpperCase())));
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return friendList;
-        return null;
+
+        Session session = MyFactory.getSession();
+        session.beginTransaction();
+
+        Users userObject = (Users) session.load(Users.class, user.getPhone());
+
+        String queryString = "select usersByPhoneB from UsersHaveUsers where usersByPhoneA = :user";
+        Query contactResults = session.createQuery(queryString).setEntity("user", userObject);
+
+        List<Users> contacts = contactResults.list();
+
+        List<User> friendList = new ArrayList<>();
+
+        for (Users contact : contacts) {
+
+            friendList.add(new User(contact.getPhone(),
+                    contact.getFirstName(), contact.getLastName(),
+                    contact.getPassword(), contact.getEmail(),
+                    contact.getPic(),
+                    GenderEnum.valueOf(contact.getGender().toUpperCase()),
+                    contact.getCountry(), contact.getDateOfBirth(),
+                    contact.getBio(),
+                    StatusEnum.valueOf(contact.getStatus().toUpperCase()),
+                    RegisteredByEnum.valueOf(contact.getRegisteredBy().toUpperCase())));
+        }
+        
+        session.close();
+
+        return friendList;
+
     }
 
     @Override
@@ -201,66 +253,77 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
 
     @Override
     public int getOnlineUsers() throws RemoteException {
-//        Integer result = null;
-//        try {
-//            String sql = "select Count(*) from users where status='" + StatusEnum.ONLINE.getStatus(StatusEnum.ONLINE) + "'";
-//            ResultSet resultSet = statement.executeQuery(sql);
-//            if (resultSet.next()) {
-//                result = resultSet.getInt(1);
-//            } else {
-//                System.err.println("Error happend!System failed to count online users.");
-//            }
-//
-//        } catch (SQLException ex) {
-//            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-//            ex.printStackTrace();
-//        }
-//        return result;
-        return 0;
+        
+        Session session = MyFactory.getSession();
+        session.beginTransaction();
+
+        String queryString = "from Users where Users.status = :status";
+        Query onlineUsers = session.createQuery(queryString).setString("status", StatusEnum.ONLINE.toString());
+
+        List<Users> users = onlineUsers.list();
+        
+        session.close();
+        
+        return users.size();
+        
     }
 
     @Override
     public int getOfflineUsers() throws RemoteException {
-//        Integer result = null;
-//        try {
-//            String sql = "select Count(*) from users where status='" + StatusEnum.OFFLINE.getStatus(StatusEnum.OFFLINE) + "'";
-//            ResultSet resultSet = statement.executeQuery(sql);
-//            if (resultSet.next()) {
-//                result = resultSet.getInt(1);
-//            } else {
-//                System.err.println("Error happend!System failed to count offline users.");
-//            }
-//
-//        } catch (SQLException ex) {
-//            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-//            ex.printStackTrace();
-//        }
-//        return result;
-        return 0;
+
+        Session session = MyFactory.getSession();
+        session.beginTransaction();
+
+        String queryString = "from Users where Users.status = :status";
+        Query offlineUsers = session.createQuery(queryString).setString("status", StatusEnum.OFFLINE.toString());
+
+        List<Users> users = offlineUsers.list();
+        
+        session.close();
+        
+        return users.size();
+        
     }
 
     @Override
     public Map<String, Integer> getGenderStatistics() throws RemoteException {
-//        Map<String, Integer> genderStatistics = new HashMap<>();
-//        try {
-//            String sql = "select Count(phone),gender from users group by gender";
-//            ResultSet resultSet = statement.executeQuery(sql);
-//            while (resultSet.next()) {
-//                genderStatistics.put(resultSet.getString(2), resultSet.getInt(1));
-//            }
-//
-//        } catch (SQLException ex) {
-//            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-//            ex.printStackTrace();
-//        }
-//        return genderStatistics;
-        return null;
+       
+        Map<String, Integer> genderStatistics = new HashMap<>();
+        
+        Session session = MyFactory.getSession();
+        session.beginTransaction();
+
+        String queryString = "from Users where Users.gender = :gender";
+        Query contactResults = session.createQuery(queryString).setString("gender", GenderEnum.MALE.toString());
+        Integer maleCount = contactResults.list().size();
+        
+        contactResults = session.createQuery(queryString).setString("gender", GenderEnum.FEMALE.toString());
+        Integer femaleCount = contactResults.list().size();
+        
+        session.close();
+        
+        genderStatistics.put(GenderEnum.MALE.toString(), maleCount);
+        genderStatistics.put(GenderEnum.FEMALE.toString(), femaleCount);
+        
+        return genderStatistics;
+        
     }
 
     @Override
     public Map<String, Integer> getCountryStatistics() throws RemoteException {
 
-//        Map<String, Integer> countryStatistics = new HashMap<>();
+        Map<String, Integer> countryStatistics = new HashMap<>();
+        
+        Session session = MyFactory.getSession();
+        session.beginTransaction();
+
+        String queryString = "select count(Users.phone),Users.country from Users group by Users.country";
+        Query countryResults = session.createQuery(queryString);
+        List<Object> countries = countryResults.list();
+        countries.forEach((countryStats) -> {
+            countryStatistics.put((String)countryStats[1], (Integer)countryStats[0]);
+        });
+        
 //        try {
 //            String sql = "select Count(phone),country from users group by country";
 //            ResultSet resultSet = statement.executeQuery(sql);
