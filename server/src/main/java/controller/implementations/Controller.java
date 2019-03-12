@@ -69,8 +69,8 @@ public class Controller {
         return genderStatistics;
     }
 
-    public Map<String, Integer> getCountryStatistics() {
-        Map<String, Integer> countryStatistics = null;
+    public Map<String, Long> getCountryStatistics() {
+        Map<String, Long> countryStatistics = null;
         if (userDaoImpl != null) {
             try {
                 countryStatistics = userDaoImpl.getCountryStatistics();

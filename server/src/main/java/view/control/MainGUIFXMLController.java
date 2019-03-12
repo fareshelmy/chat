@@ -166,16 +166,16 @@ public class MainGUIFXMLController implements Initializable {
         }
         worldImageView.setImage(new Image(getClass().getResource("/images/world.png").toString()));
 
-        Map<String, Integer> countryStatistics = controller.getCountryStatistics();
+        Map<String, Long> countryStatistics = controller.getCountryStatistics();
         if (countryStatistics != null) {
-            Integer egyptCount = countryStatistics.get("Egypt");
+            Long egyptCount = countryStatistics.get("Egypt");
             egyptNumberLabel.setText(egyptCount == null ? String.valueOf(0) : egyptCount.toString());
             ImageView egyptImageView = new ImageView(new Image(getClass().getResource("/images/egypt.png").toString()));
             egyptImageView.setFitWidth(13);
             egyptImageView.setFitHeight(10);
             egyptLabel.setGraphic(egyptImageView);
 
-            Integer KSACount = countryStatistics.get("KSA");
+            Long KSACount = countryStatistics.get("KSA");
             KSANumberLabel.setText(KSACount == null ? String.valueOf(0) : KSACount.toString());
 
             ImageView KSAImageView = new ImageView(new Image(getClass().getResource("/images/ksa.png").toString()));
@@ -183,7 +183,7 @@ public class MainGUIFXMLController implements Initializable {
             KSAImageView.setFitHeight(10);
             KSALabel.setGraphic(KSAImageView);
 
-            Integer UAECount = countryStatistics.get("UAE");
+            Long UAECount = countryStatistics.get("UAE");
             UAENumberLabel.setText(UAECount == null ? String.valueOf(0) : UAECount.toString());
 
             ImageView UAEImageView = new ImageView(new Image(getClass().getResource("/images/uae.jpg").toString()));
@@ -191,7 +191,7 @@ public class MainGUIFXMLController implements Initializable {
             UAEImageView.setFitHeight(10);
             UAELabel.setGraphic(UAEImageView);
 
-            Integer USACount = countryStatistics.get("USA");
+            Long USACount = countryStatistics.get("USA");
             USANumberLabel.setText(USACount == null ? String.valueOf(0) : USACount.toString());
 
             ImageView USAImageView = new ImageView(new Image(getClass().getResource("/images/usa.png").toString()));
@@ -199,7 +199,7 @@ public class MainGUIFXMLController implements Initializable {
             USAImageView.setFitHeight(10);
             USALabel.setGraphic(USAImageView);
 
-            Integer otherCountriesCount = countryStatistics.get("Other");
+            Long otherCountriesCount = countryStatistics.get("Other");
             otherNumberLabel.setText(otherCountriesCount == null ? String.valueOf(0) : otherCountriesCount.toString());
         }
     }

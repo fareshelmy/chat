@@ -49,10 +49,14 @@ public class ServerMain extends Application {
 
     public static void main(String[] args) {
         UserDAOImpl userDaoImpl = DatabaseConnector.getUserDaoImpl();
-//            userDaoImpl.update(new User("123", "fares", "wwije", "wkwije", "kjei2", null, GenderEnum.FEMALE, "qqee", new Date(), "iwje2", StatusEnum.BUSY, RegisteredByEnum.USER));
+        try {
+            //            userDaoImpl.update(new User("123", "fares", "wwije", "wkwije", "kjei2", null, GenderEnum.FEMALE, "qqee", new Date(), "iwje2", StatusEnum.BUSY, RegisteredByEnum.USER));
 //            System.out.println(userDaoImpl.addContact(new User("111", "fares", "wwije", "wkwije", "kjei2", null, GenderEnum.FEMALE, "qqee", new Date(), "iwje2", StatusEnum.BUSY, RegisteredByEnum.USER),
 //                    new User("123", "fares", "wwije", "wkwije", "kjei2", null, GenderEnum.FEMALE, "qqee", new Date(), "iwje2", StatusEnum.BUSY, RegisteredByEnum.USER)));
-
+        System.out.println(userDaoImpl.getOfflineUsers());
+        } catch (RemoteException ex) {
+            Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
         new ServerMain();
         launch(args);
     }

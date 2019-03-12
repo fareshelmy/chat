@@ -33,6 +33,7 @@ import java.io.InputStream;
 import java.sql.Blob;
 import java.text.DateFormat;
 import java.util.HashSet;
+import java.util.Iterator;
 import javax.sql.rowset.CachedRowSet;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -271,14 +272,14 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
         Session session = MyFactory.getSession();
         session.beginTransaction();
 
-        String queryString = "from Users where Users.status = :status";
-        Query onlineUsers = session.createQuery(queryString).setString("status", StatusEnum.ONLINE.toString());
+        Criteria onlineUsers = session.createCriteria(Users.class,"u");
+        onlineUsers.add(Restrictions.eq("u.status", StatusEnum.ONLINE.toString()));
 
-        List<Users> users = onlineUsers.list();
+        Integer users = onlineUsers.list().size();
         
         session.close();
         
-        return users.size();
+        return users;
         
     }
 
@@ -288,14 +289,14 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
         Session session = MyFactory.getSession();
         session.beginTransaction();
 
-        String queryString = "from Users where Users.status = :status";
-        Query offlineUsers = session.createQuery(queryString).setString("status", StatusEnum.OFFLINE.toString());
+        Criteria offlineUsers = session.createCriteria(Users.class,"u");
+        offlineUsers.add(Restrictions.eq("u.status", StatusEnum.OFFLINE.toString()));
 
-        List<Users> users = offlineUsers.list();
+        Integer users = offlineUsers.list().size();
         
         session.close();
         
-        return users.size();
+        return users;
         
     }
 
@@ -307,12 +308,13 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
         Session session = MyFactory.getSession();
         session.beginTransaction();
 
-        String queryString = "from Users where Users.gender = :gender";
-        Query contactResults = session.createQuery(queryString).setString("gender", GenderEnum.MALE.toString());
-        Integer maleCount = contactResults.list().size();
+        Criteria maleUsers = session.createCriteria(Users.class,"u");
+        maleUsers.add(Restrictions.eq("u.gender", GenderEnum.MALE.toString()));
+        Integer maleCount = maleUsers.list().size();
         
-        contactResults = session.createQuery(queryString).setString("gender", GenderEnum.FEMALE.toString());
-        Integer femaleCount = contactResults.list().size();
+        Criteria femaleUsers = session.createCriteria(Users.class,"u");
+        femaleUsers.add(Restrictions.eq("u.gender", GenderEnum.FEMALE.toString()));
+        Integer femaleCount = femaleUsers.list().size();
         
         session.close();
         
@@ -324,22 +326,28 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
     }
 
     @Override
-    public Map<String, Integer> getCountryStatistics() throws RemoteException {
-
-        Map<String, Integer> countryStatistics = new HashMap<>();
+    public Map<String, Long> getCountryStatistics() throws RemoteException {
         
         Session session = MyFactory.getSession();
         session.beginTransaction();
 
-        String queryString = "select Users.country from Users";
-        Query countriesResults = session.createQuery(queryString);
-        List<String> countries = countriesResults.list();
+        Map<String, Long> countryStatistics = new HashMap<>();
         
-        countries.forEach((country) -> {
-            String countryQueryString  = "select count(u) from Users u where u.country = :country";
-            Query usersFromCountry = session.createQuery(countryQueryString).setString("country", country);
-            countryStatistics.put(country, (Integer)usersFromCountry.uniqueResult());
-        });
+        List result = session.createCriteria(Users.class)       
+//                    .add(Restrictions.ge("someColumn", xxxxx))      
+                    .setProjection(Projections.projectionList()
+                            .add(Projections.groupProperty("country"))
+                            .add(Projections.count("country"))           
+                    ).list();
+        
+        Iterator iter = result.iterator();
+        while (iter.hasNext())
+        {
+            System.out.println("New object");
+            Object[] obj = (Object[]) iter.next();
+            System.out.println(obj[0]+" "+obj[1]);
+            countryStatistics.put((String) obj[0],(Long) obj[1]);
+        }
         
         return countryStatistics;
         
