@@ -202,10 +202,11 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
 
         Users userObject = (Users) session.load(Users.class, user.getPhone());
 
-        String queryString = "select usersByPhoneB from UsersHaveUsers where usersByPhoneA = :user";
-        Query contactResults = session.createQuery(queryString).setEntity("user", userObject);
-
-        List<Users> contacts = contactResults.list();
+        List<Users> contacts = session.createCriteria(UsersHaveUsers.class)       
+                    .add(Restrictions.eq("usersByPhoneA", userObject))      
+                    .setProjection(Projections.projectionList()
+                            .add(Projections.property("usersByPhoneB"))           
+                    ).list();
 
         List<User> friendList = new ArrayList<>();
 
