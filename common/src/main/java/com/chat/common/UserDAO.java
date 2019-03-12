@@ -20,7 +20,7 @@ public interface UserDAO extends Remote {
 
     void delete(User user) throws RemoteException;
 
-    Map<String, Integer> getCountryStatistics() throws RemoteException;
+    Map<String, Long> getCountryStatistics() throws RemoteException;
 
     Map<String, Integer> getGenderStatistics() throws RemoteException;
 
