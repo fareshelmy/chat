@@ -229,6 +229,14 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
 
     @Override
     public void delete(User user) throws RemoteException {
+    	Session session = MyFactory.getSession();
+        session.beginTransaction();
+    	User userObject = (User) session.load(User.class, user.getPhone());
+
+        String queryString = "DELETE FROM USERS WHERE PHONE = :phone";
+        Query result = session.createQuery(queryString).setEntity("phone", userObject);
+        session.delete("User", user);
+        session.close();
 //        String sql = "DELETE FROM USERS WHERE PHONE = '" + user.getPhone() + "'";
 //        try {
 //            statement.executeUpdate(sql);
@@ -239,11 +247,17 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
 
     @Override
     public void removeContact(User remover, User removed) throws RemoteException {
-//        String sql = "DELETE FROM USERS_HAVE_USERS WHERE (PHONE_A = '" + remover.getPhone()
-//                + "' AND PHONE_B = '" + removed.getPhone()
-//                + "') OR (PHONE_A = '" + removed.getPhone()
-//                + "' AND PHONE_B = '" + remover.getPhone()
-//                + "')";
+    	Session session = MyFactory.getSession();
+        session.beginTransaction();
+        
+      String sql = "DELETE FROM USERS_HAVE_USERS WHERE (PHONE_A = '" + remover.getPhone()
+                + "' AND PHONE_B = '" + removed.getPhone()
+                + "') OR (PHONE_A = '" + removed.getPhone()
+                + "' AND PHONE_B = '" + remover.getPhone()
+                + "')";
+      session.createSQLQuery(sql);
+      session.getTransaction().commit();
+      session.close();
 //        try {
 //            statement.executeUpdate(sql);
 //        } catch (SQLException ex) {
