@@ -275,8 +275,9 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
 
         Criteria onlineUsers = session.createCriteria(Users.class,"u");
         onlineUsers.add(Restrictions.eq("u.status", StatusEnum.ONLINE.toString()));
+        List usersList = onlineUsers.list();
 
-        Integer users = onlineUsers.list().size();
+        Integer users = usersList.size();
         
         session.close();
         
@@ -292,8 +293,9 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
 
         Criteria offlineUsers = session.createCriteria(Users.class,"u");
         offlineUsers.add(Restrictions.eq("u.status", StatusEnum.OFFLINE.toString()));
+        List usersList = offlineUsers.list();
 
-        Integer users = offlineUsers.list().size();
+        Integer users = usersList.size();
         
         session.close();
         
@@ -311,11 +313,13 @@ public class UserDAOImpl extends UnicastRemoteObject implements UserDAO {
 
         Criteria maleUsers = session.createCriteria(Users.class,"u");
         maleUsers.add(Restrictions.eq("u.gender", GenderEnum.MALE.toString()));
-        Integer maleCount = maleUsers.list().size();
+        List maleUsersList = maleUsers.list();
+        Integer maleCount = maleUsersList.size();
         
         Criteria femaleUsers = session.createCriteria(Users.class,"u");
         femaleUsers.add(Restrictions.eq("u.gender", GenderEnum.FEMALE.toString()));
-        Integer femaleCount = femaleUsers.list().size();
+        List femaleUsersList = femaleUsers.list();
+        Integer femaleCount = femaleUsersList.size();
         
         session.close();
         
